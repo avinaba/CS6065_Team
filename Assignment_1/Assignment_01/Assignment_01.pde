@@ -14,6 +14,9 @@ int TOTAL_TRIALS_IN_BLOCK = 20;
 int BLOCK_NO = -1; 
 int TRIAL_NO = -1;
 int COUNT_ERRORS = -1;
+
+import processing.sound.*;
+SoundFile dingSoundFile;
  
  
 import controlP5.*;
@@ -71,8 +74,11 @@ void setup() {
   ControlFont headerControlFont = new ControlFont(createFont("Arial Bold", 26));
   ControlFont captionControlFont = new ControlFont(createFont("Arial", 16));
   ControlFont defaultCopyControlFont = new ControlFont(createFont("Arial", 18));
-  
   ControlFont buttonLabelControlFont = new ControlFont(createFont("Arial Bold", 16));
+  
+  // -Sounds 
+  dingSoundFile = new SoundFile(this, "ding.wav");
+  // Courtesy:  https://freesound.org/people/5ro4/
   
   Group scene1 = cp5.addGroup("scene1");
   // Screen 1 
@@ -688,6 +694,9 @@ public void buttonTargetBlock1(int theValue) {
     // Assignment data points
     print(USER_ID + "\t" +  BLOCK_NO + "\t" + TRIAL_NO + "\t" + (millis() - START_TIME) + "\t" + COUNT_ERRORS + "\n");
     
+    // Play sound
+    dingSoundFile.play();
+
     // Enable the start button 
     ((Button)cp5.getController("startTrialOne")).unlock();
     ((Button)cp5.getController("startTrialOne")).setColorBackground(buttonPrimaryDefaultBgColour);
@@ -806,6 +815,9 @@ public void buttonTargetBlock2(int theValue) {
     // Assignment data points
     print(USER_ID + "\t" +  BLOCK_NO + "\t" + TRIAL_NO + "\t" + (millis() - START_TIME) + "\t" + COUNT_ERRORS + "\n");
     
+    // Play sound
+    dingSoundFile.play();
+
     // Enable the start button 
     ((Button)cp5.getController("startTrialTwo")).unlock();
     ((Button)cp5.getController("startTrialTwo")).setColorBackground(buttonPrimaryDefaultBgColour);
@@ -944,6 +956,9 @@ public void buttonTargetBlock3(int theValue) {
     // Assignment data points
     print(USER_ID + "\t" +  BLOCK_NO + "\t" + TRIAL_NO + "\t" + (millis() - START_TIME) + "\t" + COUNT_ERRORS + "\n");
     
+    // Play sound
+    dingSoundFile.play();
+
     // Enable the start button 
     ((Button)cp5.getController("startTrialThree")).unlock();
     ((Button)cp5.getController("startTrialThree")).setColorBackground(buttonPrimaryDefaultBgColour);
