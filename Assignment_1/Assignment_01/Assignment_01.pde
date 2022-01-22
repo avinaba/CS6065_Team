@@ -645,7 +645,10 @@ public void nextToTrialOne(int theValue){
 }
 
 // Increment error count every time a mouseclick happens
-void mouseClicked() {
+//void mouseClicked() {
+//  COUNT_ERRORS += 1;
+//}
+void mousePressed() {
   COUNT_ERRORS += 1;
 }
 
