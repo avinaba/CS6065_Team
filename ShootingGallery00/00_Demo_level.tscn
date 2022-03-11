@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://assets/Sky/Shooter_bg_raster.png" type="Texture" id=1]
 [ext_resource path="res://assets/Grass/grass_00.png" type="Texture" id=2]
@@ -17,6 +17,10 @@
 [ext_resource path="res://scripts/Targets/Target_Bullseye_Area2D.gd" type="Script" id=15]
 [ext_resource path="res://scripts/Pointers/Pointer00Area2D.gd" type="Script" id=16]
 [ext_resource path="res://Pointer01Area2D.gd" type="Script" id=17]
+[ext_resource path="res://assets/ScoreUi/avatar_00.png" type="Texture" id=18]
+[ext_resource path="res://assets/ScoreUi/score_area_rect.png" type="Texture" id=19]
+[ext_resource path="res://fonts/Open_Sans/static/OpenSans/OpenSans-ExtraBold.ttf" type="DynamicFontData" id=20]
+[ext_resource path="res://assets/ScoreUi/avatar_01.png" type="Texture" id=21]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -39,6 +43,10 @@ animations = [ {
 [sub_resource type="CircleShape2D" id=2]
 radius = 98.0
 
+[sub_resource type="DynamicFont" id=5]
+size = 60
+font_data = ExtResource( 20 )
+
 [sub_resource type="CircleShape2D" id=3]
 radius = 45.0
 
@@ -47,7 +55,6 @@ radius = 45.0
 
 [node name="00_Demo_level" type="Node"]
 script = ExtResource( 6 )
-targetAreaAssistOnJoystick = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 960, 540 )
@@ -491,25 +498,70 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="grass_bot_left_shadow" type="Sprite" parent="."]
+[node name="Grass_static" type="Node" parent="."]
+
+[node name="grass_bot_left_shadow" type="Sprite" parent="Grass_static"]
 position = Vector2( 252, 961 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 3 )
 
-[node name="grass_bot_left" type="Sprite" parent="."]
+[node name="grass_bot_left" type="Sprite" parent="Grass_static"]
 position = Vector2( 246, 961 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 2 )
 
-[node name="grass_bot_right_shadow" type="Sprite" parent="."]
+[node name="grass_bot_right_shadow" type="Sprite" parent="Grass_static"]
 position = Vector2( 1673, 961 )
-scale = Vector2( -0.5, 0.5 )
+rotation = -3.14159
+scale = Vector2( 0.5, -0.5 )
 texture = ExtResource( 3 )
 
-[node name="grass_bot_right" type="Sprite" parent="."]
+[node name="grass_bot_right" type="Sprite" parent="Grass_static"]
 position = Vector2( 1673, 961 )
-scale = Vector2( -0.5, 0.5 )
+rotation = -3.14159
+scale = Vector2( 0.5, -0.5 )
 texture = ExtResource( 2 )
+
+[node name="ScoreUI" type="Node" parent="."]
+
+[node name="Pointer00Avatar" type="Sprite" parent="ScoreUI"]
+position = Vector2( 164, 799 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 18 )
+
+[node name="Pointer00ScoreAreaBg" type="Sprite" parent="ScoreUI"]
+position = Vector2( 258, 976 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 19 )
+
+[node name="Pointer00Score" type="Label" parent="ScoreUI"]
+margin_left = 71.0
+margin_top = 932.0
+margin_right = 447.0
+margin_bottom = 1015.0
+custom_colors/font_color = Color( 0.223529, 0.176471, 0.207843, 1 )
+custom_fonts/font = SubResource( 5 )
+text = "Blue Score"
+
+[node name="Pointer01Avatar" type="Sprite" parent="ScoreUI"]
+position = Vector2( 1756, 799 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 21 )
+
+[node name="Pointer01ScoreAreaBg" type="Sprite" parent="ScoreUI"]
+position = Vector2( 1652, 976 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 19 )
+
+[node name="Pointer01Score" type="Label" parent="ScoreUI"]
+margin_left = 1464.0
+margin_top = 932.0
+margin_right = 1840.0
+margin_bottom = 1015.0
+custom_colors/font_color = Color( 0.223529, 0.176471, 0.207843, 1 )
+custom_fonts/font = SubResource( 5 )
+text = "Red Score"
+align = 2
 
 [node name="Pointer00Area2D" type="Area2D" parent="."]
 position = Vector2( 424, 442 )

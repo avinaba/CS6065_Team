@@ -16,20 +16,56 @@ export var DEBUG_MODE = true
 # Initialising 
 # **************************
 # using 'var' for semantic 'const's for GUI extension of parameterising  
-# 
+
 # Sensitivity for mouse 
-export var MOUSE_SENSITIVITY_DEFAULT = 1
+var MOUSE_SENSITIVITY_DEFAULT = 1
 
 
 # Default movement delta for joystick
-export var JOYSTICK_ANALOG_STICK_DELTA = 800
+var JOYSTICK_ANALOG_STICK_DELTA = 800
 
 # Sensityivity for Joystick
-export var JOYSTICK_SENSITIVITY_DEFAULT = 3
+var JOYSTICK_SENSITIVITY_DEFAULT = 3
 
 # A movement within 20% delta from initial state to be discarded
-export var JOYSTICK_ANALOG_STICK_DEADZONE_DEFAULT = 0.2
+var JOYSTICK_ANALOG_STICK_DEADZONE_DEFAULT = 0.2
 
+
+# Initialise pointer sizes 
+# **************************
+const INITIAL_POINTER_RADIUS = 45           # By graphic design (need this as a ratio to override to final sizes)
+export var POINTER_RADIUS = 30      # Parameter to be set depending on screen size, player distance from screen and visual clarity (Human factors)
+
+var pointerMouseRadius = POINTER_RADIUS
+var pointerJoystickRadius = POINTER_RADIUS
+
+# Initialise target sizes
+const INITIAL_TARGET_RADIUS = 100          # By graphic design
+export var TARGET_RADIUS = 100     # Parameterised
+
+
+# Initialise scores
+# ****************** 
+var pointer00Score = 0 
+var pointer01Score = 0
+
+var DEFAULT_POINT_PER_HIT = 15
+
+# Helper function called on successful hit by "Pointer00Area2D.gd"
+func incrementPointer00Score():
+	pointer00Score += 1
+	
+	if targetAreaAdaptiveAssistOnJoystick:
+		var pointerCollisionShape = get_node("Pointer01Area2D/Pointer01HitArea")
+		augmentJoystickCursorTargetAreaAdaptive(pointerCollisionShape)
+
+# Helper function called function on successful hit by "PointerArea01Area2D.gd"
+func incrementPointer01Score():
+	pointer01Score += 1
+	
+	if targetAreaAdaptiveAssistOnJoystick:
+		var pointerCollisionShape = get_node("Pointer01Area2D/Pointer01HitArea")
+		augmentJoystickCursorTargetAreaAdaptive(pointerCollisionShape)
 
 
 # For target assitance algorithm
@@ -44,24 +80,79 @@ export var JOYSTICK_ANALOG_STICK_DEADZONE_DEFAULT = 0.2
 #
 #  As (graphic) designed, an area of ~ 70 x 70 of hitbox is expected (defined at pointer instance)
 
-export var targetAreaAssistOnJoystick = false;
+export var targetAreaStaticAssistOnJoystick = false;
 
-export var TARGET_AREA_DEFAULT_RADIUS = 45
+export var TARGET_AREA_STATIC_ASSIST_RATIO_DEFAULT = 1.2 # Debug value
 
-export var TARGET_AREA_ASSIST_RATIO_DEFAULT = 1.2 # Debug value
+export var targetAreaAdaptiveAssistOnJoystick = true;
 
 # final_target_area = pointer_instance_specific_default_target_area * (default_ratio + ((relative performance * delta)) 
-export var TARGET_AREA_ASSIST_DELTA_DEFAULT = 0.01  
+# export var TARGET_AREA_ADAPTIVE_ASSIST_DELTA_DEFAULT = 0.01 # ~> 1% increase w.r.t score difference  
+export var TARGET_AREA_ADAPTIVE_ASSIST_DELTA_DEFAULT = 0.10  # For obvious demo
 
 # for edge cases, where we do not want the assist to break the game semantic
 # i.e the ratio final_target_area/actual_target_area to be constrained to <= 1.2
-export var TARGET_AREA_ASSIST_MAX_RATIO_DEFAULT = 5 # Debug value
+export var TARGET_AREA_ADAPTIVE_ASSIST_MAX_ASSIST = 20 # Debug value
 
+func augmentAnyCursorTargetAreaStatic(pointerCollisionShape):
+	var originalRadius = pointerCollisionShape.shape.radius
+	pointerCollisionShape.shape.radius = INITIAL_POINTER_RADIUS * TARGET_AREA_STATIC_ASSIST_RATIO_DEFAULT
+	var finalRadius = pointerCollisionShape.shape.radius
+		
+	if DEBUG_MODE:
+		print("[INFO] Static Target Area assist enabled on " + pointerCollisionShape.get_name() + ": pointer radius changed from " + str(originalRadius) + " to " + str(finalRadius))
 
+func augmentJoystickCursorTargetAreaAdaptive(pointerCollisionShape):
+	var scoreDifference = pointer00Score - pointer01Score
+		
+	var relativePerformance = 1  # Default when scores are at par or joystick pointer is performing better
+		
+	if scoreDifference > 0:
+		relativePerformance = min(TARGET_AREA_ADAPTIVE_ASSIST_MAX_ASSIST, scoreDifference)
+		
+	var originalRadius = pointerCollisionShape.shape.radius
+	pointerCollisionShape.shape.radius = INITIAL_POINTER_RADIUS * (1.0 + (TARGET_AREA_ADAPTIVE_ASSIST_DELTA_DEFAULT * relativePerformance) ) 
+	var finalRadius = pointerCollisionShape.shape.radius
+	
+	if originalRadius != finalRadius:
+		print("[INFO] Adaptive Target Area assist enabled on Joystick: pointer radius changed from " + str(originalRadius) + " to " + str(finalRadius))
+
+# export var STICKY_TARGET_ASSIST_SENSITIVITY_DAMP = 0.8
 
 # Called when the node enters the scene tree for the first time.
 #  Note: all child nodes' _ready() is called before their parent node's _ready()
 func _ready():
+	
+	# Override pointer sizes
+	var pointerScaleFactor = POINTER_RADIUS / float(INITIAL_POINTER_RADIUS)
+	
+	if DEBUG_MODE:
+		print("[INFO] Scaling pointer sizes to: x" + str(pointerScaleFactor))
+	get_node("Pointer00Area2D").scale = Vector2(pointerScaleFactor, pointerScaleFactor)
+	get_node("Pointer01Area2D").scale = Vector2(pointerScaleFactor, pointerScaleFactor)
+	
+	# Scaling on fire effects
+	get_node("pointer_00_on_mouse_down_particle2D").scale = Vector2(pointerScaleFactor, pointerScaleFactor)
+	get_node("pointer_01_on_RT_particle2D").scale = Vector2(pointerScaleFactor, pointerScaleFactor)
+	
+	# Override target sizes
+	# TODO: Change to class based access
+	# TODO: Add guard clauses
+	var targetScaleFactor = TARGET_RADIUS / float(INITIAL_TARGET_RADIUS)
+	if DEBUG_MODE:
+		print("[INFO] Scaling target sizes to: x" + str(targetScaleFactor))
+	for targetArea2D in get_node("Shooting_gallery_config_00").get_children():
+		# Debug: 
+		# print(targetArea2D.get_name())
+		targetArea2D.scale = Vector2(targetScaleFactor, targetScaleFactor)
+		
+	if DEBUG_MODE: 
+		print("[INFO] Screen size: " + str(OS.get_screen_size().x) + "px x " + str(OS.get_screen_size().y) + "px")
+		print("[INFO] Screen DPI: " + str(OS.get_screen_dpi()))
+		print("[INFO] Pointer radius: " + str(POINTER_RADIUS) + "px, Target radius: " + str(TARGET_RADIUS) + "px")
+	
+	
+	
 	# Attach the pointer to the mouse 
 	# TODO: make attachment dynamic as per selected input device
 	# Input.warp_mouse_position(get_node("Pointer00Area2D").position)
@@ -77,12 +168,22 @@ func _ready():
 	else:
 		get_node("Debug_FPS_counter").hide()
 		
+		
+	# Attach each pointer's score to labels
+	get_node("ScoreUI/Pointer00Score").text = str(pointer00Score * DEFAULT_POINT_PER_HIT)
+	get_node("ScoreUI/Pointer01Score").text = str(pointer01Score * DEFAULT_POINT_PER_HIT)
+	# get_node("ScoreUI/Pointer00Score").text = str(9999999999)
+	# get_node("ScoreUI/Pointer01Score").text = str(9999999999)
 	
 	# Debug:
-	if targetAreaAssistOnJoystick:
+	if targetAreaStaticAssistOnJoystick:
 		var pointerCollisionShape = get_node("Pointer01Area2D/Pointer01HitArea")
-		# print(pointerCollisionShape.shape.radius)
-		pointerCollisionShape.shape.radius = TARGET_AREA_DEFAULT_RADIUS * TARGET_AREA_ASSIST_RATIO_DEFAULT
+		augmentAnyCursorTargetAreaStatic(pointerCollisionShape)
+		
+	
+	elif targetAreaAdaptiveAssistOnJoystick:
+		var pointerCollisionShape = get_node("Pointer01Area2D/Pointer01HitArea")
+		augmentJoystickCursorTargetAreaAdaptive(pointerCollisionShape)
 
 
 # Tutorial Ref: https://gamefromscratch.com/godot-3-tutorial-keyboard-mouse-and-joystick-input/
@@ -127,6 +228,11 @@ func getDeviceIdOfPlaystationController():
 # Gravity assist needs to augment cursors here as it works irrespective of whether 
 # the pointer is being moved or not
 func _process(delta):
+	
+	# Refresh each pointer's score to labels
+	get_node("ScoreUI/Pointer00Score").text = str(pointer00Score * DEFAULT_POINT_PER_HIT)
+	get_node("ScoreUI/Pointer01Score").text = str(pointer01Score * DEFAULT_POINT_PER_HIT)
+	
 	if DEBUG_MODE:
 		# Set FPS display
 		get_node("Debug_FPS_counter").text = str(Performance.get_monitor(Performance.TIME_FPS))
@@ -163,7 +269,7 @@ func _process(delta):
 		# ---
 		#   Translate x:
 		if(abs(delX_RA) > JOYSTICK_ANALOG_STICK_DEADZONE_DEFAULT):
-			# Algo: time_elapsed: constant_pixel_movement * joystick_cdr * value from analog stick
+			# Algo:                        time_elapsed * constant_pixel_movement * joystick_cdr * value from analog stick
 			XboxPointerNodeSprite.position.x += delta * JOYSTICK_ANALOG_STICK_DELTA * JOYSTICK_SENSITIVITY_DEFAULT * delX_RA
 			# Constrain to viewport 
 			if (XboxPointerNodeSprite.position.x > viewportMaxX): XboxPointerNodeSprite.position.x = viewportMaxX

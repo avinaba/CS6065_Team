@@ -42,8 +42,16 @@ func _input(event):
 			# Check Pointer00HitArea2D overlaps with any other Area2D
 			var hoveringOverAreaArray = get_overlapping_areas ( )
 			# print("On click, overlaps found: " + str(hoveringOverAreaArray.size()))
+			# Get main script's node to increment score
+			var scriptNode = get_tree().get_root().get_node("00_Demo_level")
+			var hasIncrement00 = false
+			if scriptNode != null:
+				hasIncrement00 = scriptNode.has_method("incrementPointer00Score") # Loop invariant
+			
 			for area in hoveringOverAreaArray:
 				if area.has_method("hit"):
 					# print("			Click on target")
 					area.hit()
-					 
+					# Increment score with a tiny guard clause
+					if hasIncrement00:
+						scriptNode.incrementPointer00Score()

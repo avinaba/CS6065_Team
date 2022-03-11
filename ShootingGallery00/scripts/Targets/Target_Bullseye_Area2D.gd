@@ -34,6 +34,9 @@ func _process(delta):
 			# Set animation state to iSHit
 			$AnimatedSprite.animation = "isHit"
 			
+			# Disable further collision
+			$CollisionShape2D.disabled = true  
+			
 			# Accumulate delay
 			elapsedInHitSeconds += delta
 			# Check if elapsed time is enough transition to "postHit"
