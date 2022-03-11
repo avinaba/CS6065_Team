@@ -57,7 +57,7 @@ func incrementPointer00Score():
 	
 	if targetAreaAdaptiveAssistOnJoystick:
 		var pointerCollisionShape = get_node("Pointer01Area2D/Pointer01HitArea")
-		augmentJoystickCursorTargetAreaAdaptive(pointerCollisionShape)
+		augmentJoystickPointerTargetAreaAdaptive(pointerCollisionShape)
 
 # Helper function called function on successful hit by "PointerArea01Area2D.gd"
 func incrementPointer01Score():
@@ -65,12 +65,12 @@ func incrementPointer01Score():
 	
 	if targetAreaAdaptiveAssistOnJoystick:
 		var pointerCollisionShape = get_node("Pointer01Area2D/Pointer01HitArea")
-		augmentJoystickCursorTargetAreaAdaptive(pointerCollisionShape)
+		augmentJoystickPointerTargetAreaAdaptive(pointerCollisionShape)
 
 
 # For target assitance algorithm
 #
-# Target area:
+# Pointer hit area (source paper named as Target Area):
 # ================
 # Rough algo: 
 # --------- 
@@ -78,9 +78,10 @@ func incrementPointer01Score():
 #   1. Calculate relative performance (source paper chose score difference)
 #   2. Increase hit area of the pointer (at the beginning for static, in real-time for adaptive)
 #
-#  As (graphic) designed, an area of ~ 70 x 70 of hitbox is expected (defined at pointer instance)
+#  As (graphic) designed, an radius of 45px of hitbox from enter is expected (defined at pointer instance)
 
 export var targetAreaStaticAssistOnJoystick = false;
+export var targetAreaStaticAssistOnMouse = false;
 
 export var TARGET_AREA_STATIC_ASSIST_RATIO_DEFAULT = 1.2 # Debug value
 
@@ -94,7 +95,7 @@ export var TARGET_AREA_ADAPTIVE_ASSIST_DELTA_DEFAULT = 0.10  # For obvious demo
 # i.e the ratio final_target_area/actual_target_area to be constrained to <= 1.2
 export var TARGET_AREA_ADAPTIVE_ASSIST_MAX_ASSIST = 20 # Debug value
 
-func augmentAnyCursorTargetAreaStatic(pointerCollisionShape):
+func augmentAnyPointerTargetAreaStatic(pointerCollisionShape):
 	var originalRadius = pointerCollisionShape.shape.radius
 	pointerCollisionShape.shape.radius = INITIAL_POINTER_RADIUS * TARGET_AREA_STATIC_ASSIST_RATIO_DEFAULT
 	var finalRadius = pointerCollisionShape.shape.radius
@@ -102,7 +103,7 @@ func augmentAnyCursorTargetAreaStatic(pointerCollisionShape):
 	if DEBUG_MODE:
 		print("[INFO] Static Target Area assist enabled on " + pointerCollisionShape.get_name() + ": pointer radius changed from " + str(originalRadius) + " to " + str(finalRadius))
 
-func augmentJoystickCursorTargetAreaAdaptive(pointerCollisionShape):
+func augmentJoystickPointerTargetAreaAdaptive(pointerCollisionShape):
 	var scoreDifference = pointer00Score - pointer01Score
 		
 	var relativePerformance = 1  # Default when scores are at par or joystick pointer is performing better
@@ -117,7 +118,56 @@ func augmentJoystickCursorTargetAreaAdaptive(pointerCollisionShape):
 	if originalRadius != finalRadius:
 		print("[INFO] Adaptive Target Area assist enabled on Joystick: pointer radius changed from " + str(originalRadius) + " to " + str(finalRadius))
 
-# export var STICKY_TARGET_ASSIST_SENSITIVITY_DAMP = 0.8
+
+
+
+# Sticky targets:
+# ================
+# Rough algo: 
+# --------- 
+# For a given player 
+#   1. If their porinter hit area is overlapping with target area, reduce CDR (i.e. augment sensitivity)
+
+
+
+
+# Hidden variables always accounted for when calculating movement
+var stickyDampJoystick = 1.0
+var stickyDampMouse = 1.0
+
+export var stickyTargetStaticAssistOnMouse = true;
+export var STICKY_TARGET_ASSIST_STATIC_MOUSE_SENSITIVITY_DAMP = 0.5
+
+export var stickyTargetStaticAssistOnJoystick = true;
+export var STICKY_TARGET_ASSIST_STATIC_JOYSTICK_SENSITIVITY_DAMP = 0.2     # For obvious demo
+
+# Called by "Pointer00Area2D.gd"
+func setDampMouse():
+	if stickyTargetStaticAssistOnMouse:
+		stickyDampMouse = STICKY_TARGET_ASSIST_STATIC_MOUSE_SENSITIVITY_DAMP
+		if DEBUG_MODE:
+			print("[INFO] Sticky target activated for mouse pointer")
+		
+func unsetDampMouse():
+	if stickyTargetStaticAssistOnMouse:
+		stickyDampMouse = 1.0 # Reset value
+		if DEBUG_MODE:
+			print("[INFO] Sticky target de-activated for mouse pointer")
+			
+
+# Called by "Pointer01Area2D.gd"
+func setDampJoystick():
+	if stickyTargetStaticAssistOnMouse:
+		stickyDampJoystick = STICKY_TARGET_ASSIST_STATIC_JOYSTICK_SENSITIVITY_DAMP
+		if DEBUG_MODE:
+			print("[INFO] Sticky target activated for joystick pointer")
+		
+func unsetDampJoystick():
+	if stickyTargetStaticAssistOnMouse:
+		stickyDampJoystick = 1.0 # Reset value
+		if DEBUG_MODE:
+			print("[INFO] Sticky target de-activated for joystick pointer")
+
 
 # Called when the node enters the scene tree for the first time.
 #  Note: all child nodes' _ready() is called before their parent node's _ready()
@@ -175,15 +225,20 @@ func _ready():
 	# get_node("ScoreUI/Pointer00Score").text = str(9999999999)
 	# get_node("ScoreUI/Pointer01Score").text = str(9999999999)
 	
-	# Debug:
+	# Joystick Pointer hit area augment on start
 	if targetAreaStaticAssistOnJoystick:
 		var pointerCollisionShape = get_node("Pointer01Area2D/Pointer01HitArea")
-		augmentAnyCursorTargetAreaStatic(pointerCollisionShape)
+		augmentAnyPointerTargetAreaStatic(pointerCollisionShape)
 		
-	
 	elif targetAreaAdaptiveAssistOnJoystick:
 		var pointerCollisionShape = get_node("Pointer01Area2D/Pointer01HitArea")
-		augmentJoystickCursorTargetAreaAdaptive(pointerCollisionShape)
+		augmentJoystickPointerTargetAreaAdaptive(pointerCollisionShape)
+		
+	
+	# Mouse Pointer hit area augment on start 
+	if targetAreaStaticAssistOnMouse: 
+		var pointerCollisionShape = get_node("Pointer00Area2D/Pointer00HitArea")
+		augmentAnyPointerTargetAreaStatic(pointerCollisionShape)
 
 
 # Tutorial Ref: https://gamefromscratch.com/godot-3-tutorial-keyboard-mouse-and-joystick-input/
@@ -191,7 +246,7 @@ func _ready():
 func _input(event):
 	if event is InputEventMouseMotion:
 		# TODO: make attachment dynamic as per selected input device
-		get_node("Pointer00Area2D").translate(event.relative * MOUSE_SENSITIVITY_DEFAULT)
+		get_node("Pointer00Area2D").translate(event.relative * MOUSE_SENSITIVITY_DEFAULT * stickyDampMouse)
 
 
 # return first deviceId of a connected XBox Controller
@@ -270,14 +325,14 @@ func _process(delta):
 		#   Translate x:
 		if(abs(delX_RA) > JOYSTICK_ANALOG_STICK_DEADZONE_DEFAULT):
 			# Algo:                        time_elapsed * constant_pixel_movement * joystick_cdr * value from analog stick
-			XboxPointerNodeSprite.position.x += delta * JOYSTICK_ANALOG_STICK_DELTA * JOYSTICK_SENSITIVITY_DEFAULT * delX_RA
+			XboxPointerNodeSprite.position.x += delta * JOYSTICK_ANALOG_STICK_DELTA * JOYSTICK_SENSITIVITY_DEFAULT * delX_RA * stickyDampJoystick
 			# Constrain to viewport 
 			if (XboxPointerNodeSprite.position.x > viewportMaxX): XboxPointerNodeSprite.position.x = viewportMaxX
 			elif (XboxPointerNodeSprite.position.x < viewportMinX): XboxPointerNodeSprite.position.x = viewportMinX
 		
 		#   Translate y
 		if(abs(delY_RA) > JOYSTICK_ANALOG_STICK_DEADZONE_DEFAULT):
-			XboxPointerNodeSprite.position.y += delta * JOYSTICK_ANALOG_STICK_DELTA * JOYSTICK_SENSITIVITY_DEFAULT * delY_RA
+			XboxPointerNodeSprite.position.y += delta * JOYSTICK_ANALOG_STICK_DELTA * JOYSTICK_SENSITIVITY_DEFAULT * delY_RA * stickyDampJoystick
 			# Constrain to viewport 
 			if (XboxPointerNodeSprite.position.y > viewportMaxY): XboxPointerNodeSprite.position.y = viewportMaxY
 			elif (XboxPointerNodeSprite.position.y < viewportMinY): XboxPointerNodeSprite.position.y = viewportMinY
@@ -286,14 +341,14 @@ func _process(delta):
 		# ---
 		#   Translate x
 		if(abs(delX_LA) > JOYSTICK_ANALOG_STICK_DEADZONE_DEFAULT):
-			XboxPointerNodeSprite.position.x += delta * JOYSTICK_ANALOG_STICK_DELTA * JOYSTICK_SENSITIVITY_DEFAULT * delX_LA
+			XboxPointerNodeSprite.position.x += delta * JOYSTICK_ANALOG_STICK_DELTA * JOYSTICK_SENSITIVITY_DEFAULT * delX_LA * stickyDampJoystick
 			# Constrain to viewport 
 			if (XboxPointerNodeSprite.position.x > viewportMaxX): XboxPointerNodeSprite.position.x = viewportMaxX
 			elif (XboxPointerNodeSprite.position.x < viewportMinX): XboxPointerNodeSprite.position.x = viewportMinX
 		
 		#   Translate y
 		if(abs(delY_LA) > JOYSTICK_ANALOG_STICK_DEADZONE_DEFAULT):
-			XboxPointerNodeSprite.position.y += delta * JOYSTICK_ANALOG_STICK_DELTA * JOYSTICK_SENSITIVITY_DEFAULT * delY_LA
+			XboxPointerNodeSprite.position.y += delta * JOYSTICK_ANALOG_STICK_DELTA * JOYSTICK_SENSITIVITY_DEFAULT * delY_LA * stickyDampJoystick
 			# Constrain to viewport 
 			if (XboxPointerNodeSprite.position.y > viewportMaxY): XboxPointerNodeSprite.position.y = viewportMaxY
 			elif (XboxPointerNodeSprite.position.y < viewportMinY): XboxPointerNodeSprite.position.y = viewportMinY

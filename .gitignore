@@ -1,2 +1,11 @@
+# ignore executables
+executables/*
+
+# ignore mono crash reports
+mono_crash*
+
+# ignore mono metadata
+.mono*
+
 # Ignore .zip files 
 *.zip

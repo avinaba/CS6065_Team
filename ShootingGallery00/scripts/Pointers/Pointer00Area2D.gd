@@ -2,19 +2,9 @@ extends Area2D
 
 
 # Called when the node enters the scene tree for the first time.
-#func _ready():
-#	connect("body_entered", self, "_on_pointer00HitArea_body_entered")
-#	pass # Replace with function body.
-
-#func _on_pointer00HitArea_body_entered(body):
-#	print("Collision with some area")
-#	# Check mouse is down
-#	if Input.ismousebutton_pressed(BUTTON_LEFT): 
-#		print("		Click on some area")
-#		if body.has_method("hit"):
-#			# Click with Area entered another area with a "hit()" method
-#			print("			Click on target")
-#			body.hit()
+func _ready():
+	connect("area_entered", self, "_on_Pointer00Area2D_area_entered")
+	connect("area_exited", self, "_on_Pointer00Area2D_area_exited")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -23,16 +13,25 @@ extends Area2D
 
 
 
+func _on_Pointer00Area2D_area_entered(area):
+	# print("Collision with some area")
+	if area.has_method("hit"):
+		# Entered an Area entered another area with a "hit()" method
+		# print("	Mouse entered a target's area")
+		var scriptNode = get_tree().get_root().get_node("00_Demo_level")
+		if scriptNode != null and scriptNode.has_method("setDampMouse"):
+			scriptNode.setDampMouse()
+		
+		
+func _on_Pointer00Area2D_area_exited(area):
+	# print("Collision with some area")
+	if area.has_method("hit"):
+		# Exited an Area entered another area with a "hit()" method
+		# print("	Mouse exited a target's area")
+		var scriptNode = get_tree().get_root().get_node("00_Demo_level")
+		if scriptNode != null and scriptNode.has_method("unsetDampMouse"):
+			scriptNode.unsetDampMouse()
 
-#func _on_Pointer00Area2D_area_entered(area):
-#	print("Collision with some area")
-#	# Check mouse is down
-#	if Input.is_mouse_button_pressed(BUTTON_LEFT): 
-#		print("		Click on some area")
-#		if area.has_method("hit"):
-#			# Click with Area entered another area with a "hit()" method
-#			print("			Click on target")
-#			area.hit()
 
 
 func _input(event):
