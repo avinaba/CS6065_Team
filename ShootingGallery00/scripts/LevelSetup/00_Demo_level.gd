@@ -18,7 +18,11 @@ export var DEBUG_MODE = true
 # using 'var' for semantic 'const's for GUI extension of parameterising  
 
 # Sensitivity for mouse 
-var MOUSE_SENSITIVITY_DEFAULT = 1
+var MOUSE_SENSITIVITY_DEFAULT = 1 # Hacky bad PX fix: change to 2 so mouse can have full coverage in-spite of sticky targeting 
+
+# Flags to wrap mouse pointer to the other side when an edge is reached (so for the player the screen becomes an infinite area to point with)
+var didJustWarpMouseX = false
+var didJustWarpMouseY = false
 
 
 # Default movement delta for joystick
@@ -128,12 +132,11 @@ func augmentJoystickPointerTargetAreaAdaptive(pointerCollisionShape):
 # For a given player 
 #   1. If their porinter hit area is overlapping with target area, reduce CDR (i.e. augment sensitivity)
 
-
-
-
 # Hidden variables always accounted for when calculating movement
-var stickyDampJoystick = 1.0
-var stickyDampMouse = 1.0
+var NO_DAMP = 1.0   # For no damping
+
+var stickyDampJoystick = NO_DAMP
+var stickyDampMouse = NO_DAMP
 
 export var stickyTargetStaticAssistOnMouse = true;
 export var STICKY_TARGET_ASSIST_STATIC_MOUSE_SENSITIVITY_DAMP = 0.5
@@ -150,7 +153,9 @@ func setDampMouse():
 		
 func unsetDampMouse():
 	if stickyTargetStaticAssistOnMouse:
-		stickyDampMouse = 1.0 # Reset value
+		stickyDampMouse = NO_DAMP # Reset value
+		# Force mouse cursor to pointer to mitigate unreachable areas
+		# Input.warp_mouse_position(get_node("Pointer00Area2D").position) # Doeesn't work as wrapping is detected as mouse movement 
 		if DEBUG_MODE:
 			print("[INFO] Sticky target de-activated for mouse pointer")
 			
@@ -164,7 +169,7 @@ func setDampJoystick():
 		
 func unsetDampJoystick():
 	if stickyTargetStaticAssistOnMouse:
-		stickyDampJoystick = 1.0 # Reset value
+		stickyDampJoystick = NO_DAMP # Reset value
 		if DEBUG_MODE:
 			print("[INFO] Sticky target de-activated for joystick pointer")
 
@@ -245,8 +250,59 @@ func _ready():
 # Event based handling of pointer movement
 func _input(event):
 	if event is InputEventMouseMotion:
-		# TODO: make attachment dynamic as per selected input device
-		get_node("Pointer00Area2D").translate(event.relative * MOUSE_SENSITIVITY_DEFAULT * stickyDampMouse)
+		
+		if !didJustWarpMouseX and !didJustWarpMouseY:
+			# TODO: make attachment dynamic as per selected input device
+			get_node("Pointer00Area2D").translate(event.relative * MOUSE_SENSITIVITY_DEFAULT * stickyDampMouse)
+		# For infinite relative movement
+		elif didJustWarpMouseX:
+			didJustWarpMouseX = false # Reset
+		elif didJustWarpMouseY:
+			didJustWarpMouseY = false # Reset
+		
+		# Bound to available screen area 
+		var viewportMinX = 0 # By definition
+		var viewportMinY = 0 # By definition
+		# var viewportMaxX = OS.get_screen_size().x
+		# var viewportMaxY = OS.get_screen_size().y
+		var viewportMaxX = get_viewport().size.x - 1 # Counting starts from 0th pixel
+		var viewportMaxY = get_viewport().size.y - 1 # Counting starts from 0th pixel
+		
+		# Debug: 
+		# print("Max X:: " + str(OS.get_screen_size().x) + ":" + str(get_viewport().size.x) + ":" + str(ProjectSettings.get_setting("display/window/size/width")))
+		
+		if (get_node("Pointer00Area2D").position.x > viewportMaxX): get_node("Pointer00Area2D").position.x = viewportMaxX
+		elif (get_node("Pointer00Area2D").position.x < viewportMinX): get_node("Pointer00Area2D").position.x = viewportMinX
+		
+		if (get_node("Pointer00Area2D").position.y > viewportMaxY): get_node("Pointer00Area2D").position.y = viewportMaxY
+		elif (get_node("Pointer00Area2D").position.y < viewportMinY): get_node("Pointer00Area2D").position.y = viewportMinY
+		
+		# Check if mouse pointer is at the edge
+		var EDGE_OFFSET = 5 # Wrap to the other edge with an offset (so we're not stuck with an infinite loop)
+		var mouseX = get_viewport().get_mouse_position().x
+		var mouseY = get_viewport().get_mouse_position().y
+		
+		# Debug: 
+		# print("Max X: " + str(OS.get_screen_size().x) + ", MouseX: " + str(mouseX))
+		
+		if mouseX <= viewportMinX:
+			Input.warp_mouse_position(Vector2(viewportMaxX - EDGE_OFFSET, mouseY))
+			didJustWarpMouseX = true
+		
+		elif mouseX >= viewportMaxX:
+			Input.warp_mouse_position(Vector2(viewportMinX + EDGE_OFFSET, mouseY))
+			didJustWarpMouseX = true
+			
+		if mouseY <= viewportMinY:
+			Input.warp_mouse_position(Vector2(mouseX, viewportMaxY - EDGE_OFFSET))
+			didJustWarpMouseX = true
+		
+		elif mouseY >= viewportMaxY:
+			Input.warp_mouse_position(Vector2(mouseX, viewportMinY + EDGE_OFFSET))
+			didJustWarpMouseX = true
+		
+		# Wrap mouse to pointer location (to offset for CDR changes)
+		# Input.warp_mouse_position(get_node("Pointer00Area2D").position) # Doesn't work (conflicts with above)
 
 
 # return first deviceId of a connected XBox Controller
@@ -367,3 +423,4 @@ func outputJoystickConnectionStatus(deviceId, isConnected):
 	else:
 		if DEBUG_MODE:
 			print("[INFO] Joystick id: " + str(deviceId) + " disconnected")
+

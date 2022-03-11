@@ -12,7 +12,8 @@ func _input(event):
 	if event is InputEventMouseButton:  
 		# Emit particle on mouse left click release 
 		if event.pressed == true and event.button_index == BUTTON_LEFT:
-			self.position = event.position
+			# self.position = event.position
+			self.position = get_parent().get_node("Pointer00Area2D").position
 			emitting = true
 			lifetime = 0.06
 
