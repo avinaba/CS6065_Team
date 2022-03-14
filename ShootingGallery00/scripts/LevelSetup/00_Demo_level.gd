@@ -97,7 +97,7 @@ export var TARGET_AREA_ADAPTIVE_ASSIST_DELTA_DEFAULT = 0.10  # For obvious demo
 
 # for edge cases, where we do not want the assist to break the game semantic
 # i.e the ratio final_target_area/actual_target_area to be constrained to <= 1.2
-export var TARGET_AREA_ADAPTIVE_ASSIST_MAX_ASSIST = 20 # Debug value
+export var TARGET_AREA_ADAPTIVE_ASSIST_MAX_DELTA = 20 # Debug value
 
 func augmentAnyPointerTargetAreaStatic(pointerCollisionShape):
 	var originalRadius = pointerCollisionShape.shape.radius
@@ -110,10 +110,10 @@ func augmentAnyPointerTargetAreaStatic(pointerCollisionShape):
 func augmentJoystickPointerTargetAreaAdaptive(pointerCollisionShape):
 	var scoreDifference = pointer00Score - pointer01Score
 		
-	var relativePerformance = 1  # Default when scores are at par or joystick pointer is performing better
+	var relativePerformance = 0  # Default when scores are at par or joystick pointer is performing better
 		
 	if scoreDifference > 0:
-		relativePerformance = min(TARGET_AREA_ADAPTIVE_ASSIST_MAX_ASSIST, scoreDifference)
+		relativePerformance = min(TARGET_AREA_ADAPTIVE_ASSIST_MAX_DELTA, scoreDifference)
 		
 	var originalRadius = pointerCollisionShape.shape.radius
 	pointerCollisionShape.shape.radius = INITIAL_POINTER_RADIUS * (1.0 + (TARGET_AREA_ADAPTIVE_ASSIST_DELTA_DEFAULT * relativePerformance) ) 
@@ -138,40 +138,85 @@ var NO_DAMP = 1.0   # For no damping
 var stickyDampJoystick = NO_DAMP
 var stickyDampMouse = NO_DAMP
 
-export var stickyTargetStaticAssistOnMouse = true;
+export var stickyTargetStaticAssistOnMouse = false;
 export var STICKY_TARGET_ASSIST_STATIC_MOUSE_SENSITIVITY_DAMP = 0.5
 
-export var stickyTargetStaticAssistOnJoystick = true;
+export var stickyTargetStaticAssistOnJoystick = false;
 export var STICKY_TARGET_ASSIST_STATIC_JOYSTICK_SENSITIVITY_DAMP = 0.2     # For obvious demo
+
+# Note: right now static assist overrides adaptive assist check setDamp* and unsetDamp* helper functions
+export var stickyTargetAdaptiveAssistOnMouse = true;
+export var STICKY_TARGET_ADAPTIVE_ASSIST_DELTA_MOUSE = 0.05  # For obvious demo
+export var STICKY_TARGET_ADAPTIVE_ASSIST_MAX_DELTA_MOUSE = 20 # Debug value
+
+export var stickyTargetAdaptiveAssistOnJoystick = true;
+export var STICKY_TARGET_ADAPTIVE_ASSIST_DELTA_JOYSTICK = 0.02
+export var STICKY_TARGET_ADAPTIVE_ASSIST_MAX_DELTA_JOYSTICK = 20 # Debug value
 
 # Called by "Pointer00Area2D.gd"
 func setDampMouse():
 	if stickyTargetStaticAssistOnMouse:
 		stickyDampMouse = STICKY_TARGET_ASSIST_STATIC_MOUSE_SENSITIVITY_DAMP
 		if DEBUG_MODE:
-			print("[INFO] Sticky target activated for mouse pointer")
+			print("[INFO] Static Sticky target activated for mouse pointer with damping of: " + str(stickyDampMouse))
+	
+	
+	elif stickyTargetAdaptiveAssistOnMouse: 
+		var scoreDifference = pointer01Score - pointer00Score
+		
+		var relativePerformance = 0  # Default when scores are at par or mouse pointer is performing better
+		
+		if scoreDifference > 0:
+			relativePerformance = min(STICKY_TARGET_ADAPTIVE_ASSIST_MAX_DELTA_MOUSE, scoreDifference)
+			
+		stickyDampMouse = NO_DAMP - (STICKY_TARGET_ADAPTIVE_ASSIST_DELTA_MOUSE * relativePerformance)
+		if stickyDampMouse != NO_DAMP:
+			print("[INFO] Adaptive Sticky target activated for mouse pointer with damping of: " + str(stickyDampMouse))
 		
 func unsetDampMouse():
-	if stickyTargetStaticAssistOnMouse:
+	if stickyTargetStaticAssistOnMouse: 
 		stickyDampMouse = NO_DAMP # Reset value
 		# Force mouse cursor to pointer to mitigate unreachable areas
 		# Input.warp_mouse_position(get_node("Pointer00Area2D").position) # Doeesn't work as wrapping is detected as mouse movement 
 		if DEBUG_MODE:
-			print("[INFO] Sticky target de-activated for mouse pointer")
+			print("[INFO] Static Sticky target de-activated for mouse pointer")
 			
+	elif stickyTargetAdaptiveAssistOnMouse: # Note: extra branch just for logging, could've concataneted with the above
+		var oldStickyDampMouse = stickyDampMouse
+		stickyDampMouse = NO_DAMP # Reset value
+		if DEBUG_MODE and (oldStickyDampMouse != NO_DAMP):
+			print("[INFO] Adaptive Sticky target de-activated for mouse pointer")
 
 # Called by "Pointer01Area2D.gd"
 func setDampJoystick():
 	if stickyTargetStaticAssistOnMouse:
 		stickyDampJoystick = STICKY_TARGET_ASSIST_STATIC_JOYSTICK_SENSITIVITY_DAMP
 		if DEBUG_MODE:
-			print("[INFO] Sticky target activated for joystick pointer")
+			print("[INFO] Static Sticky target activated for joystick pointe with damping of: " + str(stickyDampJoystick))
+			
+	elif stickyTargetAdaptiveAssistOnJoystick: 
+		var scoreDifference =  pointer00Score - pointer01Score
+		
+		var relativePerformance = 0  # Default when scores are at par or joystick pointer is performing better
+		
+		if scoreDifference > 0:
+			relativePerformance = min(STICKY_TARGET_ADAPTIVE_ASSIST_MAX_DELTA_JOYSTICK, scoreDifference)
+			
+		stickyDampJoystick = NO_DAMP - (STICKY_TARGET_ADAPTIVE_ASSIST_DELTA_JOYSTICK * relativePerformance)
+		if stickyDampJoystick != NO_DAMP: 
+			print("[INFO] Adaptive Sticky target activated for joystick pointer with damping of: " + str(stickyDampJoystick))
 		
 func unsetDampJoystick():
 	if stickyTargetStaticAssistOnMouse:
 		stickyDampJoystick = NO_DAMP # Reset value
 		if DEBUG_MODE:
-			print("[INFO] Sticky target de-activated for joystick pointer")
+			print("[INFO] Static Sticky target de-activated for joystick pointer")
+			
+	elif stickyTargetAdaptiveAssistOnJoystick: # Note: extra branch just for logging, could've concataneted with the above
+		var oldStickyDampJoystick = stickyDampJoystick
+		stickyDampJoystick = NO_DAMP # Reset value
+		if DEBUG_MODE and (oldStickyDampJoystick != NO_DAMP):
+			print("[INFO] Adaptive Sticky target de-activated for joystick pointer")
 
 
 # Called when the node enters the scene tree for the first time.
