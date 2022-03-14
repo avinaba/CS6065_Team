@@ -59,17 +59,27 @@ var DEFAULT_POINT_PER_HIT = 15
 func incrementPointer00Score():
 	pointer00Score += 1
 	
+	
 	if targetAreaAdaptiveAssistOnJoystick:
 		var pointerCollisionShape = get_node("Pointer01Area2D/Pointer01HitArea")
 		augmentJoystickPointerTargetAreaAdaptive(pointerCollisionShape)
+	
+	if targetAreaAdaptiveAssistOnMouse:
+		var pointerCollisionShape = get_node("Pointer00Area2D/Pointer00HitArea")
+		augmentMousePointerTargetAreaAdaptive(pointerCollisionShape)
 
 # Helper function called function on successful hit by "PointerArea01Area2D.gd"
 func incrementPointer01Score():
 	pointer01Score += 1
 	
+	
 	if targetAreaAdaptiveAssistOnJoystick:
 		var pointerCollisionShape = get_node("Pointer01Area2D/Pointer01HitArea")
 		augmentJoystickPointerTargetAreaAdaptive(pointerCollisionShape)
+
+	if targetAreaAdaptiveAssistOnMouse:
+		var pointerCollisionShape = get_node("Pointer00Area2D/Pointer00HitArea")
+		augmentMousePointerTargetAreaAdaptive(pointerCollisionShape)
 
 
 # For target assitance algorithm
@@ -89,7 +99,8 @@ export var targetAreaStaticAssistOnMouse = false;
 
 export var TARGET_AREA_STATIC_ASSIST_RATIO_DEFAULT = 1.2 # Debug value
 
-export var targetAreaAdaptiveAssistOnJoystick = true;
+export var targetAreaAdaptiveAssistOnJoystick = false;
+export var targetAreaAdaptiveAssistOnMouse = true;
 
 # final_target_area = pointer_instance_specific_default_target_area * (default_ratio + ((relative performance * delta)) 
 # export var TARGET_AREA_ADAPTIVE_ASSIST_DELTA_DEFAULT = 0.01 # ~> 1% increase w.r.t score difference  
@@ -121,6 +132,22 @@ func augmentJoystickPointerTargetAreaAdaptive(pointerCollisionShape):
 	
 	if originalRadius != finalRadius:
 		print("[INFO] Adaptive Target Area assist enabled on Joystick: pointer radius changed from " + str(originalRadius) + " to " + str(finalRadius))
+		
+
+func augmentMousePointerTargetAreaAdaptive(pointerCollisionShape):
+	var scoreDifference =  pointer01Score - pointer00Score
+		
+	var relativePerformance = 0  # Default when scores are at par or mouse pointer is performing better
+		
+	if scoreDifference > 0:
+		relativePerformance = min(TARGET_AREA_ADAPTIVE_ASSIST_MAX_DELTA, scoreDifference)
+		
+	var originalRadius = pointerCollisionShape.shape.radius
+	pointerCollisionShape.shape.radius = INITIAL_POINTER_RADIUS * (1.0 + (TARGET_AREA_ADAPTIVE_ASSIST_DELTA_DEFAULT * relativePerformance) ) 
+	var finalRadius = pointerCollisionShape.shape.radius
+	
+	if originalRadius != finalRadius:
+		print("[INFO] Adaptive Target Area assist enabled on Mouse: pointer radius changed from " + str(originalRadius) + " to " + str(finalRadius))
 
 
 
@@ -145,11 +172,11 @@ export var stickyTargetStaticAssistOnJoystick = false;
 export var STICKY_TARGET_ASSIST_STATIC_JOYSTICK_SENSITIVITY_DAMP = 0.2     # For obvious demo
 
 # Note: right now static assist overrides adaptive assist check setDamp* and unsetDamp* helper functions
-export var stickyTargetAdaptiveAssistOnMouse = true;
+export var stickyTargetAdaptiveAssistOnMouse = false;
 export var STICKY_TARGET_ADAPTIVE_ASSIST_DELTA_MOUSE = 0.05  # For obvious demo
 export var STICKY_TARGET_ADAPTIVE_ASSIST_MAX_DELTA_MOUSE = 20 # Debug value
 
-export var stickyTargetAdaptiveAssistOnJoystick = true;
+export var stickyTargetAdaptiveAssistOnJoystick = false;
 export var STICKY_TARGET_ADAPTIVE_ASSIST_DELTA_JOYSTICK = 0.02
 export var STICKY_TARGET_ADAPTIVE_ASSIST_MAX_DELTA_JOYSTICK = 20 # Debug value
 
