@@ -55,6 +55,9 @@ radius = 45.0
 
 [node name="00_Demo_level" type="Node"]
 script = ExtResource( 6 )
+stickyTargetStaticAssistOnMouse = true
+STICKY_TARGET_ASSIST_STATIC_MOUSE_SENSITIVITY_DAMP = 0.2
+gravityTargetStaticAssistOnMouse = false
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 960, 540 )
@@ -67,7 +70,6 @@ texture = ExtResource( 1 )
 [node name="Shooting_gallery_config_00" type="Node" parent="."]
 
 [node name="Target_Bullseye_Area2D" type="Area2D" parent="Shooting_gallery_config_00"]
-visible = false
 position = Vector2( 164, 164 )
 script = ExtResource( 15 )
 

@@ -315,7 +315,8 @@ func augmentMousePointerGravity():
 			partial_sum_weights += weight
 			partial_sum_weighted_position = Vector2(partial_sum_weighted_position.x + weight * target.position.x, partial_sum_weighted_position.y + weight * target.position.y)
 		
-		finalPositionOfAugmentedPointer = Vector2(partial_sum_weighted_position.x/partial_sum_weights, partial_sum_weighted_position.y/partial_sum_weights)
+		if partial_sum_weights != 0: 
+			finalPositionOfAugmentedPointer = Vector2(partial_sum_weighted_position.x/partial_sum_weights, partial_sum_weighted_position.y/partial_sum_weights)
 	
 		# Change the gravityOffsetMouse
 		gravityOffsetMouse = finalPositionOfAugmentedPointer - originalMousePosition
@@ -411,9 +412,10 @@ func _ready():
 func _input(event):
 	if event is InputEventMouseMotion:
 		
-		if !didJustWarpMouseX and !didJustWarpMouseY:
+		if !(didJustWarpMouseX or didJustWarpMouseY):
 			
-			augmentMousePointerGravity()
+			if gravityTargetStaticAssistOnMouse:
+				augmentMousePointerGravity()
 			
 			# Hackfix: lerping the gravity offset with the relative mobement, Doesn't work
 			# if event.relative.length() != 0: # Guard clause
@@ -458,15 +460,15 @@ func _input(event):
 		if mouseX <= viewportMinX:
 			Input.warp_mouse_position(Vector2(viewportMaxX - EDGE_OFFSET, mouseY))
 			didJustWarpMouseX = true
-		
+
 		elif mouseX >= viewportMaxX:
 			Input.warp_mouse_position(Vector2(viewportMinX + EDGE_OFFSET, mouseY))
 			didJustWarpMouseX = true
-			
+
 		if mouseY <= viewportMinY:
 			Input.warp_mouse_position(Vector2(mouseX, viewportMaxY - EDGE_OFFSET))
 			didJustWarpMouseX = true
-		
+
 		elif mouseY >= viewportMaxY:
 			Input.warp_mouse_position(Vector2(mouseX, viewportMinY + EDGE_OFFSET))
 			didJustWarpMouseX = true
