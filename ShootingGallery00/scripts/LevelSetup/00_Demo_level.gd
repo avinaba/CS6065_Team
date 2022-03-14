@@ -100,7 +100,7 @@ export var targetAreaStaticAssistOnMouse = false;
 export var TARGET_AREA_STATIC_ASSIST_RATIO_DEFAULT = 1.2 # Debug value
 
 export var targetAreaAdaptiveAssistOnJoystick = false;
-export var targetAreaAdaptiveAssistOnMouse = true;
+export var targetAreaAdaptiveAssistOnMouse = false;
 
 # final_target_area = pointer_instance_specific_default_target_area * (default_ratio + ((relative performance * delta)) 
 # export var TARGET_AREA_ADAPTIVE_ASSIST_DELTA_DEFAULT = 0.01 # ~> 1% increase w.r.t score difference  
@@ -171,7 +171,7 @@ export var STICKY_TARGET_ASSIST_STATIC_MOUSE_SENSITIVITY_DAMP = 0.5
 export var stickyTargetStaticAssistOnJoystick = false;
 export var STICKY_TARGET_ASSIST_STATIC_JOYSTICK_SENSITIVITY_DAMP = 0.2     # For obvious demo
 
-# Note: right now static assist overrides adaptive assist check setDamp* and unsetDamp* helper functions
+# Note: right now static assists overrides adaptive assists, check setDamp* and unsetDamp* helper functions
 export var stickyTargetAdaptiveAssistOnMouse = false;
 export var STICKY_TARGET_ADAPTIVE_ASSIST_DELTA_MOUSE = 0.05  # For obvious demo
 export var STICKY_TARGET_ADAPTIVE_ASSIST_MAX_DELTA_MOUSE = 20 # Debug value
@@ -245,6 +245,94 @@ func unsetDampJoystick():
 		if DEBUG_MODE and (oldStickyDampJoystick != NO_DAMP):
 			print("[INFO] Adaptive Sticky target de-activated for joystick pointer")
 
+# Target Gravity technique: Gravity offset by target
+# ================
+# Rough algo: 
+# --------- 
+# For a given game state 
+#   1. Calculte the offset in the movement of a pointer w.r.t weights of targets (still possible to shoot) 
+#   2. Apply the offset to the relative movement of the pointer
+
+# Hidden variables always accounted for when calculating movement
+var NO_GRAVITY_OFFSET = Vector2(0.0, 0.0)   # Default value passed into every pointer render loop
+# var TARGET_RADIUS_WEIGHT_BETA = 1     # Diminishing the radial weight, doesn't work
+
+# var DIMINISH_GRAVITY_EFFECT_BY = 0.001   # This gives some control
+var DIMINISH_GRAVITY_EFFECT_BY = 0.005   # For obvious effect This gives some control
+
+# Hidden variables to swith from static or adaptive gravity as set
+var gravityMouse = 0.0     #  Default with no gravity 
+var gravityJoystick = 0.0  #  Default with no gravity
+
+var gravityOffsetMouse = NO_GRAVITY_OFFSET
+var gravityOffsetJoystick = NO_GRAVITY_OFFSET
+
+export var gravityTargetStaticAssistOnMouse = true;
+export var GRAVITY_TARGET_STATIC_ASSIST_MOUSE = 2.0 # Value from source paper, doesn't work as bulleseyes are way too big w.r.t source experiment
+# export var GRAVITY_TARGET_STATIC_ASSIST_MOUSE = 2.0/1000000000000000000 # Still doesn't work as bulleseyes are way too big w.r.t source experiment
+
+func getActiveTargetList():
+	# TODO: Need to make this dynamic
+	var listOfAllTargets = $Shooting_gallery_config_00.get_children()
+	# Debug: 
+	# print("No. of targets found: " + str(listOfAllTargets.size()))
+	
+	var listOfVisibleTargets = []
+	
+	for node in listOfAllTargets:
+		# Gaurd clause to check if it is a bullseye is visible  
+		if node.has_method("hit") and node.is_visible():
+			listOfVisibleTargets.append(node)
+			
+	# Debug: 
+	# print("No. of visible targets found: " + str(listOfVisibleTargets.size()))
+	
+	return listOfVisibleTargets
+
+# Need to call wherever mouse position changed is being tracked (right now it's event based on _input(event): )
+func augmentMousePointerGravity():
+	# Get current position of the mouse pointer 
+	var originalMousePosition = get_node("Pointer00Area2D").position
+	
+	var listOfVisibleTargets = getActiveTargetList()
+	
+	if gravityTargetStaticAssistOnMouse:
+		gravityMouse = GRAVITY_TARGET_STATIC_ASSIST_MOUSE
+	# TODO: Else-if case for adaptive gravity constant 
+	
+	var partial_sum_weights = 0
+	var partial_sum_weighted_position = Vector2(0.0, 0.0)
+	var finalPositionOfAugmentedPointer = Vector2(0.0, 0.0)
+	
+	if listOfVisibleTargets.size() > 0:
+		for target in listOfVisibleTargets:
+			# Note: weight of the pointer is set to 1.0 as per Eq (1) of source paper 
+			# TODO: get_child(1) is Hacky needs to be refactored
+			var weight = gravityMouse * pow(2, target.get_child(1).shape.radius)  /  (originalMousePosition.distance_squared_to(target.position) + 1 )
+			# Debug: 
+			# print("  Target position: " + str(target.position.x) + ", " + str(target.position.y) + " :: weight: " + str(weight))
+			
+			partial_sum_weights += weight
+			partial_sum_weighted_position = Vector2(partial_sum_weighted_position.x + weight * target.position.x, partial_sum_weighted_position.y + weight * target.position.y)
+		
+		finalPositionOfAugmentedPointer = Vector2(partial_sum_weighted_position.x/partial_sum_weights, partial_sum_weighted_position.y/partial_sum_weights)
+	
+		# Change the gravityOffsetMouse
+		gravityOffsetMouse = finalPositionOfAugmentedPointer - originalMousePosition
+	
+	# There are no targets to shoot, force offset to be 0.0
+	else: 
+		gravityOffsetMouse = NO_GRAVITY_OFFSET
+	
+	# Debug: 
+	# print("Offset calculated for mouse: " + str(gravityOffsetMouse.x) + ", " + str(gravityOffsetMouse.y) )
+	
+	gravityOffsetMouse.x *= DIMINISH_GRAVITY_EFFECT_BY
+	gravityOffsetMouse.y *= DIMINISH_GRAVITY_EFFECT_BY
+	
+	# Debug: 
+	# print("Diminished Offset calculated for mouse: " + str(gravityOffsetMouse.x) + ", " + str(gravityOffsetMouse.y) )
+	
 
 # Called when the node enters the scene tree for the first time.
 #  Note: all child nodes' _ready() is called before their parent node's _ready()
@@ -324,8 +412,18 @@ func _input(event):
 	if event is InputEventMouseMotion:
 		
 		if !didJustWarpMouseX and !didJustWarpMouseY:
+			
+			augmentMousePointerGravity()
+			
+			# Hackfix: lerping the gravity offset with the relative mobement, Doesn't work
+			# if event.relative.length() != 0: # Guard clause
+			# 	gravityOffsetMouse.x = gravityOffsetMouse.x / event.relative.length()
+			# 	gravityOffsetMouse.y = gravityOffsetMouse.y / event.relative.length()
+			# print(" Offsetting mouse pointer by: " + str(gravityOffsetMouse.x) + ", " + str(gravityOffsetMouse.y) )
 			# TODO: make attachment dynamic as per selected input device
-			get_node("Pointer00Area2D").translate(event.relative * MOUSE_SENSITIVITY_DEFAULT * stickyDampMouse)
+			
+			get_node("Pointer00Area2D").translate((event.relative * MOUSE_SENSITIVITY_DEFAULT * stickyDampMouse) + gravityOffsetMouse)
+		
 		# For infinite relative movement
 		elif didJustWarpMouseX:
 			didJustWarpMouseX = false # Reset
