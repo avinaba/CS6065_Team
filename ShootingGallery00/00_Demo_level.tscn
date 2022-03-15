@@ -55,9 +55,6 @@ radius = 45.0
 
 [node name="00_Demo_level" type="Node"]
 script = ExtResource( 6 )
-stickyTargetStaticAssistOnMouse = true
-STICKY_TARGET_ASSIST_STATIC_MOUSE_SENSITIVITY_DAMP = 0.2
-gravityTargetStaticAssistOnMouse = false
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 960, 540 )
