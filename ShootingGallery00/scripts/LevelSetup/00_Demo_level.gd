@@ -259,7 +259,8 @@ var NO_GRAVITY_OFFSET = Vector2(0.0, 0.0)   # Default value passed into every po
 
 # var SCALE_GRAVITY_EFFECT_MOUSE = 0.001   # This gives some control
 var SCALE_GRAVITY_EFFECT_MOUSE = 0.005   # For obvious effect This gives some control
-var SCALE_GRAVITY_EFFECT_JOYSTICK = 0.005 
+
+var SCALE_GRAVITY_EFFECT_JOYSTICK = 0.10 #  Need different scaling to escape gravity well for the same gravitational constant as mouse, experimentally determined 
 
 # Hidden variables to swith from static or adaptive gravity as set
 var NO_GRAVITY_CONSTANT = 0.0
@@ -368,6 +369,74 @@ func augmentMousePointerGravity():
 	# Debug: 
 	# print("Diminished Offset calculated for mouse: " + str(gravityOffsetMouse.x) + ", " + str(gravityOffsetMouse.y) )
 	
+
+# Need to call wherever joystick position changed is being tracked (right now it's polling based on _process(delta): )
+func augmentJoystickPointerGravity():
+	
+	# Check whether to apply static or adaptive gravitational constant 
+	if gravityTargetStaticAssistOnJoystick:
+		gravityJoystick = GRAVITY_TARGET_STATIC_ASSIST_JOYSTICK
+		
+	elif gravityTargetAdaptiveAssistOnJoystick:
+		var scoreDifference = pointer00Score - pointer01Score
+		
+		var relativePerformance = 0  # Default when scores are at par or joystick pointer is performing better
+		
+		if scoreDifference > 0:
+			relativePerformance = min(GRAVITY_TARGET_ADAPTIVE_ASSIST_MAX_DELTA_JOYSTICK, scoreDifference)
+			
+		gravityJoystick = NO_GRAVITY_CONSTANT + (GRAVITY_TARGET_ADAPTIVE_ASSIST_DELTA_JOYSTICK * relativePerformance)
+		
+		# Note: Floods the console output (as it is called every redner cycle)
+		# if gravityJoystick != NO_GRAVITY_CONSTANT:
+			# print("[INFO] Adaptive Gravity assist, joystick pointer gravitational constant changed to: " + str(gravityMouse))
+	
+	
+	# Calulate "warped pointer" vector as per Eq (1) and Eq (2) of source paper
+	# Get current position of the mouse pointer 
+	var originalJoystickPosition = get_node("Pointer01Area2D").position
+	
+	var listOfVisibleTargets = getActiveTargetList()
+	
+	var partial_sum_weights = 0
+	var partial_sum_weighted_position = Vector2(0.0, 0.0)
+	var finalPositionOfAugmentedPointer = originalJoystickPosition # Default value
+	
+	if listOfVisibleTargets.size() > 0:
+		for target in listOfVisibleTargets:
+			# Note: weight of the pointer is set to 1.0 as per Eq (1) of source paper 
+			# TODO: get_child(1) is Hacky needs to be refactored
+			var weight = (gravityJoystick * pow(2, target.get_child(1).shape.radius))  /  (originalJoystickPosition.distance_squared_to(target.position) + 1 ) # Eq (1) 
+			# Debug: 
+			# print("  Target position: " + str(target.position.x) + ", " + str(target.position.y) + " :: weight: " + str(weight))
+			
+			# Denominator of Eq(2) 
+			partial_sum_weights += weight
+			
+			# Numeretor of Eq(2) 
+			partial_sum_weighted_position += Vector2(weight * target.position.x, weight * target.position.y) 
+		
+		# Divided by 0 guard clause 
+		if partial_sum_weights != 0:
+			# Eq(2)  
+			finalPositionOfAugmentedPointer = Vector2(partial_sum_weighted_position.x/partial_sum_weights, partial_sum_weighted_position.y/partial_sum_weights)
+	
+		# Change the gravityOffsetMouse
+		gravityOffsetJoystick = finalPositionOfAugmentedPointer - originalJoystickPosition
+	
+	# There are no targets to shoot, force offset to be 0.0
+	else: 
+		gravityOffsetJoystick = NO_GRAVITY_OFFSET
+	
+	# Debug: 
+	# print("Total Offset calculated for joystick: " + str(gravityOffsetJoystick.x) + ", " + str(gravityOffsetJoystick.y) )
+	
+	# Scaling down the offset from gravity so the pointer does not get stuck in gravity wells of bullseye 
+	gravityOffsetJoystick.x *= SCALE_GRAVITY_EFFECT_JOYSTICK
+	gravityOffsetJoystick.y *= SCALE_GRAVITY_EFFECT_JOYSTICK
+	
+	# Debug: 
+	# print("Diminished Offset calculated for joystick: " + str(gravityOffsetJoystick.x) + ", " + str(gravityOffsetJoystick.y) )
 
 # Called when the node enters the scene tree for the first time.
 #  Note: all child nodes' _ready() is called before their parent node's _ready()
@@ -576,19 +645,21 @@ func _process(delta):
 		var viewportMaxY = get_viewport().size.y
 		# Note: Utilising augmented viewport sizes may be useful for atypical input devices  
 		
+		augmentJoystickPointerGravity()
+		
 		# for Right Analog
 		# ---
 		#   Translate x:
 		if(abs(delX_RA) > JOYSTICK_ANALOG_STICK_DEADZONE_DEFAULT):
 			# Algo:                        time_elapsed * constant_pixel_movement * joystick_cdr * value from analog stick
-			XboxPointerNodeSprite.position.x += delta * JOYSTICK_ANALOG_STICK_DELTA * JOYSTICK_SENSITIVITY_DEFAULT * delX_RA * stickyDampJoystick
+			XboxPointerNodeSprite.position.x += (delta * JOYSTICK_ANALOG_STICK_DELTA * JOYSTICK_SENSITIVITY_DEFAULT * delX_RA * stickyDampJoystick) + gravityOffsetJoystick.x
 			# Constrain to viewport 
 			if (XboxPointerNodeSprite.position.x > viewportMaxX): XboxPointerNodeSprite.position.x = viewportMaxX
 			elif (XboxPointerNodeSprite.position.x < viewportMinX): XboxPointerNodeSprite.position.x = viewportMinX
 		
 		#   Translate y
 		if(abs(delY_RA) > JOYSTICK_ANALOG_STICK_DEADZONE_DEFAULT):
-			XboxPointerNodeSprite.position.y += delta * JOYSTICK_ANALOG_STICK_DELTA * JOYSTICK_SENSITIVITY_DEFAULT * delY_RA * stickyDampJoystick
+			XboxPointerNodeSprite.position.y += (delta * JOYSTICK_ANALOG_STICK_DELTA * JOYSTICK_SENSITIVITY_DEFAULT * delY_RA * stickyDampJoystick) + gravityOffsetJoystick.y
 			# Constrain to viewport 
 			if (XboxPointerNodeSprite.position.y > viewportMaxY): XboxPointerNodeSprite.position.y = viewportMaxY
 			elif (XboxPointerNodeSprite.position.y < viewportMinY): XboxPointerNodeSprite.position.y = viewportMinY
@@ -597,14 +668,14 @@ func _process(delta):
 		# ---
 		#   Translate x
 		if(abs(delX_LA) > JOYSTICK_ANALOG_STICK_DEADZONE_DEFAULT):
-			XboxPointerNodeSprite.position.x += delta * JOYSTICK_ANALOG_STICK_DELTA * JOYSTICK_SENSITIVITY_DEFAULT * delX_LA * stickyDampJoystick
+			XboxPointerNodeSprite.position.x += (delta * JOYSTICK_ANALOG_STICK_DELTA * JOYSTICK_SENSITIVITY_DEFAULT * delX_LA * stickyDampJoystick) + gravityOffsetJoystick.x 
 			# Constrain to viewport 
 			if (XboxPointerNodeSprite.position.x > viewportMaxX): XboxPointerNodeSprite.position.x = viewportMaxX
 			elif (XboxPointerNodeSprite.position.x < viewportMinX): XboxPointerNodeSprite.position.x = viewportMinX
 		
 		#   Translate y
 		if(abs(delY_LA) > JOYSTICK_ANALOG_STICK_DEADZONE_DEFAULT):
-			XboxPointerNodeSprite.position.y += delta * JOYSTICK_ANALOG_STICK_DELTA * JOYSTICK_SENSITIVITY_DEFAULT * delY_LA * stickyDampJoystick
+			XboxPointerNodeSprite.position.y += (delta * JOYSTICK_ANALOG_STICK_DELTA * JOYSTICK_SENSITIVITY_DEFAULT * delY_LA * stickyDampJoystick) + gravityOffsetJoystick.y
 			# Constrain to viewport 
 			if (XboxPointerNodeSprite.position.y > viewportMaxY): XboxPointerNodeSprite.position.y = viewportMaxY
 			elif (XboxPointerNodeSprite.position.y < viewportMinY): XboxPointerNodeSprite.position.y = viewportMinY

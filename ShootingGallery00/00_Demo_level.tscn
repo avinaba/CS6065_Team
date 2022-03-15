@@ -55,6 +55,8 @@ radius = 45.0
 
 [node name="00_Demo_level" type="Node"]
 script = ExtResource( 6 )
+gravityTargetAdaptiveAssistOnMouse = false
+gravityTargetStaticAssistOnJoystick = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 960, 540 )
