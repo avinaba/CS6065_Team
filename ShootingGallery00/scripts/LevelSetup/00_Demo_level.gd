@@ -442,6 +442,14 @@ func augmentJoystickPointerGravity():
 #  Note: all child nodes' _ready() is called before their parent node's _ready()
 func _ready():
 	
+	if DEBUG_MODE: 
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		print("[INFO] Vebose meta-info logging is on")
+	# Hide mouse cursor if DEBUG_MODE is false
+	else:
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		print("[INFO] OS Mouse pointer hidden")
+	
 	# Override pointer sizes
 	var pointerScaleFactor = POINTER_RADIUS / float(INITIAL_POINTER_RADIUS)
 	
@@ -481,7 +489,6 @@ func _ready():
 	Input.connect("joy_connection_changed", self, "outputJoystickConnectionStatus")
 	
 	if DEBUG_MODE:
-		print("[INFO] Visual debugger is on")
 		# Show FPS counter
 		get_node("Debug_FPS_counter").show()
 	else:
