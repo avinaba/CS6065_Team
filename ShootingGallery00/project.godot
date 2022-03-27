@@ -29,6 +29,11 @@ window/size/fullscreen=true
 fullscreen=false
 run=false
 
+[logging]
+
+file_logging/enable_file_logging=true
+file_logging/max_log_files=2
+
 [physics]
 
 common/enable_pause_aware_picking=true

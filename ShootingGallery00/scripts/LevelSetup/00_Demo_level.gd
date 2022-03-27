@@ -12,6 +12,13 @@ extends Node
 
 export var DEBUG_MODE = true
 
+# For logging time 
+# ******************** 
+
+onready var start_time = OS.get_ticks_msec()
+
+func getElapsedTime():
+	return (OS.get_ticks_msec() - start_time)
 
 # Initialising 
 # **************************
@@ -37,8 +44,13 @@ var JOYSTICK_ANALOG_STICK_DEADZONE_DEFAULT = 0.2
 
 # Initialise pointer sizes 
 # **************************
-const INITIAL_POINTER_RADIUS = 45           # By graphic design (need this as a ratio to override to final sizes)
-export var POINTER_RADIUS = 30      # Parameter to be set depending on screen size, player distance from screen and visual clarity (Human factors)
+const INITIAL_POINTER_HIT_RADIUS = 1 # As per source paper, decoupling hit area to visual area       
+
+const INITIAL_POINTER_RADIUS = 45        # By graphic design (need this as a ratio to override to final sizes)
+const INTIAL_POINTER_SPRITE_SCALE = 0.5  # By graphic design
+export var POINTER_RADIUS = 20           # Parameter to be set depending on screen size, player distance from screen and visual clarity (Human factors)
+
+var pointerScaleFactor = POINTER_RADIUS / float(INITIAL_POINTER_RADIUS)
 
 var pointerMouseRadius = POINTER_RADIUS
 var pointerJoystickRadius = POINTER_RADIUS
@@ -53,12 +65,25 @@ export var TARGET_RADIUS = 100     # Parameterised
 var pointer00Score = 0 
 var pointer01Score = 0
 
-var DEFAULT_POINT_PER_HIT = 15
+var DEFAULT_POINT_PER_HIT = 1
+
+# Helper function to log change in pointer gravitational constant
+func logChangeInGravity():
+	# Logging change in gravity
+	if gravityJoystick != NO_GRAVITY_CONSTANT:
+		print("[" + str(getElapsedTime()) + "][INFO] Joystick: gravitational constant changed to: " + str(gravityJoystick))
+		
+	if gravityMouse != NO_GRAVITY_CONSTANT:
+		print("[" + str(getElapsedTime()) + "][INFO] Mouse: gravitational constant changed to: " + str(gravityMouse))
+		
+
+func logScore():
+	print("[" + str(getElapsedTime()) + "][SCORE] Mouse: " + str(pointer00Score) + ", Joystick: " + str(pointer01Score))
 
 # Helper function called on successful hit by "Pointer00Area2D.gd"
 func incrementPointer00Score():
 	pointer00Score += 1
-	
+	logScore()
 	
 	if targetAreaAdaptiveAssistOnJoystick:
 		var pointerCollisionShape = get_node("Pointer01Area2D/Pointer01HitArea")
@@ -67,10 +92,27 @@ func incrementPointer00Score():
 	if targetAreaAdaptiveAssistOnMouse:
 		var pointerCollisionShape = get_node("Pointer00Area2D/Pointer00HitArea")
 		augmentMousePointerTargetAreaAdaptive(pointerCollisionShape)
+		
+	logChangeInGravity()
+
+func decrementPointer00Score():
+	pointer00Score -= 1
+	logScore()
+	
+	if targetAreaAdaptiveAssistOnJoystick:
+		var pointerCollisionShape = get_node("Pointer01Area2D/Pointer01HitArea")
+		augmentJoystickPointerTargetAreaAdaptive(pointerCollisionShape)
+	
+	if targetAreaAdaptiveAssistOnMouse:
+		var pointerCollisionShape = get_node("Pointer00Area2D/Pointer00HitArea")
+		augmentMousePointerTargetAreaAdaptive(pointerCollisionShape)
+		
+	logChangeInGravity()
 
 # Helper function called function on successful hit by "PointerArea01Area2D.gd"
 func incrementPointer01Score():
 	pointer01Score += 1
+	logScore()
 	
 	
 	if targetAreaAdaptiveAssistOnJoystick:
@@ -80,6 +122,23 @@ func incrementPointer01Score():
 	if targetAreaAdaptiveAssistOnMouse:
 		var pointerCollisionShape = get_node("Pointer00Area2D/Pointer00HitArea")
 		augmentMousePointerTargetAreaAdaptive(pointerCollisionShape)
+		
+	logChangeInGravity()
+
+func decrementPointer01Score():
+	pointer01Score -= 1
+	logScore()
+	
+	
+	if targetAreaAdaptiveAssistOnJoystick:
+		var pointerCollisionShape = get_node("Pointer01Area2D/Pointer01HitArea")
+		augmentJoystickPointerTargetAreaAdaptive(pointerCollisionShape)
+
+	if targetAreaAdaptiveAssistOnMouse:
+		var pointerCollisionShape = get_node("Pointer00Area2D/Pointer00HitArea")
+		augmentMousePointerTargetAreaAdaptive(pointerCollisionShape)
+		
+	logChangeInGravity()
 
 
 # For target assitance algorithm
@@ -94,29 +153,31 @@ func incrementPointer01Score():
 #
 #  As (graphic) designed, an radius of 45px of hitbox from enter is expected (defined at pointer instance)
 
-export var targetAreaStaticAssistOnJoystick = false;
-export var targetAreaStaticAssistOnMouse = false;
+var targetAreaStaticAssistOnJoystick = false; # Out of scope for experiment
+var targetAreaStaticAssistOnMouse = false;    # Out of scope for experiment
 
-export var TARGET_AREA_STATIC_ASSIST_RATIO_DEFAULT = 1.2 # Debug value
+export var TARGET_AREA_STATIC_ASSIST_FINAL_RADIUS = 20 # Final combination parameter
+var TARGET_AREA_ADAPTIVE_ASSIST_MAX_DELTA = 10 # 10 levels as per source paper
 
-export var targetAreaAdaptiveAssistOnJoystick = false;
-export var targetAreaAdaptiveAssistOnMouse = false;
+export var targetAreaAdaptiveAssistOnJoystick = true;
+export var targetAreaAdaptiveAssistOnMouse = true;
 
 # final_target_area = pointer_instance_specific_default_target_area * (default_ratio + ((relative performance * delta)) 
-# export var TARGET_AREA_ADAPTIVE_ASSIST_DELTA_DEFAULT = 0.01 # ~> 1% increase w.r.t score difference  
-export var TARGET_AREA_ADAPTIVE_ASSIST_DELTA_DEFAULT = 0.10  # For obvious demo
+var TARGET_AREA_ADAPTIVE_ASSIST_DELTA_DEFAULT = float (TARGET_AREA_STATIC_ASSIST_FINAL_RADIUS / TARGET_AREA_ADAPTIVE_ASSIST_MAX_DELTA) # ~> 1% increase w.r.t score difference 
+# export var TARGET_AREA_ADAPTIVE_ASSIST_DELTA_DEFAULT = 0.10  # For obvious demo
 
 # for edge cases, where we do not want the assist to break the game semantic
 # i.e the ratio final_target_area/actual_target_area to be constrained to <= 1.2
-export var TARGET_AREA_ADAPTIVE_ASSIST_MAX_DELTA = 20 # Debug value
+
 
 func augmentAnyPointerTargetAreaStatic(pointerCollisionShape):
 	var originalRadius = pointerCollisionShape.shape.radius
-	pointerCollisionShape.shape.radius = INITIAL_POINTER_RADIUS * TARGET_AREA_STATIC_ASSIST_RATIO_DEFAULT
+	
+	pointerCollisionShape.shape.radius = TARGET_AREA_STATIC_ASSIST_FINAL_RADIUS
 	var finalRadius = pointerCollisionShape.shape.radius
 		
 	if DEBUG_MODE:
-		print("[INFO] Static Target Area assist enabled on " + pointerCollisionShape.get_name() + ": pointer radius changed from " + str(originalRadius) + " to " + str(finalRadius))
+		print("[" + str(getElapsedTime()) + "][INFO] Static Target Area assist enabled on " + pointerCollisionShape.get_name() + ": hit radius changed from " + str(originalRadius) + " to " + str(finalRadius))
 
 func augmentJoystickPointerTargetAreaAdaptive(pointerCollisionShape):
 	var scoreDifference = pointer00Score - pointer01Score
@@ -127,11 +188,17 @@ func augmentJoystickPointerTargetAreaAdaptive(pointerCollisionShape):
 		relativePerformance = min(TARGET_AREA_ADAPTIVE_ASSIST_MAX_DELTA, scoreDifference)
 		
 	var originalRadius = pointerCollisionShape.shape.radius
-	pointerCollisionShape.shape.radius = INITIAL_POINTER_RADIUS * (1.0 + (TARGET_AREA_ADAPTIVE_ASSIST_DELTA_DEFAULT * relativePerformance) ) 
-	var finalRadius = pointerCollisionShape.shape.radius
+	# pointerCollisionShape.shape.radius = INITIAL_POINTER_RADIUS * (TARGET_AREA_ADAPTIVE_ASSIST_DELTA_DEFAULT * relativePerformance) 
+	var finalRadius = float(TARGET_AREA_ADAPTIVE_ASSIST_DELTA_DEFAULT * relativePerformance) 
+	
+	# Guard clause, keeping minimum radius as 1px 
+	if finalRadius < INITIAL_POINTER_HIT_RADIUS:
+		finalRadius = INITIAL_POINTER_HIT_RADIUS
+		
+	pointerCollisionShape.shape.radius =  finalRadius
 	
 	if originalRadius != finalRadius:
-		print("[INFO] Adaptive Target Area assist enabled on Joystick: pointer radius changed from " + str(originalRadius) + " to " + str(finalRadius))
+		print("[" + str(getElapsedTime()) + "][INFO] Joystick: hit radius changed from " + str(originalRadius) + " to " + str(finalRadius))
 		
 
 func augmentMousePointerTargetAreaAdaptive(pointerCollisionShape):
@@ -143,11 +210,17 @@ func augmentMousePointerTargetAreaAdaptive(pointerCollisionShape):
 		relativePerformance = min(TARGET_AREA_ADAPTIVE_ASSIST_MAX_DELTA, scoreDifference)
 		
 	var originalRadius = pointerCollisionShape.shape.radius
-	pointerCollisionShape.shape.radius = INITIAL_POINTER_RADIUS * (1.0 + (TARGET_AREA_ADAPTIVE_ASSIST_DELTA_DEFAULT * relativePerformance) ) 
-	var finalRadius = pointerCollisionShape.shape.radius
+	# pointerCollisionShape.shape.radius = INITIAL_POINTER_RADIUS * (1.0 + (TARGET_AREA_ADAPTIVE_ASSIST_DELTA_DEFAULT * relativePerformance) ) 
+	var finalRadius = float(TARGET_AREA_ADAPTIVE_ASSIST_DELTA_DEFAULT * relativePerformance) 
+	
+	# Guard clause, keeping minimum radius as 1px 
+	if finalRadius < INITIAL_POINTER_HIT_RADIUS:
+		finalRadius = INITIAL_POINTER_HIT_RADIUS
+	
+	pointerCollisionShape.shape.radius = finalRadius
 	
 	if originalRadius != finalRadius:
-		print("[INFO] Adaptive Target Area assist enabled on Mouse: pointer radius changed from " + str(originalRadius) + " to " + str(finalRadius))
+		print("[" + str(getElapsedTime()) + "][INFO] Mouse: hit radius changed from " + str(originalRadius) + " to " + str(finalRadius))
 
 
 
@@ -165,27 +238,28 @@ var NO_DAMP = 1.0   # For no damping
 var stickyDampJoystick = NO_DAMP
 var stickyDampMouse = NO_DAMP
 
-export var stickyTargetStaticAssistOnMouse = false;
-export var STICKY_TARGET_ASSIST_STATIC_MOUSE_SENSITIVITY_DAMP = 0.5
-
-export var stickyTargetStaticAssistOnJoystick = false;
-export var STICKY_TARGET_ASSIST_STATIC_JOYSTICK_SENSITIVITY_DAMP = 0.2     # For obvious demo
+var stickyTargetStaticAssistOnMouse = false; # Out of scope for experiment
+var stickyTargetStaticAssistOnJoystick = false; # Out of scope for experiment
 
 # Note: right now static assists overrides adaptive assists, check setDamp* and unsetDamp* helper functions
-export var stickyTargetAdaptiveAssistOnMouse = false;
-export var STICKY_TARGET_ADAPTIVE_ASSIST_DELTA_MOUSE = 0.05  # For obvious demo
-export var STICKY_TARGET_ADAPTIVE_ASSIST_MAX_DELTA_MOUSE = 20 # Debug value
+export var stickyTargetAdaptiveAssistOnMouse = true;
+export var STICKY_TARGET_ASSIST_STATIC_MOUSE_SENSITIVITY_DAMP = 0.4 # Final combination parameter
+var STICKY_TARGET_ADAPTIVE_ASSIST_MAX_DELTA_MOUSE = 10  # 10 levels as per source paper
+var STICKY_TARGET_ADAPTIVE_ASSIST_DELTA_MOUSE = float(STICKY_TARGET_ASSIST_STATIC_MOUSE_SENSITIVITY_DAMP / STICKY_TARGET_ADAPTIVE_ASSIST_MAX_DELTA_MOUSE)    # Final combinationa parameter
 
-export var stickyTargetAdaptiveAssistOnJoystick = false;
-export var STICKY_TARGET_ADAPTIVE_ASSIST_DELTA_JOYSTICK = 0.02
-export var STICKY_TARGET_ADAPTIVE_ASSIST_MAX_DELTA_JOYSTICK = 20 # Debug value
+
+export var stickyTargetAdaptiveAssistOnJoystick = true;
+export var STICKY_TARGET_ASSIST_STATIC_JOYSTICK_SENSITIVITY_DAMP = 0.4  # Final combination parameter
+var STICKY_TARGET_ADAPTIVE_ASSIST_MAX_DELTA_JOYSTICK = 10 # 10 levels as per source paper
+var STICKY_TARGET_ADAPTIVE_ASSIST_DELTA_JOYSTICK = float(STICKY_TARGET_ASSIST_STATIC_JOYSTICK_SENSITIVITY_DAMP / STICKY_TARGET_ADAPTIVE_ASSIST_MAX_DELTA_JOYSTICK)   # Final combinationa parameter
+
 
 # Called by "Pointer00Area2D.gd"
 func setDampMouse():
 	if stickyTargetStaticAssistOnMouse:
 		stickyDampMouse = STICKY_TARGET_ASSIST_STATIC_MOUSE_SENSITIVITY_DAMP
 		if DEBUG_MODE:
-			print("[INFO] Static Sticky target activated for mouse pointer with damping of: " + str(stickyDampMouse))
+			print("[" + str(getElapsedTime()) + "][INFO] Static Sticky target activated for mouse pointer with damping of: " + str(stickyDampMouse))
 	
 	
 	elif stickyTargetAdaptiveAssistOnMouse: 
@@ -198,7 +272,7 @@ func setDampMouse():
 			
 		stickyDampMouse = NO_DAMP - (STICKY_TARGET_ADAPTIVE_ASSIST_DELTA_MOUSE * relativePerformance)
 		if stickyDampMouse != NO_DAMP:
-			print("[INFO] Adaptive Sticky target activated for mouse pointer with damping of: " + str(stickyDampMouse))
+			print("[" + str(getElapsedTime()) + "][INFO] Adaptive Sticky target activated for mouse pointer with damping of: " + str(stickyDampMouse))
 		
 func unsetDampMouse():
 	if stickyTargetStaticAssistOnMouse: 
@@ -206,20 +280,20 @@ func unsetDampMouse():
 		# Force mouse cursor to pointer to mitigate unreachable areas
 		# Input.warp_mouse_position(get_node("Pointer00Area2D").position) # Doeesn't work as wrapping is detected as mouse movement 
 		if DEBUG_MODE:
-			print("[INFO] Static Sticky target de-activated for mouse pointer")
+			print("[" + str(getElapsedTime()) + "][INFO] Static Sticky target de-activated for mouse pointer")
 			
 	elif stickyTargetAdaptiveAssistOnMouse: # Note: extra branch just for logging, could've concataneted with the above
 		var oldStickyDampMouse = stickyDampMouse
 		stickyDampMouse = NO_DAMP # Reset value
 		if DEBUG_MODE and (oldStickyDampMouse != NO_DAMP):
-			print("[INFO] Adaptive Sticky target de-activated for mouse pointer")
+			print("[" + str(getElapsedTime()) + "][INFO] Adaptive Sticky target de-activated for mouse pointer")
 
 # Called by "Pointer01Area2D.gd"
 func setDampJoystick():
 	if stickyTargetStaticAssistOnMouse:
 		stickyDampJoystick = STICKY_TARGET_ASSIST_STATIC_JOYSTICK_SENSITIVITY_DAMP
 		if DEBUG_MODE:
-			print("[INFO] Static Sticky target activated for joystick pointe with damping of: " + str(stickyDampJoystick))
+			print("[" + str(getElapsedTime()) + "][INFO] Static Sticky target activated for joystick pointe with damping of: " + str(stickyDampJoystick))
 			
 	elif stickyTargetAdaptiveAssistOnJoystick: 
 		var scoreDifference =  pointer00Score - pointer01Score
@@ -231,19 +305,19 @@ func setDampJoystick():
 			
 		stickyDampJoystick = NO_DAMP - (STICKY_TARGET_ADAPTIVE_ASSIST_DELTA_JOYSTICK * relativePerformance)
 		if stickyDampJoystick != NO_DAMP: 
-			print("[INFO] Adaptive Sticky target activated for joystick pointer with damping of: " + str(stickyDampJoystick))
+			print("[" + str(getElapsedTime()) + "][INFO] Adaptive Sticky target activated for joystick pointer with damping of: " + str(stickyDampJoystick))
 		
 func unsetDampJoystick():
 	if stickyTargetStaticAssistOnMouse:
 		stickyDampJoystick = NO_DAMP # Reset value
 		if DEBUG_MODE:
-			print("[INFO] Static Sticky target de-activated for joystick pointer")
+			print("[" + str(getElapsedTime()) + "][INFO] Static Sticky target de-activated for joystick pointer")
 			
 	elif stickyTargetAdaptiveAssistOnJoystick: # Note: extra branch just for logging, could've concataneted with the above
 		var oldStickyDampJoystick = stickyDampJoystick
 		stickyDampJoystick = NO_DAMP # Reset value
 		if DEBUG_MODE and (oldStickyDampJoystick != NO_DAMP):
-			print("[INFO] Adaptive Sticky target de-activated for joystick pointer")
+			print("[" + str(getElapsedTime()) + "][INFO] Adaptive Sticky target de-activated for joystick pointer")
 
 # Target Gravity technique: Gravity offset by target
 # ================
@@ -257,10 +331,9 @@ func unsetDampJoystick():
 var NO_GRAVITY_OFFSET = Vector2(0.0, 0.0)   # Default value passed into every pointer render loop
 # var TARGET_RADIUS_WEIGHT_BETA = 1     # Diminishing the radial weight, doesn't work
 
-# var SCALE_GRAVITY_EFFECT_MOUSE = 0.001   # This gives some control
-var SCALE_GRAVITY_EFFECT_MOUSE = 0.005   # For obvious effect This gives some control
+var SCALE_GRAVITY_EFFECT_MOUSE = 0.001    # This gives some control
 
-var SCALE_GRAVITY_EFFECT_JOYSTICK = 0.10 #  Need different scaling to escape gravity well for the same gravitational constant as mouse, experimentally determined 
+var SCALE_GRAVITY_EFFECT_JOYSTICK = 0.10  # Need different scaling to escape gravity well for the same gravitational constant as mouse, experimentally determined 
 
 # Hidden variables to swith from static or adaptive gravity as set
 var NO_GRAVITY_CONSTANT = 0.0
@@ -270,20 +343,22 @@ var gravityJoystick = NO_GRAVITY_CONSTANT  #  Default with no gravity
 var gravityOffsetMouse = NO_GRAVITY_OFFSET
 var gravityOffsetJoystick = NO_GRAVITY_OFFSET
 
-export var gravityTargetStaticAssistOnMouse = false;
-export var GRAVITY_TARGET_STATIC_ASSIST_MOUSE = 2.0 # Value from source paper, doesn't work as bulleseyes are way too big w.r.t source experiment
+var gravityTargetStaticAssistOnMouse = false; # Out of scope for experiment
+export var GRAVITY_TARGET_STATIC_ASSIST_MOUSE = 1.0 # Final combination parameter 
 # export var GRAVITY_TARGET_STATIC_ASSIST_MOUSE = 2.0/1000000000000000000 # Still doesn't work as bulleseyes are way too big w.r.t source experiment
 
-export var gravityTargetAdaptiveAssistOnMouse = true;
-export var GRAVITY_TARGET_ADAPTIVE_ASSIST_DELTA_MOUSE = 0.10  # For obvious demo
-export var GRAVITY_TARGET_ADAPTIVE_ASSIST_MAX_DELTA_MOUSE = 20 # Debug value
+export var gravityTargetAdaptiveAssistOnMouse = true; 
+var GRAVITY_TARGET_ADAPTIVE_ASSIST_MAX_DELTA_MOUSE = 10 # 10 levels as per source paper
+var GRAVITY_TARGET_ADAPTIVE_ASSIST_DELTA_MOUSE = float(GRAVITY_TARGET_STATIC_ASSIST_MOUSE / float(GRAVITY_TARGET_ADAPTIVE_ASSIST_MAX_DELTA_MOUSE))  
 
-export var gravityTargetStaticAssistOnJoystick = false
-export var GRAVITY_TARGET_STATIC_ASSIST_JOYSTICK = 2.0
 
-export var gravityTargetAdaptiveAssistOnJoystick = false;
-export var GRAVITY_TARGET_ADAPTIVE_ASSIST_DELTA_JOYSTICK = 0.10  # For obvious demo
-export var GRAVITY_TARGET_ADAPTIVE_ASSIST_MAX_DELTA_JOYSTICK = 20 # Debug value
+var gravityTargetStaticAssistOnJoystick = false # Out of scope for experiment
+export var GRAVITY_TARGET_STATIC_ASSIST_JOYSTICK = 1.0 # Final combination parameter
+
+export var gravityTargetAdaptiveAssistOnJoystick = true;
+var GRAVITY_TARGET_ADAPTIVE_ASSIST_MAX_DELTA_JOYSTICK = 10 # 10 levels as per source paper
+var GRAVITY_TARGET_ADAPTIVE_ASSIST_DELTA_JOYSTICK = float(GRAVITY_TARGET_STATIC_ASSIST_JOYSTICK / float(GRAVITY_TARGET_ADAPTIVE_ASSIST_MAX_DELTA_JOYSTICK))
+
 
 func getActiveTargetList():
 	# TODO: Need to make this dynamic
@@ -319,8 +394,9 @@ func augmentMousePointerGravity():
 			relativePerformance = min(GRAVITY_TARGET_ADAPTIVE_ASSIST_MAX_DELTA_MOUSE, scoreDifference)
 			
 		gravityMouse = NO_GRAVITY_CONSTANT + (GRAVITY_TARGET_ADAPTIVE_ASSIST_DELTA_MOUSE * relativePerformance)
-		if gravityMouse != NO_GRAVITY_CONSTANT:
-			print("[INFO] Adaptive Gravity assist, mouse pointer gravitational constant changed to: " + str(gravityMouse))
+		# Note: Floods the console output (as it is called every redner cycle), moving to increment/decrement functions
+		# if gravityMouse != NO_GRAVITY_CONSTANT:
+			# print("[INFO] Adaptive Gravity assist, mouse pointer gravitational constant changed to: " + str(gravityMouse))
 	
 	
 	# Calulate "warped pointer" vector as per Eq (1) and Eq (2) of source paper
@@ -387,9 +463,9 @@ func augmentJoystickPointerGravity():
 			
 		gravityJoystick = NO_GRAVITY_CONSTANT + (GRAVITY_TARGET_ADAPTIVE_ASSIST_DELTA_JOYSTICK * relativePerformance)
 		
-		# Note: Floods the console output (as it is called every redner cycle)
+		# Note: Floods the console output (as it is called every redner cycle), moving to increment/decrement functions
 		# if gravityJoystick != NO_GRAVITY_CONSTANT:
-			# print("[INFO] Adaptive Gravity assist, joystick pointer gravitational constant changed to: " + str(gravityMouse))
+			# print("[INFO] Adaptive Gravity assist, joystick pointer gravitational constant changed to: " + str(gravityJoystick))
 	
 	
 	# Calulate "warped pointer" vector as per Eq (1) and Eq (2) of source paper
@@ -444,39 +520,43 @@ func _ready():
 	
 	if DEBUG_MODE: 
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		print("[INFO] Vebose meta-info logging is on")
+		print("[" + str(getElapsedTime()) + "][INFO] Vebose meta-info logging is on")
 	# Hide mouse cursor if DEBUG_MODE is false
 	else:
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-		print("[INFO] OS Mouse pointer hidden")
+		print("[" + str(getElapsedTime()) + "][INFO] OS Mouse pointer hidden")
 	
 	# Override pointer sizes
-	var pointerScaleFactor = POINTER_RADIUS / float(INITIAL_POINTER_RADIUS)
+	pointerScaleFactor = (POINTER_RADIUS / float(INITIAL_POINTER_RADIUS)) * INTIAL_POINTER_SPRITE_SCALE
 	
 	if DEBUG_MODE:
-		print("[INFO] Scaling pointer sizes to: x" + str(pointerScaleFactor))
-	get_node("Pointer00Area2D").scale = Vector2(pointerScaleFactor, pointerScaleFactor)
-	get_node("Pointer01Area2D").scale = Vector2(pointerScaleFactor, pointerScaleFactor)
+		print("[" + str(getElapsedTime()) + "][INFO] Scaling pointer sizes to: x" + str(pointerScaleFactor))
+	get_node("Pointer00Area2D/Pointer00").scale = Vector2(pointerScaleFactor, pointerScaleFactor)
+	get_node("Pointer01Area2D/Pointer01").scale = Vector2(pointerScaleFactor, pointerScaleFactor)
 	
 	# Scaling on fire effects
 	get_node("pointer_00_on_mouse_down_particle2D").scale = Vector2(pointerScaleFactor, pointerScaleFactor)
 	get_node("pointer_01_on_RT_particle2D").scale = Vector2(pointerScaleFactor, pointerScaleFactor)
+	
+	# Set pointer hit area 
+	get_node("Pointer00Area2D/Pointer00HitArea").shape.radius = INITIAL_POINTER_HIT_RADIUS
+	get_node("Pointer01Area2D/Pointer01HitArea").shape.radius = INITIAL_POINTER_HIT_RADIUS
 	
 	# Override target sizes
 	# TODO: Change to class based access
 	# TODO: Add guard clauses
 	var targetScaleFactor = TARGET_RADIUS / float(INITIAL_TARGET_RADIUS)
 	if DEBUG_MODE:
-		print("[INFO] Scaling target sizes to: x" + str(targetScaleFactor))
+		print("[" + str(getElapsedTime()) + "][INFO] Scaling target sizes to: x" + str(targetScaleFactor))
 	for targetArea2D in get_node("Shooting_gallery_config_00").get_children():
 		# Debug: 
 		# print(targetArea2D.get_name())
 		targetArea2D.scale = Vector2(targetScaleFactor, targetScaleFactor)
 		
 	if DEBUG_MODE: 
-		print("[INFO] Screen size: " + str(OS.get_screen_size().x) + "px x " + str(OS.get_screen_size().y) + "px")
-		print("[INFO] Screen DPI: " + str(OS.get_screen_dpi()))
-		print("[INFO] Pointer radius: " + str(POINTER_RADIUS) + "px, Target radius: " + str(TARGET_RADIUS) + "px")
+		print("[" + str(getElapsedTime()) + "][INFO] Screen size: " + str(OS.get_screen_size().x) + "px x " + str(OS.get_screen_size().y) + "px")
+		print("[" + str(getElapsedTime()) + "][INFO] Screen DPI: " + str(OS.get_screen_dpi()))
+		print("[" + str(getElapsedTime()) + "][INFO] Pointer radius: " + str(POINTER_RADIUS) + "px, Target radius: " + str(TARGET_RADIUS) + "px")
 	
 	
 	
@@ -690,15 +770,15 @@ func _process(delta):
 func outputJoystickConnectionStatus(deviceId, isConnected):
 	if isConnected: 
 		if DEBUG_MODE:
-			print("[INFO] Joystick id: " + str(deviceId) + " connected")
+			print("[" + str(getElapsedTime()) + "][INFO] Joystick id: " + str(deviceId) + " connected")
 		
 		# Check if input hw is recognised 
 		if Input.is_joy_known(deviceId):
 			if DEBUG_MODE:
-				print("[INFO] Joystick recognised: " + Input.get_joy_name(deviceId))
+				print("[" + str(getElapsedTime()) + "][INFO] Joystick recognised: " + Input.get_joy_name(deviceId))
 	
 	# at disconnection 
 	else:
 		if DEBUG_MODE:
-			print("[INFO] Joystick id: " + str(deviceId) + " disconnected")
+			print("[" + str(getElapsedTime()) + "][INFO] Joystick id: " + str(deviceId) + " disconnected")
 

@@ -48,15 +48,13 @@ size = 60
 font_data = ExtResource( 20 )
 
 [sub_resource type="CircleShape2D" id=3]
-radius = 45.0
+radius = 1.0
 
 [sub_resource type="CircleShape2D" id=4]
-radius = 45.0
+radius = 1.0
 
 [node name="00_Demo_level" type="Node"]
 script = ExtResource( 6 )
-gravityTargetAdaptiveAssistOnMouse = false
-gravityTargetStaticAssistOnJoystick = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 960, 540 )
