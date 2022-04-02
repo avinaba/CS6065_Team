@@ -151,6 +151,7 @@ var allHideableNodeNames = [
 	"pointer_01_on_RT_particle2D"
 ]
 
+# Tag: State management
 var allRemovableNodeNames = [
 	"Grass_static", 
 	"ScoreUI",
@@ -162,7 +163,33 @@ var allRemovableNodeNames = [
 	"Game_01_Level_03",
 	"Game_02_Level_01", 
 	"Game_02_Level_02",
-	"Game_02_Level_03"
+	"Game_02_Level_03",
+	"Game_03_Level_01", 
+	"Game_03_Level_02",
+	"Game_03_Level_03",
+	"Game_04_Level_01", 
+	"Game_04_Level_02",
+	"Game_04_Level_03",
+	"Game_05_Level_01", 
+	"Game_05_Level_02",
+	"Game_05_Level_03", # Swap happens post Game 5 
+	"Mouse_Practice_P2_level",
+	"Joystick_Practice_P1_level", 
+	"Game_06_Level_01", 
+	"Game_06_Level_02",
+	"Game_06_Level_03",
+	"Game_07_Level_01", 
+	"Game_07_Level_02",
+	"Game_07_Level_03",
+	"Game_08_Level_01", 
+	"Game_08_Level_02",
+	"Game_08_Level_03",
+	"Game_09_Level_01", 
+	"Game_09_Level_02",
+	"Game_09_Level_03",
+	"Game_10_Level_01", 
+	"Game_10_Level_02",
+	"Game_10_Level_03",
 ]
 
 # Create a dict of all available nodes before removing
@@ -196,6 +223,46 @@ func clearAllNodes():
 	
 	return false
 
+# Note: Very very hacky, just reducing script duplication
+func helper_loadMultiplayerGameContext():
+	add_child(allRemovableNodesDict["Grass_static"])
+	add_child(allRemovableNodesDict["ScoreUI"])
+		
+	# Show background
+	get_node("ShooterBgRaster").show()
+		
+	# Show mouse pointer
+	get_node("Pointer00Area2D").show()
+	move_child(get_node("Pointer00Area2D"), get_child_count() - 1) # move to front
+		
+	# Show mouse pointer fire effect 
+	get_node("pointer_00_on_mouse_down_particle2D").show()
+	move_child(get_node("pointer_00_on_mouse_down_particle2D"), get_child_count() - 1) # move to front
+		
+	# Show joystick pointer
+	get_node("Pointer01Area2D").show()
+	move_child(get_node("Pointer01Area2D"), get_child_count() - 1) # move to front
+		
+	# Show mouse joysstick fire effect 
+	get_node("pointer_01_on_RT_particle2D").show()
+	move_child(get_node("pointer_01_on_RT_particle2D"), get_child_count() - 1) # move to front
+		
+	# Partially hide and show Scoring UI for individual practice
+	get_node("ScoreUI/Pointer01Avatar").show()
+	get_node("ScoreUI/Pointer01Score").show()
+	get_node("ScoreUI/Pointer01ScoreAreaBg").show()
+		
+	get_node("ScoreUI/Pointer00Avatar").show()
+	get_node("ScoreUI/Pointer00Score").show()
+	get_node("ScoreUI/Pointer00ScoreAreaBg").show()
+	
+	# Disable scoring for joystick
+	disableScoringForJoystick()
+	disableScoringForMouse()
+	
+	return true
+
+# Tag: State management
 func refreshGlobalState():
 	
 	if(experimentStateIndex < 0 or experimentStateIndex >= experimentStateName.size()):
@@ -220,7 +287,7 @@ func refreshGlobalState():
 		# Global state succesfully refreshed
 		return true
 		
-	
+	# Load context for individual practice of mouse
 	elif(currentExperimentStateName == "Mouse Practice P1"):
 		# Make mouse invisible
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
@@ -267,7 +334,8 @@ func refreshGlobalState():
 		
 		# Global state succesfully refreshed
 		return true
-		
+	
+	# Load context for individual practice of joystick
 	elif(currentExperimentStateName == "Joystick Practice P2"):
 		# Make mouse invisible
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
@@ -315,6 +383,7 @@ func refreshGlobalState():
 		# Global state succesfully refreshed
 		return true
 	
+	# Game 1 begin
 	elif(currentExperimentStateName == "Game 1 - Level 1"):
 		# Make mouse invisible
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
@@ -332,40 +401,8 @@ func refreshGlobalState():
 
 		# Add the required nodes
 		add_child(allRemovableNodesDict["Game_01_Level_01"])
-		add_child(allRemovableNodesDict["Grass_static"])
-		add_child(allRemovableNodesDict["ScoreUI"])
 		
-		# Show background
-		get_node("ShooterBgRaster").show()
-		
-		# Show mouse pointer
-		get_node("Pointer00Area2D").show()
-		move_child(get_node("Pointer00Area2D"), get_child_count() - 1) # move to front
-		
-		# Show mouse pointer fire effect 
-		get_node("pointer_00_on_mouse_down_particle2D").show()
-		move_child(get_node("pointer_00_on_mouse_down_particle2D"), get_child_count() - 1) # move to front
-		
-		# Show joystick pointer
-		get_node("Pointer01Area2D").show()
-		move_child(get_node("Pointer01Area2D"), get_child_count() - 1) # move to front
-		
-		# Show mouse joysstick fire effect 
-		get_node("pointer_01_on_RT_particle2D").show()
-		move_child(get_node("pointer_01_on_RT_particle2D"), get_child_count() - 1) # move to front
-		
-		# Partially hide and show Scoring UI for individual practice
-		get_node("ScoreUI/Pointer01Avatar").show()
-		get_node("ScoreUI/Pointer01Score").show()
-		get_node("ScoreUI/Pointer01ScoreAreaBg").show()
-		
-		get_node("ScoreUI/Pointer00Avatar").show()
-		get_node("ScoreUI/Pointer00Score").show()
-		get_node("ScoreUI/Pointer00ScoreAreaBg").show()
-		
-		# Disable scoring for joystick
-		disableScoringForJoystick()
-		disableScoringForMouse()
+		helper_loadMultiplayerGameContext()
 		
 		# reset score
 		resetBothScores()
@@ -391,43 +428,12 @@ func refreshGlobalState():
 
 		# Add the required nodes
 		add_child(allRemovableNodesDict["Game_01_Level_02"])
-		add_child(allRemovableNodesDict["Grass_static"])
-		add_child(allRemovableNodesDict["ScoreUI"])
 		
-		# Show background
-		get_node("ShooterBgRaster").show()
+		helper_loadMultiplayerGameContext()
 		
-		# Show mouse pointer
-		get_node("Pointer00Area2D").show()
-		move_child(get_node("Pointer00Area2D"), get_child_count() - 1) # move to front
 		
-		# Show mouse pointer fire effect 
-		get_node("pointer_00_on_mouse_down_particle2D").show()
-		move_child(get_node("pointer_00_on_mouse_down_particle2D"), get_child_count() - 1) # move to front
-		
-		# Show joystick pointer
-		get_node("Pointer01Area2D").show()
-		move_child(get_node("Pointer01Area2D"), get_child_count() - 1) # move to front
-		
-		# Show mouse joysstick fire effect 
-		get_node("pointer_01_on_RT_particle2D").show()
-		move_child(get_node("pointer_01_on_RT_particle2D"), get_child_count() - 1) # move to front
-		
-		# Partially hide and show Scoring UI for individual practice
-		get_node("ScoreUI/Pointer01Avatar").show()
-		get_node("ScoreUI/Pointer01Score").show()
-		get_node("ScoreUI/Pointer01ScoreAreaBg").show()
-		
-		get_node("ScoreUI/Pointer00Avatar").show()
-		get_node("ScoreUI/Pointer00Score").show()
-		get_node("ScoreUI/Pointer00ScoreAreaBg").show()
-		
-		# Disable scoring for joystick
-		disableScoringForJoystick()
-		disableScoringForMouse()
-		
-		# reset score
-		resetBothScores()
+		# reset score - not resetting scores between levels
+		# resetBothScores()
 		
 		# Disable bullseye collission till instructions are hidden
 		disableActiveTargets()
@@ -450,43 +456,10 @@ func refreshGlobalState():
 
 		# Add the required nodes
 		add_child(allRemovableNodesDict["Game_01_Level_03"])
-		add_child(allRemovableNodesDict["Grass_static"])
-		add_child(allRemovableNodesDict["ScoreUI"])
+		helper_loadMultiplayerGameContext()
 		
-		# Show background
-		get_node("ShooterBgRaster").show()
-		
-		# Show mouse pointer
-		get_node("Pointer00Area2D").show()
-		move_child(get_node("Pointer00Area2D"), get_child_count() - 1) # move to front
-		
-		# Show mouse pointer fire effect 
-		get_node("pointer_00_on_mouse_down_particle2D").show()
-		move_child(get_node("pointer_00_on_mouse_down_particle2D"), get_child_count() - 1) # move to front
-		
-		# Show joystick pointer
-		get_node("Pointer01Area2D").show()
-		move_child(get_node("Pointer01Area2D"), get_child_count() - 1) # move to front
-		
-		# Show mouse joysstick fire effect 
-		get_node("pointer_01_on_RT_particle2D").show()
-		move_child(get_node("pointer_01_on_RT_particle2D"), get_child_count() - 1) # move to front
-		
-		# Partially hide and show Scoring UI for individual practice
-		get_node("ScoreUI/Pointer01Avatar").show()
-		get_node("ScoreUI/Pointer01Score").show()
-		get_node("ScoreUI/Pointer01ScoreAreaBg").show()
-		
-		get_node("ScoreUI/Pointer00Avatar").show()
-		get_node("ScoreUI/Pointer00Score").show()
-		get_node("ScoreUI/Pointer00ScoreAreaBg").show()
-		
-		# Disable scoring for joystick
-		disableScoringForJoystick()
-		disableScoringForMouse()
-		
-		# reset score
-		resetBothScores()
+		# reset score - not resetting scores between levels
+		# resetBothScores()
 		
 		# Disable bullseye collission till instructions are hidden
 		disableActiveTargets()
@@ -494,9 +467,9 @@ func refreshGlobalState():
 		# Global state succesfully refreshed
 		return true
 		
-		# Game 1 states concluded ------------------------------------------------------
+	# Game 1 states concluded ------------------------------------------------------
 		
-		# Game 2 begin 
+	# Game 2 begin 
 	elif(currentExperimentStateName == "Game 2 - Level 1"):
 		# Make mouse invisible
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
@@ -514,40 +487,7 @@ func refreshGlobalState():
 
 		# Add the required nodes
 		add_child(allRemovableNodesDict["Game_02_Level_01"])
-		add_child(allRemovableNodesDict["Grass_static"])
-		add_child(allRemovableNodesDict["ScoreUI"])
-		
-		# Show background
-		get_node("ShooterBgRaster").show()
-		
-		# Show mouse pointer
-		get_node("Pointer00Area2D").show()
-		move_child(get_node("Pointer00Area2D"), get_child_count() - 1) # move to front
-		
-		# Show mouse pointer fire effect 
-		get_node("pointer_00_on_mouse_down_particle2D").show()
-		move_child(get_node("pointer_00_on_mouse_down_particle2D"), get_child_count() - 1) # move to front
-		
-		# Show joystick pointer
-		get_node("Pointer01Area2D").show()
-		move_child(get_node("Pointer01Area2D"), get_child_count() - 1) # move to front
-		
-		# Show mouse joysstick fire effect 
-		get_node("pointer_01_on_RT_particle2D").show()
-		move_child(get_node("pointer_01_on_RT_particle2D"), get_child_count() - 1) # move to front
-		
-		# Partially hide and show Scoring UI for individual practice
-		get_node("ScoreUI/Pointer01Avatar").show()
-		get_node("ScoreUI/Pointer01Score").show()
-		get_node("ScoreUI/Pointer01ScoreAreaBg").show()
-		
-		get_node("ScoreUI/Pointer00Avatar").show()
-		get_node("ScoreUI/Pointer00Score").show()
-		get_node("ScoreUI/Pointer00ScoreAreaBg").show()
-		
-		# Disable scoring for joystick
-		disableScoringForJoystick()
-		disableScoringForMouse()
+		helper_loadMultiplayerGameContext()
 		
 		# reset score
 		resetBothScores()
@@ -573,43 +513,10 @@ func refreshGlobalState():
 
 		# Add the required nodes
 		add_child(allRemovableNodesDict["Game_02_Level_02"])
-		add_child(allRemovableNodesDict["Grass_static"])
-		add_child(allRemovableNodesDict["ScoreUI"])
+		helper_loadMultiplayerGameContext()
 		
-		# Show background
-		get_node("ShooterBgRaster").show()
-		
-		# Show mouse pointer
-		get_node("Pointer00Area2D").show()
-		move_child(get_node("Pointer00Area2D"), get_child_count() - 1) # move to front
-		
-		# Show mouse pointer fire effect 
-		get_node("pointer_00_on_mouse_down_particle2D").show()
-		move_child(get_node("pointer_00_on_mouse_down_particle2D"), get_child_count() - 1) # move to front
-		
-		# Show joystick pointer
-		get_node("Pointer01Area2D").show()
-		move_child(get_node("Pointer01Area2D"), get_child_count() - 1) # move to front
-		
-		# Show mouse joysstick fire effect 
-		get_node("pointer_01_on_RT_particle2D").show()
-		move_child(get_node("pointer_01_on_RT_particle2D"), get_child_count() - 1) # move to front
-		
-		# Partially hide and show Scoring UI for individual practice
-		get_node("ScoreUI/Pointer01Avatar").show()
-		get_node("ScoreUI/Pointer01Score").show()
-		get_node("ScoreUI/Pointer01ScoreAreaBg").show()
-		
-		get_node("ScoreUI/Pointer00Avatar").show()
-		get_node("ScoreUI/Pointer00Score").show()
-		get_node("ScoreUI/Pointer00ScoreAreaBg").show()
-		
-		# Disable scoring for joystick
-		disableScoringForJoystick()
-		disableScoringForMouse()
-		
-		# reset score
-		resetBothScores()
+		# reset score - not resetting scores between levels
+		# resetBothScores()
 		
 		# Disable bullseye collission till instructions are hidden
 		disableActiveTargets()
@@ -632,6 +539,280 @@ func refreshGlobalState():
 
 		# Add the required nodes
 		add_child(allRemovableNodesDict["Game_02_Level_03"])
+		helper_loadMultiplayerGameContext()
+		
+		# reset score - not resetting scores between levels
+		# resetBothScores()
+		
+		# Disable bullseye collission till instructions are hidden
+		disableActiveTargets()
+		
+		# Global state succesfully refreshed
+		return true
+		
+	# Game 2 states concluded ------------------------------------------------------
+	
+	# Game 3 begin 
+	elif(currentExperimentStateName == "Game 3 - Level 1"):
+		# Make mouse invisible
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		
+		# Increment Game Index 
+		currentGameIndex += 1;
+		# load appropriate condition as per sequence (cycle through)
+		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		
+		# Increment Level Index
+		currentLevelIndex += 1
+		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		
+		clearAllNodes()
+
+		# Add the required nodes
+		add_child(allRemovableNodesDict["Game_03_Level_01"])
+		helper_loadMultiplayerGameContext()
+		
+		# reset score
+		resetBothScores()
+		
+		# Disable bullseye collission till instructions are hidden
+		disableActiveTargets()
+		
+		# Global state succesfully refreshed
+		return true
+		
+	elif(currentExperimentStateName == "Game 3 - Level 2"):
+		# Make mouse invisible
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		
+		# load appropriate condition as per sequence (cycle through)
+		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		
+		# Increment Level Index
+		currentLevelIndex += 1
+		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		
+		clearAllNodes()
+
+		# Add the required nodes
+		add_child(allRemovableNodesDict["Game_03_Level_02"])
+		helper_loadMultiplayerGameContext()
+		
+		# reset score - not resetting scores between levels
+		# resetBothScores()
+		
+		# Disable bullseye collission till instructions are hidden
+		disableActiveTargets()
+		
+		# Global state succesfully refreshed
+		return true
+		
+	elif(currentExperimentStateName == "Game 3 - Level 3"):
+		# Make mouse invisible
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		
+		# load appropriate condition as per sequence (cycle through)
+		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		
+		# Increment Level Index
+		currentLevelIndex += 1
+		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		
+		clearAllNodes()
+
+		# Add the required nodes
+		add_child(allRemovableNodesDict["Game_03_Level_03"])
+		helper_loadMultiplayerGameContext()
+		
+		# reset score - not resetting scores between levels
+		# resetBothScores()
+		
+		# Disable bullseye collission till instructions are hidden
+		disableActiveTargets()
+		
+		# Global state succesfully refreshed
+		return true
+		
+	# Game 3 states concluded ------------------------------------------------------
+	# Game 4 begin 
+	elif(currentExperimentStateName == "Game 4 - Level 1"):
+		# Make mouse invisible
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		
+		# Increment Game Index 
+		currentGameIndex += 1;
+		# load appropriate condition as per sequence (cycle through)
+		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		
+		# Increment Level Index
+		currentLevelIndex += 1
+		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		
+		clearAllNodes()
+
+		# Add the required nodes
+		add_child(allRemovableNodesDict["Game_04_Level_01"])
+		helper_loadMultiplayerGameContext()
+		
+		# reset score
+		resetBothScores()
+		
+		# Disable bullseye collission till instructions are hidden
+		disableActiveTargets()
+		
+		# Global state succesfully refreshed
+		return true
+		
+	elif(currentExperimentStateName == "Game 4 - Level 2"):
+		# Make mouse invisible
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		
+		# load appropriate condition as per sequence (cycle through)
+		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		
+		# Increment Level Index
+		currentLevelIndex += 1
+		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		
+		clearAllNodes()
+
+		# Add the required nodes
+		add_child(allRemovableNodesDict["Game_04_Level_02"])
+		helper_loadMultiplayerGameContext()
+		
+		# reset score - not resetting scores between levels
+		# resetBothScores()
+		
+		# Disable bullseye collission till instructions are hidden
+		disableActiveTargets()
+		
+		# Global state succesfully refreshed
+		return true
+		
+	elif(currentExperimentStateName == "Game 4 - Level 3"):
+		# Make mouse invisible
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		
+		# load appropriate condition as per sequence (cycle through)
+		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		
+		# Increment Level Index
+		currentLevelIndex += 1
+		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		
+		clearAllNodes()
+
+		# Add the required nodes
+		add_child(allRemovableNodesDict["Game_04_Level_03"])
+		helper_loadMultiplayerGameContext()
+		
+		# reset score - not resetting scores between levels
+		# resetBothScores()
+		
+		# Disable bullseye collission till instructions are hidden
+		disableActiveTargets()
+		
+		# Global state succesfully refreshed
+		return true
+		
+	# Game 4 states concluded ------------------------------------------------------
+	# Game 5 begin 
+	elif(currentExperimentStateName == "Game 5 - Level 1"):
+		# Make mouse invisible
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		
+		# Increment Game Index 
+		currentGameIndex += 1;
+		# load appropriate condition as per sequence (cycle through)
+		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		
+		# Increment Level Index
+		currentLevelIndex += 1
+		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		
+		clearAllNodes()
+
+		# Add the required nodes
+		add_child(allRemovableNodesDict["Game_05_Level_01"])
+		helper_loadMultiplayerGameContext()
+		
+		# reset score
+		resetBothScores()
+		
+		# Disable bullseye collission till instructions are hidden
+		disableActiveTargets()
+		
+		# Global state succesfully refreshed
+		return true
+		
+	elif(currentExperimentStateName == "Game 5 - Level 2"):
+		# Make mouse invisible
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		
+		# load appropriate condition as per sequence (cycle through)
+		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		
+		# Increment Level Index
+		currentLevelIndex += 1
+		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		
+		clearAllNodes()
+
+		# Add the required nodes
+		add_child(allRemovableNodesDict["Game_05_Level_02"])
+		helper_loadMultiplayerGameContext()
+		
+		# reset score - not resetting scores between levels
+		# resetBothScores()
+		
+		# Disable bullseye collission till instructions are hidden
+		disableActiveTargets()
+		
+		# Global state succesfully refreshed
+		return true
+		
+	elif(currentExperimentStateName == "Game 5 - Level 3"):
+		# Make mouse invisible
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		
+		# load appropriate condition as per sequence (cycle through)
+		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		
+		# Increment Level Index
+		currentLevelIndex += 1
+		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		
+		clearAllNodes()
+
+		# Add the required nodes
+		add_child(allRemovableNodesDict["Game_05_Level_03"])
+		helper_loadMultiplayerGameContext()
+		
+		# reset score - not resetting scores between levels
+		# resetBothScores()
+		
+		# Disable bullseye collission till instructions are hidden
+		disableActiveTargets()
+		
+		# Global state succesfully refreshed
+		return true
+		
+	# Game 5 states concluded ------------------------------------------------------
+	
+	# Players swap their input devices IRL
+	
+	# Load context for individual practice of mouse, this time for the other player 
+	elif(currentExperimentStateName == "Mouse Practice P2"):
+		# Make mouse invisible
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		
+		# Remove any assitance 
+		loadCondition(ConditionX)
+		
+		clearAllNodes()
+
+		# Add the required nodes
+		add_child(allRemovableNodesDict["Mouse_Practice_P2_level"])
 		add_child(allRemovableNodesDict["Grass_static"])
 		add_child(allRemovableNodesDict["ScoreUI"])
 		
@@ -646,22 +827,14 @@ func refreshGlobalState():
 		get_node("pointer_00_on_mouse_down_particle2D").show()
 		move_child(get_node("pointer_00_on_mouse_down_particle2D"), get_child_count() - 1) # move to front
 		
-		# Show joystick pointer
-		get_node("Pointer01Area2D").show()
-		move_child(get_node("Pointer01Area2D"), get_child_count() - 1) # move to front
-		
-		# Show mouse joysstick fire effect 
-		get_node("pointer_01_on_RT_particle2D").show()
-		move_child(get_node("pointer_01_on_RT_particle2D"), get_child_count() - 1) # move to front
-		
-		# Partially hide and show Scoring UI for individual practice
-		get_node("ScoreUI/Pointer01Avatar").show()
-		get_node("ScoreUI/Pointer01Score").show()
-		get_node("ScoreUI/Pointer01ScoreAreaBg").show()
-		
+		# Partially hide and show Scoring UI for individual mosue practice
 		get_node("ScoreUI/Pointer00Avatar").show()
 		get_node("ScoreUI/Pointer00Score").show()
 		get_node("ScoreUI/Pointer00ScoreAreaBg").show()
+		
+		get_node("ScoreUI/Pointer01Avatar").hide()
+		get_node("ScoreUI/Pointer01Score").hide()
+		get_node("ScoreUI/Pointer01ScoreAreaBg").hide()
 		
 		# Disable scoring for joystick
 		disableScoringForJoystick()
@@ -676,7 +849,469 @@ func refreshGlobalState():
 		# Global state succesfully refreshed
 		return true
 		
-		# Game 2 states concluded ------------------------------------------------------
+	# Load context for individual practice of joystick, this time for the other player
+	elif(currentExperimentStateName == "Joystick Practice P1"):
+		# Make mouse invisible
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		
+		# Remove any assitance 
+		loadCondition(ConditionX)
+		
+		clearAllNodes()
+
+		# Add the required nodes
+		add_child(allRemovableNodesDict["Joystick_Practice_P1_level"])
+		add_child(allRemovableNodesDict["Grass_static"])
+		add_child(allRemovableNodesDict["ScoreUI"])
+		
+		# Show background
+		get_node("ShooterBgRaster").show()
+		
+		# Show joystick pointer
+		get_node("Pointer01Area2D").show()
+		move_child(get_node("Pointer01Area2D"), get_child_count() - 1) # move to front
+		
+		# Show joystick pointer fire effect 
+		get_node("pointer_01_on_RT_particle2D").show()
+		move_child(get_node("pointer_01_on_RT_particle2D"), get_child_count() - 1) # move to front
+		
+		# Partially hide and show Scoring UI for individual practice
+		get_node("ScoreUI/Pointer01Avatar").show()
+		get_node("ScoreUI/Pointer01Score").show()
+		get_node("ScoreUI/Pointer01ScoreAreaBg").show()
+		
+		get_node("ScoreUI/Pointer00Avatar").hide()
+		get_node("ScoreUI/Pointer00Score").hide()
+		get_node("ScoreUI/Pointer00ScoreAreaBg").hide()
+		
+		# Disable scoring for joystick
+		disableScoringForJoystick()
+		disableScoringForMouse()
+		
+		# reset score
+		resetBothScores()
+		
+		# Disable bullseye collission till instructions are hidden
+		disableActiveTargets()
+		
+		# Global state succesfully refreshed
+		return true
+	
+	# Game 6 begins
+	elif(currentExperimentStateName == "Game 6 - Level 1"):
+		# Make mouse invisible
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		
+		# Increment Game Index 
+		currentGameIndex += 1;
+		# load appropriate condition as per sequence (cycle through)
+		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		
+		# Increment Level Index
+		currentLevelIndex += 1
+		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		
+		clearAllNodes()
+
+		# Add the required nodes
+		add_child(allRemovableNodesDict["Game_06_Level_01"])
+		
+		helper_loadMultiplayerGameContext()
+		
+		# reset score
+		resetBothScores()
+		
+		# Disable bullseye collission till instructions are hidden
+		disableActiveTargets()
+		
+		# Global state succesfully refreshed
+		return true
+		
+	elif(currentExperimentStateName == "Game 6 - Level 2"):
+		# Make mouse invisible
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		
+		# load appropriate condition as per sequence (cycle through)
+		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		
+		# Increment Level Index
+		currentLevelIndex += 1
+		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		
+		clearAllNodes()
+
+		# Add the required nodes
+		add_child(allRemovableNodesDict["Game_06_Level_02"])
+		
+		helper_loadMultiplayerGameContext()
+		
+		
+		# reset score - not resetting scores between levels
+		# resetBothScores()
+		
+		# Disable bullseye collission till instructions are hidden
+		disableActiveTargets()
+		
+		# Global state succesfully refreshed
+		return true
+		
+	elif(currentExperimentStateName == "Game 6 - Level 3"):
+		# Make mouse invisible
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		
+		# load appropriate condition as per sequence (cycle through)
+		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		
+		# Increment Level Index
+		currentLevelIndex += 1
+		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		
+		clearAllNodes()
+
+		# Add the required nodes
+		add_child(allRemovableNodesDict["Game_06_Level_03"])
+		helper_loadMultiplayerGameContext()
+		
+		# reset score - not resetting scores between levels
+		# resetBothScores()
+		
+		# Disable bullseye collission till instructions are hidden
+		disableActiveTargets()
+		
+		# Global state succesfully refreshed
+		return true
+		
+	# Game 6 states concluded ------------------------------------------------------
+		
+	# Game 7 begin 
+	elif(currentExperimentStateName == "Game 7 - Level 1"):
+		# Make mouse invisible
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		
+		# Increment Game Index 
+		currentGameIndex += 1;
+		# load appropriate condition as per sequence (cycle through)
+		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		
+		# Increment Level Index
+		currentLevelIndex += 1
+		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		
+		clearAllNodes()
+
+		# Add the required nodes
+		add_child(allRemovableNodesDict["Game_07_Level_01"])
+		helper_loadMultiplayerGameContext()
+		
+		# reset score
+		resetBothScores()
+		
+		# Disable bullseye collission till instructions are hidden
+		disableActiveTargets()
+		
+		# Global state succesfully refreshed
+		return true
+		
+	elif(currentExperimentStateName == "Game 7 - Level 2"):
+		# Make mouse invisible
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		
+		# load appropriate condition as per sequence (cycle through)
+		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		
+		# Increment Level Index
+		currentLevelIndex += 1
+		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		
+		clearAllNodes()
+
+		# Add the required nodes
+		add_child(allRemovableNodesDict["Game_07_Level_02"])
+		helper_loadMultiplayerGameContext()
+		
+		# reset score - not resetting scores between levels
+		# resetBothScores()
+		
+		# Disable bullseye collission till instructions are hidden
+		disableActiveTargets()
+		
+		# Global state succesfully refreshed
+		return true
+		
+	elif(currentExperimentStateName == "Game 7 - Level 3"):
+		# Make mouse invisible
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		
+		# load appropriate condition as per sequence (cycle through)
+		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		
+		# Increment Level Index
+		currentLevelIndex += 1
+		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		
+		clearAllNodes()
+
+		# Add the required nodes
+		add_child(allRemovableNodesDict["Game_07_Level_03"])
+		helper_loadMultiplayerGameContext()
+		
+		# reset score - not resetting scores between levels
+		# resetBothScores()
+		
+		# Disable bullseye collission till instructions are hidden
+		disableActiveTargets()
+		
+		# Global state succesfully refreshed
+		return true
+		
+	# Game 7 states concluded ------------------------------------------------------
+	
+	# Game 8 begin 
+	elif(currentExperimentStateName == "Game 8 - Level 1"):
+		# Make mouse invisible
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		
+		# Increment Game Index 
+		currentGameIndex += 1;
+		# load appropriate condition as per sequence (cycle through)
+		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		
+		# Increment Level Index
+		currentLevelIndex += 1
+		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		
+		clearAllNodes()
+
+		# Add the required nodes
+		add_child(allRemovableNodesDict["Game_08_Level_01"])
+		helper_loadMultiplayerGameContext()
+		
+		# reset score
+		resetBothScores()
+		
+		# Disable bullseye collission till instructions are hidden
+		disableActiveTargets()
+		
+		# Global state succesfully refreshed
+		return true
+		
+	elif(currentExperimentStateName == "Game 8 - Level 2"):
+		# Make mouse invisible
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		
+		# load appropriate condition as per sequence (cycle through)
+		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		
+		# Increment Level Index
+		currentLevelIndex += 1
+		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		
+		clearAllNodes()
+
+		# Add the required nodes
+		add_child(allRemovableNodesDict["Game_08_Level_02"])
+		helper_loadMultiplayerGameContext()
+		
+		# reset score - not resetting scores between levels
+		# resetBothScores()
+		
+		# Disable bullseye collission till instructions are hidden
+		disableActiveTargets()
+		
+		# Global state succesfully refreshed
+		return true
+		
+	elif(currentExperimentStateName == "Game 8 - Level 3"):
+		# Make mouse invisible
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		
+		# load appropriate condition as per sequence (cycle through)
+		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		
+		# Increment Level Index
+		currentLevelIndex += 1
+		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		
+		clearAllNodes()
+
+		# Add the required nodes
+		add_child(allRemovableNodesDict["Game_08_Level_03"])
+		helper_loadMultiplayerGameContext()
+		
+		# reset score - not resetting scores between levels
+		# resetBothScores()
+		
+		# Disable bullseye collission till instructions are hidden
+		disableActiveTargets()
+		
+		# Global state succesfully refreshed
+		return true
+		
+	# Game 8 states concluded ------------------------------------------------------
+	# Game 9 begin 
+	elif(currentExperimentStateName == "Game 9 - Level 1"):
+		# Make mouse invisible
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		
+		# Increment Game Index 
+		currentGameIndex += 1;
+		# load appropriate condition as per sequence (cycle through)
+		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		
+		# Increment Level Index
+		currentLevelIndex += 1
+		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		
+		clearAllNodes()
+
+		# Add the required nodes
+		add_child(allRemovableNodesDict["Game_09_Level_01"])
+		helper_loadMultiplayerGameContext()
+		
+		# reset score
+		resetBothScores()
+		
+		# Disable bullseye collission till instructions are hidden
+		disableActiveTargets()
+		
+		# Global state succesfully refreshed
+		return true
+		
+	elif(currentExperimentStateName == "Game 9 - Level 2"):
+		# Make mouse invisible
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		
+		# load appropriate condition as per sequence (cycle through)
+		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		
+		# Increment Level Index
+		currentLevelIndex += 1
+		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		
+		clearAllNodes()
+
+		# Add the required nodes
+		add_child(allRemovableNodesDict["Game_09_Level_02"])
+		helper_loadMultiplayerGameContext()
+		
+		# reset score - not resetting scores between levels
+		# resetBothScores()
+		
+		# Disable bullseye collission till instructions are hidden
+		disableActiveTargets()
+		
+		# Global state succesfully refreshed
+		return true
+		
+	elif(currentExperimentStateName == "Game 9 - Level 3"):
+		# Make mouse invisible
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		
+		# load appropriate condition as per sequence (cycle through)
+		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		
+		# Increment Level Index
+		currentLevelIndex += 1
+		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		
+		clearAllNodes()
+
+		# Add the required nodes
+		add_child(allRemovableNodesDict["Game_09_Level_03"])
+		helper_loadMultiplayerGameContext()
+		
+		# reset score - not resetting scores between levels
+		# resetBothScores()
+		
+		# Disable bullseye collission till instructions are hidden
+		disableActiveTargets()
+		
+		# Global state succesfully refreshed
+		return true
+		
+	# Game 9 states concluded ------------------------------------------------------
+	# Game 10 begin 
+	elif(currentExperimentStateName == "Game 10 - Level 1"):
+		# Make mouse invisible
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		
+		# Increment Game Index 
+		currentGameIndex += 1;
+		# load appropriate condition as per sequence (cycle through)
+		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		
+		# Increment Level Index
+		currentLevelIndex += 1
+		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		
+		clearAllNodes()
+
+		# Add the required nodes
+		add_child(allRemovableNodesDict["Game_10_Level_01"])
+		helper_loadMultiplayerGameContext()
+		
+		# reset score
+		resetBothScores()
+		
+		# Disable bullseye collission till instructions are hidden
+		disableActiveTargets()
+		
+		# Global state succesfully refreshed
+		return true
+		
+	elif(currentExperimentStateName == "Game 10 - Level 2"):
+		# Make mouse invisible
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		
+		# load appropriate condition as per sequence (cycle through)
+		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		
+		# Increment Level Index
+		currentLevelIndex += 1
+		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		
+		clearAllNodes()
+
+		# Add the required nodes
+		add_child(allRemovableNodesDict["Game_10_Level_02"])
+		helper_loadMultiplayerGameContext()
+		
+		# reset score - not resetting scores between levels
+		# resetBothScores()
+		
+		# Disable bullseye collission till instructions are hidden
+		disableActiveTargets()
+		
+		# Global state succesfully refreshed
+		return true
+		
+	elif(currentExperimentStateName == "Game 10 - Level 3"):
+		# Make mouse invisible
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+		
+		# load appropriate condition as per sequence (cycle through)
+		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		
+		# Increment Level Index
+		currentLevelIndex += 1
+		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		
+		clearAllNodes()
+
+		# Add the required nodes
+		add_child(allRemovableNodesDict["Game_10_Level_03"])
+		helper_loadMultiplayerGameContext()
+		
+		# reset score - not resetting scores between levels
+		# resetBothScores()
+		
+		# Disable bullseye collission till instructions are hidden
+		disableActiveTargets()
+		
+		# Global state succesfully refreshed
+		return true
+		
+	# Game 10 states concluded ------------------------------------------------------
 	
 	return false
 
@@ -848,10 +1483,19 @@ func incrementPointer00Score():
 		if targetAreaAdaptiveAssistOnJoystick:
 			var pointerCollisionShape = get_node("Pointer01Area2D/Pointer01HitArea")
 			augmentJoystickPointerTargetAreaAdaptive(pointerCollisionShape)
+		# Reset to initial pointer hit area if adaptive assist is turned off
+		else:
+			var pointerCollisionShape = get_node("Pointer01Area2D/Pointer01HitArea")
+			pointerCollisionShape.shape.radius = INITIAL_POINTER_HIT_RADIUS
+		
 		
 		if targetAreaAdaptiveAssistOnMouse:
 			var pointerCollisionShape = get_node("Pointer00Area2D/Pointer00HitArea")
 			augmentMousePointerTargetAreaAdaptive(pointerCollisionShape)
+		# Reset to initial pointer hit area if adaptive assist is turned off
+		else:
+			var pointerCollisionShape = get_node("Pointer00Area2D/Pointer00HitArea")
+			pointerCollisionShape.shape.radius = INITIAL_POINTER_HIT_RADIUS
 			
 		logChangeInGravity()
 
@@ -864,10 +1508,19 @@ func decrementPointer00Score():
 		if targetAreaAdaptiveAssistOnJoystick:
 			var pointerCollisionShape = get_node("Pointer01Area2D/Pointer01HitArea")
 			augmentJoystickPointerTargetAreaAdaptive(pointerCollisionShape)
+		# Reset to initial pointer hit area if adaptive assist is turned off
+		else:
+			var pointerCollisionShape = get_node("Pointer01Area2D/Pointer01HitArea")
+			pointerCollisionShape.shape.radius = INITIAL_POINTER_HIT_RADIUS
+			
 		
 		if targetAreaAdaptiveAssistOnMouse:
 			var pointerCollisionShape = get_node("Pointer00Area2D/Pointer00HitArea")
 			augmentMousePointerTargetAreaAdaptive(pointerCollisionShape)
+		# Reset to initial pointer hit area if adaptive assist is turned off
+		else:
+			var pointerCollisionShape = get_node("Pointer00Area2D/Pointer00HitArea")
+			pointerCollisionShape.shape.radius = INITIAL_POINTER_HIT_RADIUS
 			
 		logChangeInGravity()
 
@@ -895,10 +1548,19 @@ func incrementPointer01Score():
 		if targetAreaAdaptiveAssistOnJoystick:
 			var pointerCollisionShape = get_node("Pointer01Area2D/Pointer01HitArea")
 			augmentJoystickPointerTargetAreaAdaptive(pointerCollisionShape)
+		# Reset to initial pointer hit area if adaptive assist is turned off
+		else:
+			var pointerCollisionShape = get_node("Pointer01Area2D/Pointer01HitArea")
+			pointerCollisionShape.shape.radius = INITIAL_POINTER_HIT_RADIUS
+			
 
 		if targetAreaAdaptiveAssistOnMouse:
 			var pointerCollisionShape = get_node("Pointer00Area2D/Pointer00HitArea")
 			augmentMousePointerTargetAreaAdaptive(pointerCollisionShape)
+		# Reset to initial pointer hit area if adaptive assist is turned off
+		else:
+			var pointerCollisionShape = get_node("Pointer00Area2D/Pointer00HitArea")
+			pointerCollisionShape.shape.radius = INITIAL_POINTER_HIT_RADIUS
 			
 		logChangeInGravity()
 
@@ -911,10 +1573,19 @@ func decrementPointer01Score():
 		if targetAreaAdaptiveAssistOnJoystick:
 			var pointerCollisionShape = get_node("Pointer01Area2D/Pointer01HitArea")
 			augmentJoystickPointerTargetAreaAdaptive(pointerCollisionShape)
+		# Reset to initial pointer hit area if adaptive assist is turned off
+		else:
+			var pointerCollisionShape = get_node("Pointer01Area2D/Pointer01HitArea")
+			pointerCollisionShape.shape.radius = INITIAL_POINTER_HIT_RADIUS
+		
 
 		if targetAreaAdaptiveAssistOnMouse:
 			var pointerCollisionShape = get_node("Pointer00Area2D/Pointer00HitArea")
 			augmentMousePointerTargetAreaAdaptive(pointerCollisionShape)
+		# Reset to initial pointer hit area if adaptive assist is turned off
+		else:
+			var pointerCollisionShape = get_node("Pointer00Area2D/Pointer00HitArea")
+			pointerCollisionShape.shape.radius = INITIAL_POINTER_HIT_RADIUS
 			
 		logChangeInGravity()
 
@@ -1158,6 +1829,7 @@ var gravityTargetAdaptiveAssistOnJoystick = true;
 var GRAVITY_TARGET_ADAPTIVE_ASSIST_MAX_DELTA_JOYSTICK = 10 # 10 levels as per source paper
 var GRAVITY_TARGET_ADAPTIVE_ASSIST_DELTA_JOYSTICK = float(GRAVITY_TARGET_STATIC_ASSIST_JOYSTICK / float(GRAVITY_TARGET_ADAPTIVE_ASSIST_MAX_DELTA_JOYSTICK))
 
+# Tag: State management
 # TODO: Refactor based on System state, ongoing
 func getActiveTargetList():
 	# TODO: Need to make this dynamic, ongoing
@@ -1172,7 +1844,9 @@ func getActiveTargetList():
 		
 		elif has_node("Joystick_Practice_P2_level/allTargets"):
 			listOfAllTargets =  get_node("Joystick_Practice_P2_level/allTargets").get_children()
-			
+		
+		
+		
 		elif has_node("Game_01_Level_01/allTargets"):
 			listOfAllTargets =  get_node("Game_01_Level_01/allTargets").get_children()
 		
@@ -1181,7 +1855,9 @@ func getActiveTargetList():
 		
 		elif has_node("Game_01_Level_03/allTargets"):
 			listOfAllTargets =  get_node("Game_01_Level_03/allTargets").get_children()
-			
+		
+		
+		
 		elif has_node("Game_02_Level_01/allTargets"):
 			listOfAllTargets =  get_node("Game_02_Level_01/allTargets").get_children()
 		
@@ -1190,6 +1866,103 @@ func getActiveTargetList():
 		
 		elif has_node("Game_02_Level_03/allTargets"):
 			listOfAllTargets =  get_node("Game_02_Level_03/allTargets").get_children()
+		
+		
+		
+		elif has_node("Game_03_Level_01/allTargets"):
+			listOfAllTargets =  get_node("Game_03_Level_01/allTargets").get_children()
+		
+		elif has_node("Game_03_Level_02/allTargets"):
+			listOfAllTargets =  get_node("Game_03_Level_02/allTargets").get_children()
+		
+		elif has_node("Game_03_Level_03/allTargets"):
+			listOfAllTargets =  get_node("Game_03_Level_03/allTargets").get_children()
+		
+		
+		
+		elif has_node("Game_04_Level_01/allTargets"):
+			listOfAllTargets =  get_node("Game_04_Level_01/allTargets").get_children()
+		
+		elif has_node("Game_04_Level_02/allTargets"):
+			listOfAllTargets =  get_node("Game_04_Level_02/allTargets").get_children()
+		
+		elif has_node("Game_04_Level_03/allTargets"):
+			listOfAllTargets =  get_node("Game_04_Level_03/allTargets").get_children()
+		
+		
+		
+		elif has_node("Game_05_Level_01/allTargets"):
+			listOfAllTargets =  get_node("Game_05_Level_01/allTargets").get_children()
+		
+		elif has_node("Game_05_Level_02/allTargets"):
+			listOfAllTargets =  get_node("Game_05_Level_02/allTargets").get_children()
+		
+		elif has_node("Game_05_Level_03/allTargets"):
+			listOfAllTargets =  get_node("Game_05_Level_03/allTargets").get_children()
+			
+		
+		# Players swap Mouse and Joystick 
+		
+		
+		elif has_node("Mouse_Practice_P2_level/allTargets"):
+			listOfAllTargets =  get_node("Mouse_Practice_P2_level/allTargets").get_children()
+		
+		elif has_node("Joystick_Practice_P1_level/allTargets"):
+			listOfAllTargets =  get_node("Joystick_Practice_P1_level/allTargets").get_children()
+		
+		
+		elif has_node("Game_06_Level_01/allTargets"):
+			listOfAllTargets =  get_node("Game_06_Level_01/allTargets").get_children()
+		
+		elif has_node("Game_06_Level_02/allTargets"):
+			listOfAllTargets =  get_node("Game_06_Level_02/allTargets").get_children()
+		
+		elif has_node("Game_06_Level_03/allTargets"):
+			listOfAllTargets =  get_node("Game_06_Level_03/allTargets").get_children()
+		
+		
+		
+		elif has_node("Game_07_Level_01/allTargets"):
+			listOfAllTargets =  get_node("Game_07_Level_01/allTargets").get_children()
+		
+		elif has_node("Game_07_Level_02/allTargets"):
+			listOfAllTargets =  get_node("Game_07_Level_02/allTargets").get_children()
+		
+		elif has_node("Game_07_Level_03/allTargets"):
+			listOfAllTargets =  get_node("Game_07_Level_03/allTargets").get_children()
+		
+		
+		
+		elif has_node("Game_08_Level_01/allTargets"):
+			listOfAllTargets =  get_node("Game_08_Level_01/allTargets").get_children()
+		
+		elif has_node("Game_08_Level_02/allTargets"):
+			listOfAllTargets =  get_node("Game_08_Level_02/allTargets").get_children()
+		
+		elif has_node("Game_08_Level_03/allTargets"):
+			listOfAllTargets =  get_node("Game_08_Level_03/allTargets").get_children()
+		
+		
+		
+		elif has_node("Game_09_Level_01/allTargets"):
+			listOfAllTargets =  get_node("Game_09_Level_01/allTargets").get_children()
+		
+		elif has_node("Game_09_Level_02/allTargets"):
+			listOfAllTargets =  get_node("Game_09_Level_02/allTargets").get_children()
+		
+		elif has_node("Game_09_Level_03/allTargets"):
+			listOfAllTargets =  get_node("Game_09_Level_03/allTargets").get_children()
+		
+		
+		
+		elif has_node("Game_10_Level_01/allTargets"):
+			listOfAllTargets =  get_node("Game_10_Level_01/allTargets").get_children()
+		
+		elif has_node("Game_10_Level_02/allTargets"):
+			listOfAllTargets =  get_node("Game_10_Level_02/allTargets").get_children()
+		
+		elif has_node("Game_10_Level_03/allTargets"):
+			listOfAllTargets =  get_node("Game_10_Level_03/allTargets").get_children()
 	
 	# Debug: 
 	# print("No. of targets found: " + str(listOfAllTargets.size()))	
@@ -1249,6 +2022,10 @@ func augmentMousePointerGravity():
 		# if gravityMouse != NO_GRAVITY_CONSTANT:
 			# print("[INFO] Adaptive Gravity assist, mouse pointer gravitational constant changed to: " + str(gravityMouse))
 	
+	# If assists are turned off, reset gravity 
+	elif gravityTargetStaticAssistOnMouse == false and gravityTargetAdaptiveAssistOnMouse == false: 
+		gravityMouse = NO_GRAVITY_CONSTANT
+		
 	
 	# Calulate "warped pointer" vector as per Eq (1) and Eq (2) of source paper
 	# Get current position of the mouse pointer 
@@ -1317,7 +2094,10 @@ func augmentJoystickPointerGravity():
 		# Note: Floods the console output (as it is called every redner cycle), moving to increment/decrement functions
 		# if gravityJoystick != NO_GRAVITY_CONSTANT:
 			# print("[INFO] Adaptive Gravity assist, joystick pointer gravitational constant changed to: " + str(gravityJoystick))
-	
+			
+	# If assists are turned off, reset gravity 
+	elif gravityTargetStaticAssistOnJoystick == false and gravityTargetAdaptiveAssistOnJoystick == false: 
+		gravityJoystick = NO_GRAVITY_CONSTANT
 	
 	# Calulate "warped pointer" vector as per Eq (1) and Eq (2) of source paper
 	# Get current position of the mouse pointer 
@@ -1772,11 +2552,23 @@ func _ready():
 		var pointerCollisionShape = get_node("Pointer01Area2D/Pointer01HitArea")
 		augmentJoystickPointerTargetAreaAdaptive(pointerCollisionShape)
 		
+	elif targetAreaAdaptiveAssistOnJoystick == false and targetAreaStaticAssistOnJoystick == false:
+		var pointerCollisionShape = get_node("Pointer01Area2D/Pointer01HitArea")
+		pointerCollisionShape.shape.radius = INITIAL_POINTER_HIT_RADIUS
+	
 	
 	# Mouse Pointer hit area augment on start 
 	if targetAreaStaticAssistOnMouse: 
 		var pointerCollisionShape = get_node("Pointer00Area2D/Pointer00HitArea")
 		augmentAnyPointerTargetAreaStatic(pointerCollisionShape)
+	
+#	elif targetAreaAdaptiveAssistOnMouse:
+#		var pointerCollisionShape = get_node("Pointer01Area2D/Pointer00HitArea")
+#		augmentMousePointerTargetAreaAdaptive(pointerCollisionShape)
+		
+	elif targetAreaAdaptiveAssistOnMouse == false and targetAreaStaticAssistOnMouse == false:
+		var pointerCollisionShape = get_node("Pointer01Area2D/Pointer00HitArea")
+		pointerCollisionShape.shape.radius = INITIAL_POINTER_HIT_RADIUS
 
 
 # Tutorial Ref: https://gamefromscratch.com/godot-3-tutorial-keyboard-mouse-and-joystick-input/

@@ -6,10 +6,11 @@ var levelEnded = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
+# Polled check if all the targets are hit, then prop the post-play screen
 func _process(_delta):
 	var numberOfActiveTargets = []
 	var scriptNode = get_tree().get_root().get_node("Global_logic_node")
@@ -30,17 +31,17 @@ func _process(_delta):
 				# Show OS mouse cursor 
 				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 				
-				# Hide custom joystick pointer
-				if scriptNode.has_node("Pointer01Area2D"):
-					scriptNode.get_node("Pointer01Area2D").hide()
+				# Hide custom mouse pointer
+				if scriptNode.has_node("Pointer00Area2D"):
+					scriptNode.get_node("Pointer00Area2D").hide()
 				
-				# Hide custom joystick pointer fire effect
-				if scriptNode.has_node("pointer_01_on_RT_particle2D"):
-					scriptNode.get_node("pointer_01_on_RT_particle2D").hide()
+				# Hide custom mouse pointer fire effect
+				if scriptNode.has_node("pointer_00_on_mouse_down_particle2D"):
+					scriptNode.get_node("pointer_00_on_mouse_down_particle2D").hide()
 				
-				# Disable scoring for Joystick 
-				if scriptNode.has_method("disableScoringForJoystick"):
-					scriptNode.disableScoringForJoystick()
+				# Disable scoring for Mouse 
+				if scriptNode.has_method("disableScoringForMouse"):
+					scriptNode.disableScoringForMouse()
 				
 				# Log Score 
 				if scriptNode.has_method("logScore"):
@@ -55,8 +56,7 @@ func _process(_delta):
 				
 				levelEnded = true
 
-func joystickFiredOnBeginButton():
-	# print("				Joystick button hit!!!")
+func mouseFiredOnBeginButton():
 	var scriptNode = get_tree().get_root().get_node("Global_logic_node")
 	
 	# print("in _on_HitToBegin_Button_pressed")
@@ -67,8 +67,8 @@ func joystickFiredOnBeginButton():
 	# Calling parent helper functions
 	if scriptNode != null:
 		# Enable scoring 
-		if scriptNode.has_method("enableScoringForJoystick"):
-			scriptNode.enableScoringForJoystick()
+		if scriptNode.has_method("enableScoringForMouse"):
+			scriptNode.enableScoringForMouse()
 			
 		# Enable hitting 
 		if scriptNode.has_method("enableActiveTargets"):
@@ -76,10 +76,9 @@ func joystickFiredOnBeginButton():
 			
 		# Hide the pre play sceen
 		get_node("pre_play_screen").hide()
-	
 
 
-func _on_Begin_Begin_Multiplayer_game_00_pressed():
+func _on_Begin_Practice_Joystick_button_00_pressed():
 	var scriptNode = get_tree().get_root().get_node("Global_logic_node")
 	
 	# print("in _on_Begin_Practice_Mouse_button_00_pressed")
@@ -89,9 +88,9 @@ func _on_Begin_Begin_Multiplayer_game_00_pressed():
 	
 	# Calling parent helper functions
 	if scriptNode != null:
-		# Change global state to "First multiplayer game"
+		# Change global state to "Joystick Practice for Player 1"
 		if (scriptNode.has_method("setGlobalState") and scriptNode.has_method("getStateIdFromName") ):
-			var nextStateId =  scriptNode.getStateIdFromName("Game 1 - Level 1")
+			var nextStateId =  scriptNode.getStateIdFromName("Joystick Practice P1")
 			# Change global state 
 			if nextStateId != -1:
 				scriptNode.setGlobalState(nextStateId)

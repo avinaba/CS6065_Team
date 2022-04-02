@@ -89,9 +89,9 @@ func _on_Begin_Begin_Multiplayer_game_00_pressed():
 	
 	# Calling parent helper functions
 	if scriptNode != null:
-		# Change global state to "First multiplayer game"
+		# Change global state to "First multiplayer game post swapping"
 		if (scriptNode.has_method("setGlobalState") and scriptNode.has_method("getStateIdFromName") ):
-			var nextStateId =  scriptNode.getStateIdFromName("Game 1 - Level 1")
+			var nextStateId =  scriptNode.getStateIdFromName("Game 6 - Level 1")
 			# Change global state 
 			if nextStateId != -1:
 				scriptNode.setGlobalState(nextStateId)
