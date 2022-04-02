@@ -104,14 +104,14 @@ animations = [ {
 "name": "default",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 18 ) ],
-"loop": false,
-"name": "postHit",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 14 ) ],
 "loop": false,
 "name": "isHit",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 18 ) ],
+"loop": false,
+"name": "postHit",
 "speed": 5.0
 } ]
 

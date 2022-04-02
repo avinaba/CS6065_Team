@@ -391,11 +391,12 @@ func refreshGlobalState():
 		# Increment Game Index 
 		currentGameIndex += 1;
 		# load appropriate condition as per sequence (cycle through)
-		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		loadCondition( ConditionConfigArray[currentGameIndex % ConditionConfigArray.size()] )
+		
 		
 		# Increment Level Index
 		currentLevelIndex += 1
-		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		currentLevelIndex = currentLevelIndex % maxLevelPerGame
 		
 		clearAllNodes()
 
@@ -418,11 +419,11 @@ func refreshGlobalState():
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		
 		# load appropriate condition as per sequence (cycle through)
-		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		loadCondition( ConditionConfigArray[currentGameIndex % ConditionConfigArray.size()] )
 		
 		# Increment Level Index
 		currentLevelIndex += 1
-		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		currentLevelIndex = currentLevelIndex % maxLevelPerGame
 		
 		clearAllNodes()
 
@@ -446,11 +447,11 @@ func refreshGlobalState():
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		
 		# load appropriate condition as per sequence (cycle through)
-		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		loadCondition( ConditionConfigArray[currentGameIndex % ConditionConfigArray.size()] )
 		
 		# Increment Level Index
 		currentLevelIndex += 1
-		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		currentLevelIndex = currentLevelIndex % maxLevelPerGame
 		
 		clearAllNodes()
 
@@ -477,11 +478,11 @@ func refreshGlobalState():
 		# Increment Game Index 
 		currentGameIndex += 1;
 		# load appropriate condition as per sequence (cycle through)
-		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		loadCondition( ConditionConfigArray[currentGameIndex % ConditionConfigArray.size()] )
 		
 		# Increment Level Index
 		currentLevelIndex += 1
-		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		currentLevelIndex = currentLevelIndex % maxLevelPerGame
 		
 		clearAllNodes()
 
@@ -503,11 +504,11 @@ func refreshGlobalState():
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		
 		# load appropriate condition as per sequence (cycle through)
-		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		loadCondition( ConditionConfigArray[currentGameIndex % ConditionConfigArray.size()] )
 		
 		# Increment Level Index
 		currentLevelIndex += 1
-		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		currentLevelIndex = currentLevelIndex % maxLevelPerGame
 		
 		clearAllNodes()
 
@@ -529,11 +530,11 @@ func refreshGlobalState():
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		
 		# load appropriate condition as per sequence (cycle through)
-		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		loadCondition( ConditionConfigArray[currentGameIndex % ConditionConfigArray.size()] )
 		
 		# Increment Level Index
 		currentLevelIndex += 1
-		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		currentLevelIndex = currentLevelIndex % maxLevelPerGame
 		
 		clearAllNodes()
 
@@ -560,11 +561,11 @@ func refreshGlobalState():
 		# Increment Game Index 
 		currentGameIndex += 1;
 		# load appropriate condition as per sequence (cycle through)
-		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		loadCondition( ConditionConfigArray[currentGameIndex % ConditionConfigArray.size()] )
 		
 		# Increment Level Index
 		currentLevelIndex += 1
-		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		currentLevelIndex = currentLevelIndex % maxLevelPerGame
 		
 		clearAllNodes()
 
@@ -586,11 +587,11 @@ func refreshGlobalState():
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		
 		# load appropriate condition as per sequence (cycle through)
-		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		loadCondition( ConditionConfigArray[currentGameIndex % ConditionConfigArray.size()] )
 		
 		# Increment Level Index
 		currentLevelIndex += 1
-		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		currentLevelIndex = currentLevelIndex % maxLevelPerGame
 		
 		clearAllNodes()
 
@@ -612,11 +613,11 @@ func refreshGlobalState():
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		
 		# load appropriate condition as per sequence (cycle through)
-		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		loadCondition( ConditionConfigArray[currentGameIndex % ConditionConfigArray.size()] )
 		
 		# Increment Level Index
 		currentLevelIndex += 1
-		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		currentLevelIndex = currentLevelIndex % maxLevelPerGame
 		
 		clearAllNodes()
 
@@ -642,11 +643,11 @@ func refreshGlobalState():
 		# Increment Game Index 
 		currentGameIndex += 1;
 		# load appropriate condition as per sequence (cycle through)
-		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		loadCondition( ConditionConfigArray[currentGameIndex % ConditionConfigArray.size()] )
 		
 		# Increment Level Index
 		currentLevelIndex += 1
-		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		currentLevelIndex = currentLevelIndex % maxLevelPerGame
 		
 		clearAllNodes()
 
@@ -668,7 +669,7 @@ func refreshGlobalState():
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		
 		# load appropriate condition as per sequence (cycle through)
-		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		loadCondition( ConditionConfigArray[currentGameIndex % ConditionConfigArray.size()] )
 		
 		# Increment Level Index
 		currentLevelIndex += 1
@@ -694,11 +695,11 @@ func refreshGlobalState():
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		
 		# load appropriate condition as per sequence (cycle through)
-		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		loadCondition( ConditionConfigArray[currentGameIndex % ConditionConfigArray.size()] )
 		
 		# Increment Level Index
 		currentLevelIndex += 1
-		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		currentLevelIndex = currentLevelIndex % maxLevelPerGame
 		
 		clearAllNodes()
 
@@ -724,11 +725,11 @@ func refreshGlobalState():
 		# Increment Game Index 
 		currentGameIndex += 1;
 		# load appropriate condition as per sequence (cycle through)
-		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		loadCondition( ConditionConfigArray[currentGameIndex % ConditionConfigArray.size()] )
 		
 		# Increment Level Index
 		currentLevelIndex += 1
-		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		currentLevelIndex = currentLevelIndex % maxLevelPerGame
 		
 		clearAllNodes()
 
@@ -750,11 +751,11 @@ func refreshGlobalState():
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		
 		# load appropriate condition as per sequence (cycle through)
-		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		loadCondition( ConditionConfigArray[currentGameIndex % ConditionConfigArray.size()] )
 		
 		# Increment Level Index
 		currentLevelIndex += 1
-		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		currentLevelIndex = currentLevelIndex % maxLevelPerGame
 		
 		clearAllNodes()
 
@@ -776,11 +777,11 @@ func refreshGlobalState():
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		
 		# load appropriate condition as per sequence (cycle through)
-		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		loadCondition( ConditionConfigArray[currentGameIndex % ConditionConfigArray.size()] )
 		
 		# Increment Level Index
 		currentLevelIndex += 1
-		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		currentLevelIndex = currentLevelIndex % maxLevelPerGame
 		
 		clearAllNodes()
 
@@ -905,11 +906,11 @@ func refreshGlobalState():
 		# Increment Game Index 
 		currentGameIndex += 1;
 		# load appropriate condition as per sequence (cycle through)
-		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		loadCondition( ConditionConfigArray[currentGameIndex % ConditionConfigArray.size()] )
 		
 		# Increment Level Index
 		currentLevelIndex += 1
-		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		currentLevelIndex = currentLevelIndex % maxLevelPerGame
 		
 		clearAllNodes()
 
@@ -932,11 +933,11 @@ func refreshGlobalState():
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		
 		# load appropriate condition as per sequence (cycle through)
-		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		loadCondition( ConditionConfigArray[currentGameIndex % ConditionConfigArray.size()] )
 		
 		# Increment Level Index
 		currentLevelIndex += 1
-		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		currentLevelIndex = currentLevelIndex % maxLevelPerGame
 		
 		clearAllNodes()
 
@@ -960,11 +961,11 @@ func refreshGlobalState():
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		
 		# load appropriate condition as per sequence (cycle through)
-		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		loadCondition( ConditionConfigArray[currentGameIndex % ConditionConfigArray.size()] )
 		
 		# Increment Level Index
 		currentLevelIndex += 1
-		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		currentLevelIndex = currentLevelIndex % maxLevelPerGame
 		
 		clearAllNodes()
 
@@ -991,11 +992,11 @@ func refreshGlobalState():
 		# Increment Game Index 
 		currentGameIndex += 1;
 		# load appropriate condition as per sequence (cycle through)
-		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		loadCondition( ConditionConfigArray[currentGameIndex % ConditionConfigArray.size()] )
 		
 		# Increment Level Index
 		currentLevelIndex += 1
-		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		currentLevelIndex = currentLevelIndex % maxLevelPerGame
 		
 		clearAllNodes()
 
@@ -1017,11 +1018,11 @@ func refreshGlobalState():
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		
 		# load appropriate condition as per sequence (cycle through)
-		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		loadCondition( ConditionConfigArray[currentGameIndex % ConditionConfigArray.size()] )
 		
 		# Increment Level Index
 		currentLevelIndex += 1
-		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		currentLevelIndex = currentLevelIndex % maxLevelPerGame
 		
 		clearAllNodes()
 
@@ -1043,11 +1044,11 @@ func refreshGlobalState():
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		
 		# load appropriate condition as per sequence (cycle through)
-		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		loadCondition( ConditionConfigArray[currentGameIndex % ConditionConfigArray.size()] )
 		
 		# Increment Level Index
 		currentLevelIndex += 1
-		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		currentLevelIndex = currentLevelIndex % maxLevelPerGame
 		
 		clearAllNodes()
 
@@ -1074,11 +1075,11 @@ func refreshGlobalState():
 		# Increment Game Index 
 		currentGameIndex += 1;
 		# load appropriate condition as per sequence (cycle through)
-		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		loadCondition( ConditionConfigArray[currentGameIndex % ConditionConfigArray.size()] )
 		
 		# Increment Level Index
 		currentLevelIndex += 1
-		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		currentLevelIndex = currentLevelIndex % maxLevelPerGame
 		
 		clearAllNodes()
 
@@ -1100,11 +1101,11 @@ func refreshGlobalState():
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		
 		# load appropriate condition as per sequence (cycle through)
-		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		loadCondition( ConditionConfigArray[currentGameIndex % ConditionConfigArray.size()] )
 		
 		# Increment Level Index
 		currentLevelIndex += 1
-		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		currentLevelIndex = currentLevelIndex % maxLevelPerGame
 		
 		clearAllNodes()
 
@@ -1126,11 +1127,11 @@ func refreshGlobalState():
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		
 		# load appropriate condition as per sequence (cycle through)
-		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		loadCondition( ConditionConfigArray[currentGameIndex % ConditionConfigArray.size()] )
 		
 		# Increment Level Index
 		currentLevelIndex += 1
-		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		currentLevelIndex = currentLevelIndex % maxLevelPerGame
 		
 		clearAllNodes()
 
@@ -1156,11 +1157,11 @@ func refreshGlobalState():
 		# Increment Game Index 
 		currentGameIndex += 1;
 		# load appropriate condition as per sequence (cycle through)
-		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		loadCondition( ConditionConfigArray[currentGameIndex % ConditionConfigArray.size()] )
 		
 		# Increment Level Index
 		currentLevelIndex += 1
-		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		currentLevelIndex = currentLevelIndex % maxLevelPerGame
 		
 		clearAllNodes()
 
@@ -1182,11 +1183,11 @@ func refreshGlobalState():
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		
 		# load appropriate condition as per sequence (cycle through)
-		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		loadCondition( ConditionConfigArray[currentGameIndex % ConditionConfigArray.size()] )
 		
 		# Increment Level Index
 		currentLevelIndex += 1
-		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		currentLevelIndex = currentLevelIndex % maxLevelPerGame
 		
 		clearAllNodes()
 
@@ -1208,11 +1209,11 @@ func refreshGlobalState():
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		
 		# load appropriate condition as per sequence (cycle through)
-		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		loadCondition( ConditionConfigArray[currentGameIndex % ConditionConfigArray.size()] )
 		
 		# Increment Level Index
 		currentLevelIndex += 1
-		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		currentLevelIndex = currentLevelIndex % maxLevelPerGame
 		
 		clearAllNodes()
 
@@ -1238,11 +1239,11 @@ func refreshGlobalState():
 		# Increment Game Index 
 		currentGameIndex += 1;
 		# load appropriate condition as per sequence (cycle through)
-		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		loadCondition( ConditionConfigArray[currentGameIndex % ConditionConfigArray.size()] )
 		
 		# Increment Level Index
 		currentLevelIndex += 1
-		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		currentLevelIndex = currentLevelIndex % maxLevelPerGame
 		
 		clearAllNodes()
 
@@ -1264,11 +1265,11 @@ func refreshGlobalState():
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		
 		# load appropriate condition as per sequence (cycle through)
-		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		loadCondition( ConditionConfigArray[currentGameIndex % ConditionConfigArray.size()] )
 		
 		# Increment Level Index
 		currentLevelIndex += 1
-		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		currentLevelIndex = currentLevelIndex % maxLevelPerGame
 		
 		clearAllNodes()
 
@@ -1290,11 +1291,11 @@ func refreshGlobalState():
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		
 		# load appropriate condition as per sequence (cycle through)
-		loadCondition( ConditionConfigArray[currentGameIndex % (ConditionConfigArray.size() - 1)] )
+		loadCondition( ConditionConfigArray[currentGameIndex % ConditionConfigArray.size()] )
 		
 		# Increment Level Index
 		currentLevelIndex += 1
-		currentLevelIndex = currentLevelIndex % (maxLevelPerGame - 1)
+		currentLevelIndex = currentLevelIndex % maxLevelPerGame
 		
 		clearAllNodes()
 
@@ -2436,24 +2437,38 @@ func initConditionConfigArray():
 
 func logConditionConfigArray():
 	# A → B → D → C | Sequence 1
-	if sequenceNumber == 1:
-		print("[" + str(getElapsedTime()) + "][" + str(getCurrentStateName()) + "][LOG] Sequence of conditions loaded: No-Assist → Area → Sticky → Combined → Gravity")
-	
-	# B → C → A → D | Sequence 2 
-	elif sequenceNumber == 2: 
-		print("[" + str(getElapsedTime()) + "][" + str(getCurrentStateName()) + "][LOG] Sequence of conditions loaded: No-Assist → Sticky → Gravity → Area → Combined")
-	
-	# C → D → B → A | Sequence 3 
-	elif sequenceNumber == 3: 
-		print("[" + str(getElapsedTime()) + "][" + str(getCurrentStateName()) + "][LOG] Sequence of conditions loaded: No-Assist → Gravity → Combined → Sticky → Area")
-	
-	# D → A → C → B | Sequence 4
-	elif sequenceNumber == 4: 
-		print("[" + str(getElapsedTime()) + "][" + str(getCurrentStateName()) + "][LOG] Sequence of conditions loaded: No-Assist → Combined → Area → Gravity → Sticky")
+#	if sequenceNumber == 1:
+#		print("[" + str(getElapsedTime()) + "][" + str(getCurrentStateName()) + "][LOG] Sequence of conditions loaded: No-Assist → Area → Sticky → Combined → Gravity")
+#
+#	# B → C → A → D | Sequence 2 
+#	elif sequenceNumber == 2: 
+#		print("[" + str(getElapsedTime()) + "][" + str(getCurrentStateName()) + "][LOG] Sequence of conditions loaded: No-Assist → Sticky → Gravity → Area → Combined")
+#
+#	# C → D → B → A | Sequence 3 
+#	elif sequenceNumber == 3: 
+#		print("[" + str(getElapsedTime()) + "][" + str(getCurrentStateName()) + "][LOG] Sequence of conditions loaded: No-Assist → Gravity → Combined → Sticky → Area")
+#
+#	# D → A → C → B | Sequence 4
+#	elif sequenceNumber == 4: 
+#		print("[" + str(getElapsedTime()) + "][" + str(getCurrentStateName()) + "][LOG] Sequence of conditions loaded: No-Assist → Combined → Area → Gravity → Sticky")
+#
+#	else:
+#		print("[" + str(getElapsedTime()) + "][" + str(getCurrentStateName()) + "][LOG] Unknown sequence id, ConditionConfigArray is in inconsistent state")
+	if ConditionConfigArray.size() <= 0: 
+		print("[" + str(getElapsedTime()) + "][" + str(getCurrentStateName()) + "][LOG] ConditionConfigArray is in inconsistent state")
 	
 	else:
-		print("[" + str(getElapsedTime()) + "][" + str(getCurrentStateName()) + "][LOG] Unknown sequence id, ConditionConfigArray is in inconsistent state")
-	
+		var ConditionString = "Sequence of conditions loaded:  "
+		var index = 0
+		while index < ConditionConfigArray.size():
+			ConditionString += str(index + 1) + ": " + ConditionConfigArray[index]["ConditionName"]
+			
+			index += 1
+			
+			if index != ConditionConfigArray.size():
+				ConditionString += " → "
+		
+		print("[" + str(getElapsedTime()) + "][" + str(getCurrentStateName()) + "][LOG] " + ConditionString)
 
 # Initial illegal values
 var currentGameIndex = -1
