@@ -1,0 +1,4704 @@
+[gd_scene load_steps=65 format=2]
+
+[ext_resource path="res://scripts/Pointers/pointer_00_on_mouse_down_particle2D.gd" type="Script" id=1]
+[ext_resource path="res://scripts/Pointers/pointer_01_on_RT_pressed_particle2D.gd" type="Script" id=2]
+[ext_resource path="res://scripts/Targets/Target_Bullseye_Area2D.gd" type="Script" id=3]
+[ext_resource path="res://scripts/Pointers/Pointer01Area2D.gd" type="Script" id=4]
+[ext_resource path="res://scripts/LevelSetup/Global_logic_node.gd" type="Script" id=5]
+[ext_resource path="res://assets/Pointers/pointer_00/pointer_00_on_hit-default.png" type="Texture" id=6]
+[ext_resource path="res://godot_specific_misc_util/on_fire_size_interp_curve_particle_2D.tres" type="Curve" id=7]
+[ext_resource path="res://fonts/Open_Sans/static/OpenSans/OpenSans-ExtraBold.ttf" type="DynamicFontData" id=8]
+[ext_resource path="res://scripts/Pointers/Pointer00Area2D.gd" type="Script" id=9]
+[ext_resource path="res://assets/Grass/grass_00_shadow.png" type="Texture" id=10]
+[ext_resource path="res://assets/Pointers/pointer_00/pointer_00.png" type="Texture" id=11]
+[ext_resource path="res://assets/Grass/grass_00.png" type="Texture" id=12]
+[ext_resource path="res://assets/Sky/Shooter_bg_raster.png" type="Texture" id=13]
+[ext_resource path="res://assets/Targets/target_00/target_00-on_hit.png" type="Texture" id=14]
+[ext_resource path="res://assets/Pointers/pointer_01/pointer_01.png" type="Texture" id=15]
+[ext_resource path="res://assets/Pointers/pointer_01/pointer_01_on_hit-default.png" type="Texture" id=16]
+[ext_resource path="res://assets/Targets/target_00/target_00-default.png" type="Texture" id=17]
+[ext_resource path="res://assets/Targets/target_00/target_00-post_hit.png" type="Texture" id=18]
+[ext_resource path="res://assets/ScoreUi/score_area_rect.png" type="Texture" id=19]
+[ext_resource path="res://assets/ScoreUi/avatar_01.png" type="Texture" id=20]
+[ext_resource path="res://assets/ScoreUi/avatar_00.png" type="Texture" id=21]
+[ext_resource path="res://fonts/Open_Sans/static/OpenSans/OpenSans-Regular.ttf" type="DynamicFontData" id=22]
+[ext_resource path="res://assets/ExperimentUI/BeginPracticeMouse-Default.png" type="Texture" id=23]
+[ext_resource path="res://assets/ExperimentUI/BeginPracticeMouse-Inactive.png" type="Texture" id=24]
+[ext_resource path="res://scripts/LevelSetup/Setup_Experiment_node.gd" type="Script" id=25]
+[ext_resource path="res://assets/ExperimentUI/HitToBegin-Default.png" type="Texture" id=26]
+[ext_resource path="res://scripts/LevelSetup/Mouse_Practice_P1_level.gd" type="Script" id=28]
+[ext_resource path="res://assets/ExperimentUI/BeginPracticeJoystick-Inactive.png" type="Texture" id=29]
+[ext_resource path="res://assets/ExperimentUI/BeginPracticeJoystick-Default.png" type="Texture" id=30]
+[ext_resource path="res://scripts/LevelSetup/Joystick_Practice_P2_level.gd" type="Script" id=31]
+[ext_resource path="res://assets/ExperimentUI/controller_diagram_xbox.png" type="Texture" id=32]
+[ext_resource path="res://scripts/JoystickButtons/button_Area2D_standard.gd" type="Script" id=33]
+[ext_resource path="res://assets/ExperimentUI/BeginMultiplayerGame-Default.png" type="Texture" id=34]
+[ext_resource path="res://assets/ExperimentUI/BeginMultiplayerGame-Inactive.png" type="Texture" id=35]
+[ext_resource path="res://assets/ExperimentUI/Ready-Default.png" type="Texture" id=36]
+[ext_resource path="res://scripts/LevelSetup/Game_01_Level_01.gd" type="Script" id=37]
+[ext_resource path="res://assets/ExperimentUI/BeginNextLevel-Inactive.png" type="Texture" id=38]
+[ext_resource path="res://assets/ExperimentUI/BeginNextLevel-Default.png" type="Texture" id=39]
+[ext_resource path="res://scripts/LevelSetup/Game_01_Level_02.gd" type="Script" id=40]
+[ext_resource path="res://scripts/LevelSetup/Game_01_Level_03.gd" type="Script" id=41]
+[ext_resource path="res://scripts/Targets/grass_occlusion_area2D_left.gd" type="Script" id=42]
+[ext_resource path="res://scripts/Targets/grass_occlusion_area2D_right.gd" type="Script" id=43]
+[ext_resource path="res://scripts/LevelSetup/Game_02_Level_01.gd" type="Script" id=44]
+[ext_resource path="res://scripts/LevelSetup/Game_02_Level_02.gd" type="Script" id=45]
+[ext_resource path="res://scripts/LevelSetup/Game_02_Level_03.gd" type="Script" id=46]
+
+[sub_resource type="DynamicFontData" id=11]
+font_path = "res://fonts/Open_Sans/static/OpenSans/OpenSans-ExtraBold.ttf"
+
+[sub_resource type="DynamicFont" id=12]
+size = 72
+font_data = SubResource( 11 )
+
+[sub_resource type="DynamicFont" id=8]
+size = 48
+font_data = ExtResource( 22 )
+
+[sub_resource type="DynamicFontData" id=9]
+font_path = "res://fonts/Open_Sans/static/OpenSans/OpenSans-Regular.ttf"
+
+[sub_resource type="DynamicFont" id=10]
+size = 48
+font_data = SubResource( 9 )
+
+[sub_resource type="DynamicFontData" id=13]
+font_path = "res://fonts/Open_Sans/static/OpenSans/OpenSans-Regular.ttf"
+
+[sub_resource type="DynamicFont" id=14]
+size = 48
+font_data = SubResource( 13 )
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 17 ) ],
+"loop": false,
+"name": "default",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 18 ) ],
+"loop": false,
+"name": "postHit",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 14 ) ],
+"loop": false,
+"name": "isHit",
+"speed": 5.0
+} ]
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 98.0
+
+[sub_resource type="DynamicFontData" id=15]
+font_path = "res://fonts/Open_Sans/static/OpenSans/OpenSans-ExtraBold.ttf"
+
+[sub_resource type="DynamicFont" id=16]
+size = 48
+font_data = SubResource( 15 )
+
+[sub_resource type="RectangleShape2D" id=19]
+extents = Vector2( 326, 45 )
+
+[sub_resource type="DynamicFontData" id=17]
+font_path = "res://fonts/Open_Sans/static/OpenSans/OpenSans-Regular.ttf"
+
+[sub_resource type="DynamicFont" id=18]
+size = 24
+font_data = SubResource( 17 )
+
+[sub_resource type="RectangleShape2D" id=20]
+extents = Vector2( 107, 44.5 )
+
+[sub_resource type="CircleShape2D" id=21]
+radius = 515.241
+
+[sub_resource type="DynamicFont" id=5]
+size = 60
+font_data = ExtResource( 8 )
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 1.0
+
+[sub_resource type="CircleShape2D" id=4]
+radius = 1.0
+
+[node name="Global_logic_node" type="Node"]
+script = ExtResource( 5 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 960, 540 )
+
+[node name="ShooterBgRaster" type="Sprite" parent="."]
+position = Vector2( 960, 540 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 13 )
+
+[node name="Setup_Experiment_node" type="Node" parent="."]
+script = ExtResource( 25 )
+
+[node name="Setup_experiment_bg" type="ColorRect" parent="Setup_Experiment_node"]
+margin_right = 1920.0
+margin_bottom = 1080.0
+
+[node name="Setup_Experiment_txt" type="Label" parent="Setup_Experiment_node"]
+margin_left = 64.0
+margin_top = 64.0
+margin_right = 728.0
+margin_bottom = 163.0
+custom_colors/font_color = Color( 0.223529, 0.176471, 0.207843, 1 )
+custom_fonts/font = SubResource( 12 )
+text = "Setup Experiment"
+
+[node name="Gamepad_connection_status_txt" type="Label" parent="Setup_Experiment_node"]
+margin_left = 64.0
+margin_top = 244.0
+margin_right = 714.0
+margin_bottom = 311.0
+custom_colors/font_color = Color( 0.223529, 0.176471, 0.207843, 1 )
+custom_fonts/font = SubResource( 8 )
+text = "Gamepad connection status: "
+
+[node name="Gamepad_connection_bullet" type="ColorRect" parent="Setup_Experiment_node"]
+margin_left = 732.0
+margin_top = 255.0
+margin_right = 780.0
+margin_bottom = 303.0
+color = Color( 0.223529, 0.176471, 0.207843, 0.4 )
+
+[node name="Gamepad_connection_status" type="Label" parent="Setup_Experiment_node"]
+margin_left = 796.0
+margin_top = 244.0
+margin_right = 1506.0
+margin_bottom = 311.0
+custom_colors/font_color = Color( 0.223529, 0.176471, 0.207843, 1 )
+custom_fonts/font = SubResource( 8 )
+text = "Connection status updates here"
+
+[node name="Player_1_ID_txt" type="Label" parent="Setup_Experiment_node"]
+margin_left = 64.0
+margin_top = 395.0
+margin_right = 327.0
+margin_bottom = 462.0
+custom_colors/font_color = Color( 0.223529, 0.176471, 0.207843, 1 )
+custom_fonts/font = SubResource( 8 )
+text = "Player 1 ID: "
+
+[node name="Player_1_ID_input" type="LineEdit" parent="Setup_Experiment_node"]
+margin_left = 339.0
+margin_top = 390.0
+margin_right = 991.0
+margin_bottom = 474.0
+custom_fonts/font = SubResource( 10 )
+
+[node name="Player_1_ID_txt2" type="Label" parent="Setup_Experiment_node"]
+margin_left = 1029.0
+margin_top = 395.0
+margin_right = 1515.0
+margin_bottom = 462.0
+custom_colors/font_color = Color( 0.223529, 0.176471, 0.207843, 1 )
+custom_fonts/font = SubResource( 8 )
+text = "to be assigned mouse"
+
+[node name="Player_2_ID_txt" type="Label" parent="Setup_Experiment_node"]
+margin_left = 64.0
+margin_top = 521.0
+margin_right = 327.0
+margin_bottom = 588.0
+custom_colors/font_color = Color( 0.223529, 0.176471, 0.207843, 1 )
+custom_fonts/font = SubResource( 8 )
+text = "Player 2 ID: "
+
+[node name="Player_2_ID_input" type="LineEdit" parent="Setup_Experiment_node"]
+margin_left = 339.0
+margin_top = 516.0
+margin_right = 991.0
+margin_bottom = 600.0
+custom_fonts/font = SubResource( 10 )
+
+[node name="Player_2_ID_txt2" type="Label" parent="Setup_Experiment_node"]
+margin_left = 1029.0
+margin_top = 521.0
+margin_right = 1528.0
+margin_bottom = 588.0
+custom_colors/font_color = Color( 0.223529, 0.176471, 0.207843, 1 )
+custom_fonts/font = SubResource( 8 )
+text = "to be assigned joystick"
+
+[node name="Begin_Practice_Mouse_button_00" type="TextureButton" parent="Setup_Experiment_node"]
+margin_left = 64.0
+margin_top = 874.0
+margin_right = 1392.0
+margin_bottom = 1054.0
+rect_scale = Vector2( 0.5, 0.5 )
+disabled = true
+texture_normal = ExtResource( 23 )
+texture_disabled = ExtResource( 24 )
+
+[node name="Select_seq_dropdown" type="OptionButton" parent="Setup_Experiment_node"]
+margin_left = 64.0
+margin_top = 710.0
+margin_right = 994.0
+margin_bottom = 794.0
+custom_fonts/font = SubResource( 14 )
+
+[node name="Mouse_Practice_P1_level" type="Node" parent="."]
+script = ExtResource( 28 )
+
+[node name="allTargets" type="Node" parent="Mouse_Practice_P1_level"]
+
+[node name="Target_Bullseye_Area2D" type="Area2D" parent="Mouse_Practice_P1_level/allTargets"]
+position = Vector2( 164, 164 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D2" type="Area2D" parent="Mouse_Practice_P1_level/allTargets"]
+position = Vector2( 429, 164 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D2"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D2"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D3" type="Area2D" parent="Mouse_Practice_P1_level/allTargets"]
+position = Vector2( 694, 164 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D3"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D3"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D4" type="Area2D" parent="Mouse_Practice_P1_level/allTargets"]
+position = Vector2( 959, 164 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D4"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D4"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D5" type="Area2D" parent="Mouse_Practice_P1_level/allTargets"]
+position = Vector2( 1224, 164 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D5"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D5"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D6" type="Area2D" parent="Mouse_Practice_P1_level/allTargets"]
+position = Vector2( 1489, 164 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D6"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D6"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D7" type="Area2D" parent="Mouse_Practice_P1_level/allTargets"]
+position = Vector2( 1754, 164 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D7"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D7"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D8" type="Area2D" parent="Mouse_Practice_P1_level/allTargets"]
+position = Vector2( 164, 429 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D8"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D8"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D9" type="Area2D" parent="Mouse_Practice_P1_level/allTargets"]
+position = Vector2( 429, 429 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D9"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D9"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D10" type="Area2D" parent="Mouse_Practice_P1_level/allTargets"]
+position = Vector2( 694, 429 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D10"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D10"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D11" type="Area2D" parent="Mouse_Practice_P1_level/allTargets"]
+position = Vector2( 959, 429 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D11"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D11"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D12" type="Area2D" parent="Mouse_Practice_P1_level/allTargets"]
+position = Vector2( 1224, 429 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D12"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D12"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D13" type="Area2D" parent="Mouse_Practice_P1_level/allTargets"]
+position = Vector2( 1489, 429 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D13"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D13"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D14" type="Area2D" parent="Mouse_Practice_P1_level/allTargets"]
+position = Vector2( 1754, 429 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D14"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D14"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D15" type="Area2D" parent="Mouse_Practice_P1_level/allTargets"]
+position = Vector2( 164, 694 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D15"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D15"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D16" type="Area2D" parent="Mouse_Practice_P1_level/allTargets"]
+position = Vector2( 429, 694 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D16"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D16"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D17" type="Area2D" parent="Mouse_Practice_P1_level/allTargets"]
+position = Vector2( 694, 694 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D17"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D17"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D18" type="Area2D" parent="Mouse_Practice_P1_level/allTargets"]
+position = Vector2( 959, 694 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D18"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D18"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D19" type="Area2D" parent="Mouse_Practice_P1_level/allTargets"]
+position = Vector2( 1224, 694 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D19"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D19"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D22" type="Area2D" parent="Mouse_Practice_P1_level/allTargets"]
+position = Vector2( 694, 959 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D22"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D22"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D23" type="Area2D" parent="Mouse_Practice_P1_level/allTargets"]
+position = Vector2( 959, 959 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D23"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D23"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D24" type="Area2D" parent="Mouse_Practice_P1_level/allTargets"]
+position = Vector2( 1224, 959 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D24"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D24"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D20" type="Area2D" parent="Mouse_Practice_P1_level/allTargets"]
+position = Vector2( 1489, 694 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D20"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D20"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D21" type="Area2D" parent="Mouse_Practice_P1_level/allTargets"]
+position = Vector2( 1754, 694 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D21"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mouse_Practice_P1_level/allTargets/Target_Bullseye_Area2D21"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="pre_play_screen" type="Control" parent="Mouse_Practice_P1_level"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="screen" type="ColorRect" parent="Mouse_Practice_P1_level/pre_play_screen"]
+margin_right = 1920.0
+margin_bottom = 1080.0
+color = Color( 0.223529, 0.176471, 0.207843, 0.960784 )
+
+[node name="instruction_01" type="Label" parent="Mouse_Practice_P1_level/pre_play_screen"]
+margin_left = 64.0
+margin_top = 64.0
+margin_right = 615.0
+margin_bottom = 131.0
+custom_fonts/font = SubResource( 16 )
+text = "1. Move mouse to aim "
+
+[node name="instruction_02" type="Label" parent="Mouse_Practice_P1_level/pre_play_screen"]
+margin_left = 64.0
+margin_top = 183.0
+margin_right = 615.0
+margin_bottom = 250.0
+custom_fonts/font = SubResource( 16 )
+text = "2. Left click or Right click to fire"
+
+[node name="instruction_03_part_1" type="Label" parent="Mouse_Practice_P1_level/pre_play_screen"]
+margin_left = 64.0
+margin_top = 305.0
+margin_right = 457.0
+margin_bottom = 372.0
+custom_fonts/font = SubResource( 16 )
+text = "3. Hit a Bullseye"
+
+[node name="Sprite" type="Sprite" parent="Mouse_Practice_P1_level/pre_play_screen"]
+position = Vector2( 552, 338 )
+scale = Vector2( 0.383, 0.383 )
+texture = ExtResource( 17 )
+
+[node name="instruction_03_part_2" type="Label" parent="Mouse_Practice_P1_level/pre_play_screen"]
+margin_left = 662.0
+margin_top = 305.0
+margin_right = 1055.0
+margin_bottom = 372.0
+custom_fonts/font = SubResource( 16 )
+text = "to get a point"
+
+[node name="instruction_04" type="Label" parent="Mouse_Practice_P1_level/pre_play_screen"]
+margin_left = 64.0
+margin_top = 440.0
+margin_right = 696.0
+margin_bottom = 507.0
+custom_fonts/font = SubResource( 16 )
+text = "4. Lose a point if you miss"
+
+[node name="HitToBegin_JoyButton_Area2D2" type="Area2D" parent="Mouse_Practice_P1_level/pre_play_screen"]
+script = ExtResource( 33 )
+
+[node name="button_bg" type="Sprite" parent="Mouse_Practice_P1_level/pre_play_screen/HitToBegin_JoyButton_Area2D2"]
+position = Vector2( 428, 598 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 26 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mouse_Practice_P1_level/pre_play_screen/HitToBegin_JoyButton_Area2D2"]
+position = Vector2( 428, 598 )
+shape = SubResource( 19 )
+
+[node name="post_play_screen" type="Control" parent="Mouse_Practice_P1_level"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="screen" type="ColorRect" parent="Mouse_Practice_P1_level/post_play_screen"]
+margin_right = 1920.0
+margin_bottom = 1080.0
+color = Color( 0.223529, 0.176471, 0.207843, 0.960784 )
+
+[node name="instruction_01" type="Label" parent="Mouse_Practice_P1_level/post_play_screen"]
+margin_left = 64.0
+margin_top = 64.0
+margin_right = 615.0
+margin_bottom = 131.0
+custom_fonts/font = SubResource( 16 )
+text = "Practice session with mouse, done!"
+
+[node name="instruction_02" type="Label" parent="Mouse_Practice_P1_level/post_play_screen"]
+margin_left = 64.0
+margin_top = 183.0
+margin_right = 615.0
+margin_bottom = 250.0
+custom_fonts/font = SubResource( 16 )
+text = "Please ask the experimenter to setup practice for joystick"
+
+[node name="Begin_Practice_Joystick_button_00" type="TextureButton" parent="Mouse_Practice_P1_level/post_play_screen"]
+margin_left = 64.0
+margin_top = 322.0
+margin_right = 1478.0
+margin_bottom = 502.0
+rect_scale = Vector2( 0.5, 0.5 )
+texture_normal = ExtResource( 30 )
+texture_disabled = ExtResource( 29 )
+
+[node name="Joystick_Practice_P2_level" type="Node" parent="."]
+script = ExtResource( 31 )
+
+[node name="allTargets" type="Node" parent="Joystick_Practice_P2_level"]
+
+[node name="Target_Bullseye_Area2D" type="Area2D" parent="Joystick_Practice_P2_level/allTargets"]
+position = Vector2( 164, 164 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D2" type="Area2D" parent="Joystick_Practice_P2_level/allTargets"]
+position = Vector2( 429, 164 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D2"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D2"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D3" type="Area2D" parent="Joystick_Practice_P2_level/allTargets"]
+position = Vector2( 694, 164 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D3"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D3"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D4" type="Area2D" parent="Joystick_Practice_P2_level/allTargets"]
+position = Vector2( 959, 164 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D4"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D4"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D5" type="Area2D" parent="Joystick_Practice_P2_level/allTargets"]
+position = Vector2( 1224, 164 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D5"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D5"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D6" type="Area2D" parent="Joystick_Practice_P2_level/allTargets"]
+position = Vector2( 1489, 164 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D6"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D6"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D7" type="Area2D" parent="Joystick_Practice_P2_level/allTargets"]
+position = Vector2( 1754, 164 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D7"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D7"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D8" type="Area2D" parent="Joystick_Practice_P2_level/allTargets"]
+position = Vector2( 164, 429 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D8"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D8"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D9" type="Area2D" parent="Joystick_Practice_P2_level/allTargets"]
+position = Vector2( 429, 429 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D9"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D9"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D10" type="Area2D" parent="Joystick_Practice_P2_level/allTargets"]
+position = Vector2( 694, 429 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D10"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D10"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D11" type="Area2D" parent="Joystick_Practice_P2_level/allTargets"]
+position = Vector2( 959, 429 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D11"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D11"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D12" type="Area2D" parent="Joystick_Practice_P2_level/allTargets"]
+position = Vector2( 1224, 429 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D12"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D12"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D13" type="Area2D" parent="Joystick_Practice_P2_level/allTargets"]
+position = Vector2( 1489, 429 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D13"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D13"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D14" type="Area2D" parent="Joystick_Practice_P2_level/allTargets"]
+position = Vector2( 1754, 429 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D14"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D14"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D15" type="Area2D" parent="Joystick_Practice_P2_level/allTargets"]
+position = Vector2( 164, 694 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D15"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D15"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D16" type="Area2D" parent="Joystick_Practice_P2_level/allTargets"]
+position = Vector2( 429, 694 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D16"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D16"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D17" type="Area2D" parent="Joystick_Practice_P2_level/allTargets"]
+position = Vector2( 694, 694 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D17"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D17"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D18" type="Area2D" parent="Joystick_Practice_P2_level/allTargets"]
+position = Vector2( 959, 694 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D18"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D18"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D19" type="Area2D" parent="Joystick_Practice_P2_level/allTargets"]
+position = Vector2( 1224, 694 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D19"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D19"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D22" type="Area2D" parent="Joystick_Practice_P2_level/allTargets"]
+position = Vector2( 694, 959 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D22"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D22"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D23" type="Area2D" parent="Joystick_Practice_P2_level/allTargets"]
+position = Vector2( 959, 959 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D23"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D23"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D24" type="Area2D" parent="Joystick_Practice_P2_level/allTargets"]
+position = Vector2( 1224, 959 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D24"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D24"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D20" type="Area2D" parent="Joystick_Practice_P2_level/allTargets"]
+position = Vector2( 1489, 694 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D20"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D20"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D21" type="Area2D" parent="Joystick_Practice_P2_level/allTargets"]
+position = Vector2( 1754, 694 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D21"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Joystick_Practice_P2_level/allTargets/Target_Bullseye_Area2D21"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="pre_play_screen" type="Control" parent="Joystick_Practice_P2_level"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="screen" type="ColorRect" parent="Joystick_Practice_P2_level/pre_play_screen"]
+margin_right = 1920.0
+margin_bottom = 1080.0
+color = Color( 0.223529, 0.176471, 0.207843, 0.960784 )
+
+[node name="instruction_01" type="Label" parent="Joystick_Practice_P2_level/pre_play_screen"]
+margin_left = 64.0
+margin_top = 64.0
+margin_right = 615.0
+margin_bottom = 131.0
+custom_fonts/font = SubResource( 16 )
+text = "1. Move either joystick to aim "
+
+[node name="instruction_02" type="Label" parent="Joystick_Practice_P2_level/pre_play_screen"]
+margin_left = 64.0
+margin_top = 183.0
+margin_right = 615.0
+margin_bottom = 250.0
+custom_fonts/font = SubResource( 16 )
+text = "2. Press LT, RT or B button to fire"
+
+[node name="instruction_03_part_1" type="Label" parent="Joystick_Practice_P2_level/pre_play_screen"]
+margin_left = 64.0
+margin_top = 305.0
+margin_right = 457.0
+margin_bottom = 372.0
+custom_fonts/font = SubResource( 16 )
+text = "3. Hit a Bullseye"
+
+[node name="Sprite" type="Sprite" parent="Joystick_Practice_P2_level/pre_play_screen"]
+position = Vector2( 552, 338 )
+scale = Vector2( 0.383, 0.383 )
+texture = ExtResource( 17 )
+
+[node name="instruction_03_part_2" type="Label" parent="Joystick_Practice_P2_level/pre_play_screen"]
+margin_left = 662.0
+margin_top = 305.0
+margin_right = 1055.0
+margin_bottom = 372.0
+custom_fonts/font = SubResource( 16 )
+text = "to get a point"
+
+[node name="instruction_04" type="Label" parent="Joystick_Practice_P2_level/pre_play_screen"]
+margin_left = 64.0
+margin_top = 440.0
+margin_right = 696.0
+margin_bottom = 507.0
+custom_fonts/font = SubResource( 16 )
+text = "4. Lose a point if you miss"
+
+[node name="xbox_controller_diagram" type="Sprite" parent="Joystick_Practice_P2_level/pre_play_screen"]
+position = Vector2( 1424, 256 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 32 )
+
+[node name="attribution" type="Label" parent="Joystick_Practice_P2_level/pre_play_screen"]
+margin_left = 1145.0
+margin_top = 512.0
+margin_right = 1731.0
+margin_bottom = 583.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 18 )
+text = "XBOX 360 controller image authored by Alphathon, CC BY-SA 3.0, via Wikimedia Commons"
+autowrap = true
+
+[node name="HitToBegin_JoyButton_Area2D" type="Area2D" parent="Joystick_Practice_P2_level/pre_play_screen"]
+script = ExtResource( 33 )
+
+[node name="button_bg" type="Sprite" parent="Joystick_Practice_P2_level/pre_play_screen/HitToBegin_JoyButton_Area2D"]
+position = Vector2( 428, 598 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 26 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Joystick_Practice_P2_level/pre_play_screen/HitToBegin_JoyButton_Area2D"]
+position = Vector2( 428, 598 )
+shape = SubResource( 19 )
+
+[node name="post_play_screen" type="Control" parent="Joystick_Practice_P2_level"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="screen" type="ColorRect" parent="Joystick_Practice_P2_level/post_play_screen"]
+margin_right = 1920.0
+margin_bottom = 1080.0
+color = Color( 0.223529, 0.176471, 0.207843, 0.960784 )
+
+[node name="instruction_01" type="Label" parent="Joystick_Practice_P2_level/post_play_screen"]
+margin_left = 64.0
+margin_top = 64.0
+margin_right = 615.0
+margin_bottom = 131.0
+custom_fonts/font = SubResource( 16 )
+text = "Practice session with joystick, done!"
+
+[node name="instruction_02" type="Label" parent="Joystick_Practice_P2_level/post_play_screen"]
+margin_left = 64.0
+margin_top = 183.0
+margin_right = 615.0
+margin_bottom = 250.0
+custom_fonts/font = SubResource( 16 )
+text = "Please ask the experimenter to setup for the multiplayer games"
+
+[node name="Begin_Begin_Multiplayer_game_00" type="TextureButton" parent="Joystick_Practice_P2_level/post_play_screen"]
+margin_left = 64.0
+margin_top = 322.0
+margin_right = 1324.0
+margin_bottom = 502.0
+rect_scale = Vector2( 0.5, 0.5 )
+texture_normal = ExtResource( 34 )
+texture_disabled = ExtResource( 35 )
+
+[node name="Game_01_Level_01" type="Node" parent="."]
+script = ExtResource( 37 )
+
+[node name="allTargets" type="Node" parent="Game_01_Level_01"]
+
+[node name="Target_Bullseye_Area2D" type="Area2D" parent="Game_01_Level_01/allTargets"]
+position = Vector2( 164, 164 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D2" type="Area2D" parent="Game_01_Level_01/allTargets"]
+position = Vector2( 429, 164 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D2"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D2"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D3" type="Area2D" parent="Game_01_Level_01/allTargets"]
+position = Vector2( 694, 164 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D3"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D3"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D4" type="Area2D" parent="Game_01_Level_01/allTargets"]
+position = Vector2( 959, 164 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D4"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D4"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D5" type="Area2D" parent="Game_01_Level_01/allTargets"]
+position = Vector2( 1224, 164 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D5"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D5"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D6" type="Area2D" parent="Game_01_Level_01/allTargets"]
+position = Vector2( 1489, 164 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D6"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D6"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D7" type="Area2D" parent="Game_01_Level_01/allTargets"]
+position = Vector2( 1754, 164 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D7"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D7"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D8" type="Area2D" parent="Game_01_Level_01/allTargets"]
+position = Vector2( 164, 429 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D8"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D8"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D9" type="Area2D" parent="Game_01_Level_01/allTargets"]
+position = Vector2( 429, 429 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D9"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D9"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D10" type="Area2D" parent="Game_01_Level_01/allTargets"]
+position = Vector2( 694, 429 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D10"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D10"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D11" type="Area2D" parent="Game_01_Level_01/allTargets"]
+position = Vector2( 959, 429 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D11"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D11"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D12" type="Area2D" parent="Game_01_Level_01/allTargets"]
+position = Vector2( 1224, 429 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D12"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D12"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D13" type="Area2D" parent="Game_01_Level_01/allTargets"]
+position = Vector2( 1489, 429 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D13"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D13"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D14" type="Area2D" parent="Game_01_Level_01/allTargets"]
+position = Vector2( 1754, 429 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D14"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D14"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D15" type="Area2D" parent="Game_01_Level_01/allTargets"]
+position = Vector2( 164, 694 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D15"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D15"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D16" type="Area2D" parent="Game_01_Level_01/allTargets"]
+position = Vector2( 429, 694 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D16"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D16"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D17" type="Area2D" parent="Game_01_Level_01/allTargets"]
+position = Vector2( 694, 694 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D17"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D17"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D18" type="Area2D" parent="Game_01_Level_01/allTargets"]
+position = Vector2( 959, 694 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D18"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D18"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D19" type="Area2D" parent="Game_01_Level_01/allTargets"]
+position = Vector2( 1224, 694 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D19"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D19"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D22" type="Area2D" parent="Game_01_Level_01/allTargets"]
+position = Vector2( 694, 959 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D22"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D22"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D23" type="Area2D" parent="Game_01_Level_01/allTargets"]
+position = Vector2( 959, 959 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D23"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D23"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D24" type="Area2D" parent="Game_01_Level_01/allTargets"]
+position = Vector2( 1224, 959 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D24"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D24"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D20" type="Area2D" parent="Game_01_Level_01/allTargets"]
+position = Vector2( 1489, 694 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D20"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D20"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D21" type="Area2D" parent="Game_01_Level_01/allTargets"]
+position = Vector2( 1754, 694 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D21"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_01/allTargets/Target_Bullseye_Area2D21"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="pre_play_screen" type="Control" parent="Game_01_Level_01"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="screen" type="ColorRect" parent="Game_01_Level_01/pre_play_screen"]
+margin_right = 1920.0
+margin_bottom = 1080.0
+color = Color( 0.223529, 0.176471, 0.207843, 0.960784 )
+
+[node name="instruction_01" type="Label" parent="Game_01_Level_01/pre_play_screen"]
+margin_left = 503.0
+margin_top = 64.0
+margin_right = 1417.0
+margin_bottom = 131.0
+custom_fonts/font = SubResource( 16 )
+text = "Please hit the Ready button to begin!"
+
+[node name="HitToReady_ButtonArea2D_00" type="Area2D" parent="Game_01_Level_01/pre_play_screen"]
+script = ExtResource( 33 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_01/pre_play_screen/HitToReady_ButtonArea2D_00"]
+position = Vector2( 969, 512.5 )
+shape = SubResource( 20 )
+
+[node name="Sprite" type="Sprite" parent="Game_01_Level_01/pre_play_screen/HitToReady_ButtonArea2D_00"]
+position = Vector2( 969, 512.5 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 36 )
+
+[node name="instruction_02" type="Label" parent="Game_01_Level_01/pre_play_screen"]
+margin_left = 294.0
+margin_top = 606.0
+margin_right = 1627.0
+margin_bottom = 673.0
+grow_horizontal = 2
+custom_fonts/font = SubResource( 16 )
+text = "The level will  begin when both players have hit ready"
+
+[node name="post_play_screen" type="Control" parent="Game_01_Level_01"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="screen" type="ColorRect" parent="Game_01_Level_01/post_play_screen"]
+margin_right = 1920.0
+margin_bottom = 1080.0
+color = Color( 0.223529, 0.176471, 0.207843, 0.960784 )
+
+[node name="instruction_01" type="Label" parent="Game_01_Level_01/post_play_screen"]
+margin_left = 64.0
+margin_top = 64.0
+margin_right = 615.0
+margin_bottom = 131.0
+custom_fonts/font = SubResource( 16 )
+text = "Game 1, Level 1, done!"
+
+[node name="instruction_02" type="Label" parent="Game_01_Level_01/post_play_screen"]
+margin_left = 64.0
+margin_top = 183.0
+margin_right = 615.0
+margin_bottom = 250.0
+custom_fonts/font = SubResource( 16 )
+text = "You may take a break before beginning the next level"
+
+[node name="Begin_Begin_Multiplayer_game_00" type="TextureButton" parent="Game_01_Level_01/post_play_screen"]
+margin_left = 64.0
+margin_top = 322.0
+margin_right = 952.0
+margin_bottom = 502.0
+rect_scale = Vector2( 0.5, 0.5 )
+texture_normal = ExtResource( 39 )
+texture_disabled = ExtResource( 38 )
+
+[node name="Game_01_Level_02" type="Node" parent="."]
+script = ExtResource( 40 )
+
+[node name="allTargets" type="Node" parent="Game_01_Level_02"]
+
+[node name="Target_Bullseye_Area2D" type="Area2D" parent="Game_01_Level_02/allTargets"]
+position = Vector2( 164, 164 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D2" type="Area2D" parent="Game_01_Level_02/allTargets"]
+position = Vector2( 429, 164 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D2"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D2"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D3" type="Area2D" parent="Game_01_Level_02/allTargets"]
+position = Vector2( 694, 164 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D3"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D3"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D4" type="Area2D" parent="Game_01_Level_02/allTargets"]
+position = Vector2( 959, 164 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D4"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D4"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D5" type="Area2D" parent="Game_01_Level_02/allTargets"]
+position = Vector2( 1224, 164 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D5"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D5"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D6" type="Area2D" parent="Game_01_Level_02/allTargets"]
+position = Vector2( 1489, 164 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D6"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D6"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D7" type="Area2D" parent="Game_01_Level_02/allTargets"]
+position = Vector2( 1754, 164 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D7"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D7"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D8" type="Area2D" parent="Game_01_Level_02/allTargets"]
+position = Vector2( 164, 429 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D8"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D8"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D9" type="Area2D" parent="Game_01_Level_02/allTargets"]
+position = Vector2( 429, 429 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D9"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D9"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D10" type="Area2D" parent="Game_01_Level_02/allTargets"]
+position = Vector2( 694, 429 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D10"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D10"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D11" type="Area2D" parent="Game_01_Level_02/allTargets"]
+position = Vector2( 959, 429 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D11"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D11"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D12" type="Area2D" parent="Game_01_Level_02/allTargets"]
+position = Vector2( 1224, 429 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D12"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D12"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D13" type="Area2D" parent="Game_01_Level_02/allTargets"]
+position = Vector2( 1489, 429 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D13"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D13"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D14" type="Area2D" parent="Game_01_Level_02/allTargets"]
+position = Vector2( 1754, 429 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D14"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D14"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D15" type="Area2D" parent="Game_01_Level_02/allTargets"]
+position = Vector2( 164, 694 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D15"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D15"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D16" type="Area2D" parent="Game_01_Level_02/allTargets"]
+position = Vector2( 429, 694 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D16"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D16"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D17" type="Area2D" parent="Game_01_Level_02/allTargets"]
+position = Vector2( 694, 694 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D17"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D17"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D18" type="Area2D" parent="Game_01_Level_02/allTargets"]
+position = Vector2( 959, 694 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D18"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D18"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D19" type="Area2D" parent="Game_01_Level_02/allTargets"]
+position = Vector2( 1224, 694 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D19"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D19"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D22" type="Area2D" parent="Game_01_Level_02/allTargets"]
+position = Vector2( 694, 959 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D22"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D22"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D23" type="Area2D" parent="Game_01_Level_02/allTargets"]
+position = Vector2( 959, 959 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D23"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D23"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D24" type="Area2D" parent="Game_01_Level_02/allTargets"]
+position = Vector2( 1224, 959 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D24"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D24"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D20" type="Area2D" parent="Game_01_Level_02/allTargets"]
+position = Vector2( 1489, 694 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D20"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D20"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D21" type="Area2D" parent="Game_01_Level_02/allTargets"]
+position = Vector2( 1754, 694 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D21"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_02/allTargets/Target_Bullseye_Area2D21"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="pre_play_screen" type="Control" parent="Game_01_Level_02"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="screen" type="ColorRect" parent="Game_01_Level_02/pre_play_screen"]
+margin_right = 1920.0
+margin_bottom = 1080.0
+color = Color( 0.223529, 0.176471, 0.207843, 0.960784 )
+
+[node name="instruction_01" type="Label" parent="Game_01_Level_02/pre_play_screen"]
+margin_left = 503.0
+margin_top = 64.0
+margin_right = 1417.0
+margin_bottom = 131.0
+custom_fonts/font = SubResource( 16 )
+text = "Please hit the Ready button to begin!"
+
+[node name="HitToReady_ButtonArea2D_01" type="Area2D" parent="Game_01_Level_02/pre_play_screen"]
+script = ExtResource( 33 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_02/pre_play_screen/HitToReady_ButtonArea2D_01"]
+position = Vector2( 969, 512.5 )
+shape = SubResource( 20 )
+
+[node name="Sprite" type="Sprite" parent="Game_01_Level_02/pre_play_screen/HitToReady_ButtonArea2D_01"]
+position = Vector2( 969, 512.5 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 36 )
+
+[node name="instruction_02" type="Label" parent="Game_01_Level_02/pre_play_screen"]
+margin_left = 294.0
+margin_top = 606.0
+margin_right = 1627.0
+margin_bottom = 673.0
+grow_horizontal = 2
+custom_fonts/font = SubResource( 16 )
+text = "The level will  begin when both players have hit ready"
+
+[node name="post_play_screen" type="Control" parent="Game_01_Level_02"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="screen" type="ColorRect" parent="Game_01_Level_02/post_play_screen"]
+margin_right = 1920.0
+margin_bottom = 1080.0
+color = Color( 0.223529, 0.176471, 0.207843, 0.960784 )
+
+[node name="instruction_01" type="Label" parent="Game_01_Level_02/post_play_screen"]
+margin_left = 64.0
+margin_top = 64.0
+margin_right = 615.0
+margin_bottom = 131.0
+custom_fonts/font = SubResource( 16 )
+text = "Game 1, Level 2, done!"
+
+[node name="instruction_02" type="Label" parent="Game_01_Level_02/post_play_screen"]
+margin_left = 64.0
+margin_top = 183.0
+margin_right = 615.0
+margin_bottom = 250.0
+custom_fonts/font = SubResource( 16 )
+text = "You may take a break before beginning the next level"
+
+[node name="Begin_Begin_Multiplayer_game_01" type="TextureButton" parent="Game_01_Level_02/post_play_screen"]
+margin_left = 64.0
+margin_top = 322.0
+margin_right = 952.0
+margin_bottom = 502.0
+rect_scale = Vector2( 0.5, 0.5 )
+texture_normal = ExtResource( 39 )
+texture_disabled = ExtResource( 38 )
+
+[node name="Game_01_Level_03" type="Node" parent="."]
+script = ExtResource( 41 )
+
+[node name="allTargets" type="Node" parent="Game_01_Level_03"]
+
+[node name="Target_Bullseye_Area2D" type="Area2D" parent="Game_01_Level_03/allTargets"]
+position = Vector2( 164, 164 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D2" type="Area2D" parent="Game_01_Level_03/allTargets"]
+position = Vector2( 429, 164 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D2"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D2"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D3" type="Area2D" parent="Game_01_Level_03/allTargets"]
+position = Vector2( 694, 164 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D3"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D3"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D4" type="Area2D" parent="Game_01_Level_03/allTargets"]
+position = Vector2( 959, 164 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D4"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D4"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D5" type="Area2D" parent="Game_01_Level_03/allTargets"]
+position = Vector2( 1224, 164 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D5"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D5"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D6" type="Area2D" parent="Game_01_Level_03/allTargets"]
+position = Vector2( 1489, 164 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D6"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D6"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D7" type="Area2D" parent="Game_01_Level_03/allTargets"]
+position = Vector2( 1754, 164 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D7"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D7"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D8" type="Area2D" parent="Game_01_Level_03/allTargets"]
+position = Vector2( 164, 429 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D8"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D8"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D9" type="Area2D" parent="Game_01_Level_03/allTargets"]
+position = Vector2( 429, 429 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D9"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D9"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D10" type="Area2D" parent="Game_01_Level_03/allTargets"]
+position = Vector2( 694, 429 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D10"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D10"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D11" type="Area2D" parent="Game_01_Level_03/allTargets"]
+position = Vector2( 959, 429 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D11"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D11"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D12" type="Area2D" parent="Game_01_Level_03/allTargets"]
+position = Vector2( 1224, 429 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D12"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D12"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D13" type="Area2D" parent="Game_01_Level_03/allTargets"]
+position = Vector2( 1489, 429 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D13"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D13"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D14" type="Area2D" parent="Game_01_Level_03/allTargets"]
+position = Vector2( 1754, 429 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D14"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D14"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D15" type="Area2D" parent="Game_01_Level_03/allTargets"]
+position = Vector2( 164, 694 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D15"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D15"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D16" type="Area2D" parent="Game_01_Level_03/allTargets"]
+position = Vector2( 429, 694 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D16"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D16"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D17" type="Area2D" parent="Game_01_Level_03/allTargets"]
+position = Vector2( 694, 694 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D17"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D17"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D18" type="Area2D" parent="Game_01_Level_03/allTargets"]
+position = Vector2( 959, 694 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D18"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D18"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D19" type="Area2D" parent="Game_01_Level_03/allTargets"]
+position = Vector2( 1224, 694 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D19"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D19"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D22" type="Area2D" parent="Game_01_Level_03/allTargets"]
+position = Vector2( 694, 959 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D22"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D22"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D23" type="Area2D" parent="Game_01_Level_03/allTargets"]
+position = Vector2( 959, 959 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D23"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D23"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D24" type="Area2D" parent="Game_01_Level_03/allTargets"]
+position = Vector2( 1224, 959 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D24"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D24"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D20" type="Area2D" parent="Game_01_Level_03/allTargets"]
+position = Vector2( 1489, 694 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D20"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D20"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D21" type="Area2D" parent="Game_01_Level_03/allTargets"]
+position = Vector2( 1754, 694 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D21"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_03/allTargets/Target_Bullseye_Area2D21"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="pre_play_screen" type="Control" parent="Game_01_Level_03"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="screen" type="ColorRect" parent="Game_01_Level_03/pre_play_screen"]
+margin_right = 1920.0
+margin_bottom = 1080.0
+color = Color( 0.223529, 0.176471, 0.207843, 0.960784 )
+
+[node name="instruction_01" type="Label" parent="Game_01_Level_03/pre_play_screen"]
+margin_left = 503.0
+margin_top = 64.0
+margin_right = 1417.0
+margin_bottom = 131.0
+custom_fonts/font = SubResource( 16 )
+text = "Please hit the Ready button to begin!"
+
+[node name="HitToReady_ButtonArea2D_02" type="Area2D" parent="Game_01_Level_03/pre_play_screen"]
+script = ExtResource( 33 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_01_Level_03/pre_play_screen/HitToReady_ButtonArea2D_02"]
+position = Vector2( 969, 512.5 )
+shape = SubResource( 20 )
+
+[node name="Sprite" type="Sprite" parent="Game_01_Level_03/pre_play_screen/HitToReady_ButtonArea2D_02"]
+position = Vector2( 969, 512.5 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 36 )
+
+[node name="instruction_02" type="Label" parent="Game_01_Level_03/pre_play_screen"]
+margin_left = 294.0
+margin_top = 606.0
+margin_right = 1627.0
+margin_bottom = 673.0
+grow_horizontal = 2
+custom_fonts/font = SubResource( 16 )
+text = "The level will  begin when both players have hit ready"
+
+[node name="post_play_screen" type="Control" parent="Game_01_Level_03"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="screen" type="ColorRect" parent="Game_01_Level_03/post_play_screen"]
+margin_right = 1920.0
+margin_bottom = 1080.0
+color = Color( 0.223529, 0.176471, 0.207843, 0.960784 )
+
+[node name="instruction_01" type="Label" parent="Game_01_Level_03/post_play_screen"]
+margin_left = 64.0
+margin_top = 64.0
+margin_right = 615.0
+margin_bottom = 131.0
+custom_fonts/font = SubResource( 16 )
+text = "Game 1 has concluded!"
+
+[node name="instruction_02" type="Label" parent="Game_01_Level_03/post_play_screen"]
+margin_left = 64.0
+margin_top = 183.0
+margin_right = 1920.0
+margin_bottom = 320.0
+custom_fonts/font = SubResource( 16 )
+text = "Please ask the experimenter for post-game survey before starting the next game"
+autowrap = true
+
+[node name="Begin_Begin_Multiplayer_game_02" type="TextureButton" parent="Game_01_Level_03/post_play_screen"]
+margin_left = 64.0
+margin_top = 347.0
+margin_right = 952.0
+margin_bottom = 527.0
+rect_scale = Vector2( 0.5, 0.5 )
+texture_normal = ExtResource( 34 )
+texture_disabled = ExtResource( 35 )
+
+[node name="Game_02_Level_01" type="Node" parent="."]
+script = ExtResource( 44 )
+
+[node name="allTargets" type="Node" parent="Game_02_Level_01"]
+
+[node name="Target_Bullseye_Area2D" type="Area2D" parent="Game_02_Level_01/allTargets"]
+position = Vector2( 164, 164 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D2" type="Area2D" parent="Game_02_Level_01/allTargets"]
+position = Vector2( 429, 164 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D2"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D2"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D3" type="Area2D" parent="Game_02_Level_01/allTargets"]
+position = Vector2( 694, 164 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D3"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D3"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D4" type="Area2D" parent="Game_02_Level_01/allTargets"]
+position = Vector2( 959, 164 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D4"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D4"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D5" type="Area2D" parent="Game_02_Level_01/allTargets"]
+position = Vector2( 1224, 164 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D5"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D5"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D6" type="Area2D" parent="Game_02_Level_01/allTargets"]
+position = Vector2( 1489, 164 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D6"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D6"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D7" type="Area2D" parent="Game_02_Level_01/allTargets"]
+position = Vector2( 1754, 164 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D7"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D7"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D8" type="Area2D" parent="Game_02_Level_01/allTargets"]
+position = Vector2( 164, 429 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D8"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D8"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D9" type="Area2D" parent="Game_02_Level_01/allTargets"]
+position = Vector2( 429, 429 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D9"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D9"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D10" type="Area2D" parent="Game_02_Level_01/allTargets"]
+position = Vector2( 694, 429 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D10"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D10"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D11" type="Area2D" parent="Game_02_Level_01/allTargets"]
+position = Vector2( 959, 429 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D11"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D11"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D12" type="Area2D" parent="Game_02_Level_01/allTargets"]
+position = Vector2( 1224, 429 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D12"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D12"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D13" type="Area2D" parent="Game_02_Level_01/allTargets"]
+position = Vector2( 1489, 429 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D13"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D13"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D14" type="Area2D" parent="Game_02_Level_01/allTargets"]
+position = Vector2( 1754, 429 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D14"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D14"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D15" type="Area2D" parent="Game_02_Level_01/allTargets"]
+position = Vector2( 164, 694 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D15"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D15"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D16" type="Area2D" parent="Game_02_Level_01/allTargets"]
+position = Vector2( 429, 694 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D16"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D16"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D17" type="Area2D" parent="Game_02_Level_01/allTargets"]
+position = Vector2( 694, 694 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D17"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D17"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D18" type="Area2D" parent="Game_02_Level_01/allTargets"]
+position = Vector2( 959, 694 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D18"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D18"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D19" type="Area2D" parent="Game_02_Level_01/allTargets"]
+position = Vector2( 1224, 694 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D19"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D19"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D22" type="Area2D" parent="Game_02_Level_01/allTargets"]
+position = Vector2( 694, 959 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D22"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D22"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D23" type="Area2D" parent="Game_02_Level_01/allTargets"]
+position = Vector2( 959, 959 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D23"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D23"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D24" type="Area2D" parent="Game_02_Level_01/allTargets"]
+position = Vector2( 1224, 959 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D24"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D24"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D20" type="Area2D" parent="Game_02_Level_01/allTargets"]
+position = Vector2( 1489, 694 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D20"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D20"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D21" type="Area2D" parent="Game_02_Level_01/allTargets"]
+position = Vector2( 1754, 694 )
+scale = Vector2( 0.8, 0.8 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D21"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_01/allTargets/Target_Bullseye_Area2D21"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="pre_play_screen" type="Control" parent="Game_02_Level_01"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="screen" type="ColorRect" parent="Game_02_Level_01/pre_play_screen"]
+margin_right = 1920.0
+margin_bottom = 1080.0
+color = Color( 0.223529, 0.176471, 0.207843, 0.960784 )
+
+[node name="instruction_01" type="Label" parent="Game_02_Level_01/pre_play_screen"]
+margin_left = 503.0
+margin_top = 64.0
+margin_right = 1417.0
+margin_bottom = 131.0
+custom_fonts/font = SubResource( 16 )
+text = "Please hit the Ready button to begin!"
+
+[node name="HitToReady_ButtonArea2D_00" type="Area2D" parent="Game_02_Level_01/pre_play_screen"]
+script = ExtResource( 33 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_01/pre_play_screen/HitToReady_ButtonArea2D_00"]
+position = Vector2( 969, 512.5 )
+shape = SubResource( 20 )
+
+[node name="Sprite" type="Sprite" parent="Game_02_Level_01/pre_play_screen/HitToReady_ButtonArea2D_00"]
+position = Vector2( 969, 512.5 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 36 )
+
+[node name="instruction_02" type="Label" parent="Game_02_Level_01/pre_play_screen"]
+margin_left = 294.0
+margin_top = 606.0
+margin_right = 1627.0
+margin_bottom = 673.0
+grow_horizontal = 2
+custom_fonts/font = SubResource( 16 )
+text = "The level will  begin when both players have hit ready"
+
+[node name="post_play_screen" type="Control" parent="Game_02_Level_01"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="screen" type="ColorRect" parent="Game_02_Level_01/post_play_screen"]
+margin_right = 1920.0
+margin_bottom = 1080.0
+color = Color( 0.223529, 0.176471, 0.207843, 0.960784 )
+
+[node name="instruction_01" type="Label" parent="Game_02_Level_01/post_play_screen"]
+margin_left = 64.0
+margin_top = 64.0
+margin_right = 615.0
+margin_bottom = 131.0
+custom_fonts/font = SubResource( 16 )
+text = "Game 2, Level 1, done!"
+
+[node name="instruction_02" type="Label" parent="Game_02_Level_01/post_play_screen"]
+margin_left = 64.0
+margin_top = 183.0
+margin_right = 615.0
+margin_bottom = 250.0
+custom_fonts/font = SubResource( 16 )
+text = "You may take a break before beginning the next level"
+
+[node name="Begin_Begin_Multiplayer_game_00" type="TextureButton" parent="Game_02_Level_01/post_play_screen"]
+margin_left = 64.0
+margin_top = 322.0
+margin_right = 952.0
+margin_bottom = 502.0
+rect_scale = Vector2( 0.5, 0.5 )
+texture_normal = ExtResource( 39 )
+texture_disabled = ExtResource( 38 )
+
+[node name="Game_02_Level_02" type="Node" parent="."]
+script = ExtResource( 45 )
+
+[node name="allTargets" type="Node" parent="Game_02_Level_02"]
+
+[node name="Target_Bullseye_Area2D" type="Area2D" parent="Game_02_Level_02/allTargets"]
+position = Vector2( 164, 164 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D2" type="Area2D" parent="Game_02_Level_02/allTargets"]
+position = Vector2( 429, 164 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D2"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D2"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D3" type="Area2D" parent="Game_02_Level_02/allTargets"]
+position = Vector2( 694, 164 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D3"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D3"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D4" type="Area2D" parent="Game_02_Level_02/allTargets"]
+position = Vector2( 959, 164 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D4"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D4"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D5" type="Area2D" parent="Game_02_Level_02/allTargets"]
+position = Vector2( 1224, 164 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D5"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D5"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D6" type="Area2D" parent="Game_02_Level_02/allTargets"]
+position = Vector2( 1489, 164 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D6"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D6"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D7" type="Area2D" parent="Game_02_Level_02/allTargets"]
+position = Vector2( 1754, 164 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D7"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D7"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D8" type="Area2D" parent="Game_02_Level_02/allTargets"]
+position = Vector2( 164, 429 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D8"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D8"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D9" type="Area2D" parent="Game_02_Level_02/allTargets"]
+position = Vector2( 429, 429 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D9"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D9"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D10" type="Area2D" parent="Game_02_Level_02/allTargets"]
+position = Vector2( 694, 429 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D10"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D10"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D11" type="Area2D" parent="Game_02_Level_02/allTargets"]
+position = Vector2( 959, 429 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D11"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D11"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D12" type="Area2D" parent="Game_02_Level_02/allTargets"]
+position = Vector2( 1224, 429 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D12"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D12"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D13" type="Area2D" parent="Game_02_Level_02/allTargets"]
+position = Vector2( 1489, 429 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D13"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D13"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D14" type="Area2D" parent="Game_02_Level_02/allTargets"]
+position = Vector2( 1754, 429 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D14"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D14"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D15" type="Area2D" parent="Game_02_Level_02/allTargets"]
+position = Vector2( 164, 694 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D15"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D15"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D16" type="Area2D" parent="Game_02_Level_02/allTargets"]
+position = Vector2( 429, 694 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D16"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D16"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D17" type="Area2D" parent="Game_02_Level_02/allTargets"]
+position = Vector2( 694, 694 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D17"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D17"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D18" type="Area2D" parent="Game_02_Level_02/allTargets"]
+position = Vector2( 959, 694 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D18"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D18"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D19" type="Area2D" parent="Game_02_Level_02/allTargets"]
+position = Vector2( 1224, 694 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D19"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D19"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D22" type="Area2D" parent="Game_02_Level_02/allTargets"]
+position = Vector2( 694, 959 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D22"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D22"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D23" type="Area2D" parent="Game_02_Level_02/allTargets"]
+position = Vector2( 959, 959 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D23"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D23"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D24" type="Area2D" parent="Game_02_Level_02/allTargets"]
+position = Vector2( 1224, 959 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D24"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D24"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D20" type="Area2D" parent="Game_02_Level_02/allTargets"]
+position = Vector2( 1489, 694 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D20"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D20"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D21" type="Area2D" parent="Game_02_Level_02/allTargets"]
+position = Vector2( 1754, 694 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D21"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_02/allTargets/Target_Bullseye_Area2D21"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="pre_play_screen" type="Control" parent="Game_02_Level_02"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="screen" type="ColorRect" parent="Game_02_Level_02/pre_play_screen"]
+margin_right = 1920.0
+margin_bottom = 1080.0
+color = Color( 0.223529, 0.176471, 0.207843, 0.960784 )
+
+[node name="instruction_01" type="Label" parent="Game_02_Level_02/pre_play_screen"]
+margin_left = 503.0
+margin_top = 64.0
+margin_right = 1417.0
+margin_bottom = 131.0
+custom_fonts/font = SubResource( 16 )
+text = "Please hit the Ready button to begin!"
+
+[node name="HitToReady_ButtonArea2D_01" type="Area2D" parent="Game_02_Level_02/pre_play_screen"]
+script = ExtResource( 33 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_02/pre_play_screen/HitToReady_ButtonArea2D_01"]
+position = Vector2( 969, 512.5 )
+shape = SubResource( 20 )
+
+[node name="Sprite" type="Sprite" parent="Game_02_Level_02/pre_play_screen/HitToReady_ButtonArea2D_01"]
+position = Vector2( 969, 512.5 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 36 )
+
+[node name="instruction_02" type="Label" parent="Game_02_Level_02/pre_play_screen"]
+margin_left = 294.0
+margin_top = 606.0
+margin_right = 1627.0
+margin_bottom = 673.0
+grow_horizontal = 2
+custom_fonts/font = SubResource( 16 )
+text = "The level will  begin when both players have hit ready"
+
+[node name="post_play_screen" type="Control" parent="Game_02_Level_02"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="screen" type="ColorRect" parent="Game_02_Level_02/post_play_screen"]
+margin_right = 1920.0
+margin_bottom = 1080.0
+color = Color( 0.223529, 0.176471, 0.207843, 0.960784 )
+
+[node name="instruction_01" type="Label" parent="Game_02_Level_02/post_play_screen"]
+margin_left = 64.0
+margin_top = 64.0
+margin_right = 615.0
+margin_bottom = 131.0
+custom_fonts/font = SubResource( 16 )
+text = "Game 2, Level 2, done!"
+
+[node name="instruction_02" type="Label" parent="Game_02_Level_02/post_play_screen"]
+margin_left = 64.0
+margin_top = 183.0
+margin_right = 615.0
+margin_bottom = 250.0
+custom_fonts/font = SubResource( 16 )
+text = "You may take a break before beginning the next level"
+
+[node name="Begin_Begin_Multiplayer_game_01" type="TextureButton" parent="Game_02_Level_02/post_play_screen"]
+margin_left = 64.0
+margin_top = 322.0
+margin_right = 952.0
+margin_bottom = 502.0
+rect_scale = Vector2( 0.5, 0.5 )
+texture_normal = ExtResource( 39 )
+texture_disabled = ExtResource( 38 )
+
+[node name="Game_02_Level_03" type="Node" parent="."]
+script = ExtResource( 46 )
+
+[node name="allTargets" type="Node" parent="Game_02_Level_03"]
+
+[node name="Target_Bullseye_Area2D" type="Area2D" parent="Game_02_Level_03/allTargets"]
+position = Vector2( 164, 164 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D2" type="Area2D" parent="Game_02_Level_03/allTargets"]
+position = Vector2( 429, 164 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D2"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D2"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D3" type="Area2D" parent="Game_02_Level_03/allTargets"]
+position = Vector2( 694, 164 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D3"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D3"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D4" type="Area2D" parent="Game_02_Level_03/allTargets"]
+position = Vector2( 959, 164 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D4"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D4"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D5" type="Area2D" parent="Game_02_Level_03/allTargets"]
+position = Vector2( 1224, 164 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D5"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D5"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D6" type="Area2D" parent="Game_02_Level_03/allTargets"]
+position = Vector2( 1489, 164 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D6"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D6"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D7" type="Area2D" parent="Game_02_Level_03/allTargets"]
+position = Vector2( 1754, 164 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D7"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D7"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D8" type="Area2D" parent="Game_02_Level_03/allTargets"]
+position = Vector2( 164, 429 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D8"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D8"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D9" type="Area2D" parent="Game_02_Level_03/allTargets"]
+position = Vector2( 429, 429 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D9"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D9"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D10" type="Area2D" parent="Game_02_Level_03/allTargets"]
+position = Vector2( 694, 429 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D10"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D10"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D11" type="Area2D" parent="Game_02_Level_03/allTargets"]
+position = Vector2( 959, 429 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D11"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D11"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D12" type="Area2D" parent="Game_02_Level_03/allTargets"]
+position = Vector2( 1224, 429 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D12"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D12"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D13" type="Area2D" parent="Game_02_Level_03/allTargets"]
+position = Vector2( 1489, 429 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D13"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D13"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D14" type="Area2D" parent="Game_02_Level_03/allTargets"]
+position = Vector2( 1754, 429 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D14"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D14"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D15" type="Area2D" parent="Game_02_Level_03/allTargets"]
+position = Vector2( 164, 694 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D15"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D15"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D16" type="Area2D" parent="Game_02_Level_03/allTargets"]
+position = Vector2( 429, 694 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D16"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D16"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D17" type="Area2D" parent="Game_02_Level_03/allTargets"]
+position = Vector2( 694, 694 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D17"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D17"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D18" type="Area2D" parent="Game_02_Level_03/allTargets"]
+position = Vector2( 959, 694 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D18"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D18"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D19" type="Area2D" parent="Game_02_Level_03/allTargets"]
+position = Vector2( 1224, 694 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D19"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D19"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D22" type="Area2D" parent="Game_02_Level_03/allTargets"]
+position = Vector2( 694, 959 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D22"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D22"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D23" type="Area2D" parent="Game_02_Level_03/allTargets"]
+position = Vector2( 959, 959 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D23"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D23"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D24" type="Area2D" parent="Game_02_Level_03/allTargets"]
+position = Vector2( 1224, 959 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D24"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D24"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D20" type="Area2D" parent="Game_02_Level_03/allTargets"]
+position = Vector2( 1489, 694 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D20"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D20"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Target_Bullseye_Area2D21" type="Area2D" parent="Game_02_Level_03/allTargets"]
+position = Vector2( 1754, 694 )
+scale = Vector2( 0.4, 0.4 )
+script = ExtResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D21"]
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+animation = "postHit"
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_03/allTargets/Target_Bullseye_Area2D21"]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="pre_play_screen" type="Control" parent="Game_02_Level_03"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="screen" type="ColorRect" parent="Game_02_Level_03/pre_play_screen"]
+margin_right = 1920.0
+margin_bottom = 1080.0
+color = Color( 0.223529, 0.176471, 0.207843, 0.960784 )
+
+[node name="instruction_01" type="Label" parent="Game_02_Level_03/pre_play_screen"]
+margin_left = 503.0
+margin_top = 64.0
+margin_right = 1417.0
+margin_bottom = 131.0
+custom_fonts/font = SubResource( 16 )
+text = "Please hit the Ready button to begin!"
+
+[node name="HitToReady_ButtonArea2D_02" type="Area2D" parent="Game_02_Level_03/pre_play_screen"]
+script = ExtResource( 33 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Game_02_Level_03/pre_play_screen/HitToReady_ButtonArea2D_02"]
+position = Vector2( 969, 512.5 )
+shape = SubResource( 20 )
+
+[node name="Sprite" type="Sprite" parent="Game_02_Level_03/pre_play_screen/HitToReady_ButtonArea2D_02"]
+position = Vector2( 969, 512.5 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 36 )
+
+[node name="instruction_02" type="Label" parent="Game_02_Level_03/pre_play_screen"]
+margin_left = 294.0
+margin_top = 606.0
+margin_right = 1627.0
+margin_bottom = 673.0
+grow_horizontal = 2
+custom_fonts/font = SubResource( 16 )
+text = "The level will  begin when both players have hit ready"
+
+[node name="post_play_screen" type="Control" parent="Game_02_Level_03"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="screen" type="ColorRect" parent="Game_02_Level_03/post_play_screen"]
+margin_right = 1920.0
+margin_bottom = 1080.0
+color = Color( 0.223529, 0.176471, 0.207843, 0.960784 )
+
+[node name="instruction_01" type="Label" parent="Game_02_Level_03/post_play_screen"]
+margin_left = 64.0
+margin_top = 64.0
+margin_right = 615.0
+margin_bottom = 131.0
+custom_fonts/font = SubResource( 16 )
+text = "Game 2 has concluded!"
+
+[node name="instruction_02" type="Label" parent="Game_02_Level_03/post_play_screen"]
+margin_left = 64.0
+margin_top = 183.0
+margin_right = 1920.0
+margin_bottom = 320.0
+custom_fonts/font = SubResource( 16 )
+text = "Please ask the experimenter for post-game survey before starting the next game"
+autowrap = true
+
+[node name="Begin_Begin_Multiplayer_game_02" type="TextureButton" parent="Game_02_Level_03/post_play_screen"]
+margin_left = 64.0
+margin_top = 347.0
+margin_right = 952.0
+margin_bottom = 527.0
+rect_scale = Vector2( 0.5, 0.5 )
+texture_normal = ExtResource( 34 )
+texture_disabled = ExtResource( 35 )
+
+[node name="Grass_static" type="Node" parent="."]
+
+[node name="grass_bot_left_shadow" type="Sprite" parent="Grass_static"]
+position = Vector2( 252, 961 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 10 )
+
+[node name="grass_bot_left" type="Sprite" parent="Grass_static"]
+position = Vector2( 246, 961 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 12 )
+
+[node name="grass_bot_right_shadow" type="Sprite" parent="Grass_static"]
+position = Vector2( 1673, 961 )
+rotation = -3.14159
+scale = Vector2( 0.5, -0.5 )
+texture = ExtResource( 10 )
+
+[node name="grass_bot_right" type="Sprite" parent="Grass_static"]
+position = Vector2( 1673, 961 )
+rotation = -3.14159
+scale = Vector2( 0.5, -0.5 )
+texture = ExtResource( 12 )
+
+[node name="grass_bot_left_area2D" type="Area2D" parent="Grass_static"]
+position = Vector2( 0, 1230 )
+script = ExtResource( 42 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Grass_static/grass_bot_left_area2D"]
+shape = SubResource( 21 )
+
+[node name="grass_bot_right_area2D" type="Area2D" parent="Grass_static"]
+position = Vector2( 1920, 1230 )
+script = ExtResource( 43 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Grass_static/grass_bot_right_area2D"]
+position = Vector2( 1, -3 )
+shape = SubResource( 21 )
+
+[node name="ScoreUI" type="Node" parent="."]
+
+[node name="Pointer00Avatar" type="Sprite" parent="ScoreUI"]
+position = Vector2( 164, 799 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 21 )
+
+[node name="Pointer00ScoreAreaBg" type="Sprite" parent="ScoreUI"]
+position = Vector2( 258, 976 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 19 )
+
+[node name="Pointer00Score" type="Label" parent="ScoreUI"]
+margin_left = 71.0
+margin_top = 932.0
+margin_right = 447.0
+margin_bottom = 1015.0
+custom_colors/font_color = Color( 0.223529, 0.176471, 0.207843, 1 )
+custom_fonts/font = SubResource( 5 )
+text = "Blue Score"
+
+[node name="Pointer01Avatar" type="Sprite" parent="ScoreUI"]
+position = Vector2( 1756, 799 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 20 )
+
+[node name="Pointer01ScoreAreaBg" type="Sprite" parent="ScoreUI"]
+position = Vector2( 1652, 976 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 19 )
+
+[node name="Pointer01Score" type="Label" parent="ScoreUI"]
+margin_left = 1464.0
+margin_top = 932.0
+margin_right = 1840.0
+margin_bottom = 1015.0
+custom_colors/font_color = Color( 0.223529, 0.176471, 0.207843, 1 )
+custom_fonts/font = SubResource( 5 )
+text = "Red Score"
+align = 2
+
+[node name="Pointer00Area2D" type="Area2D" parent="."]
+visible = false
+position = Vector2( 424, 442 )
+script = ExtResource( 9 )
+
+[node name="Pointer00" type="Sprite" parent="Pointer00Area2D"]
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 11 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Pointer00HitArea" type="CollisionShape2D" parent="Pointer00Area2D"]
+shape = SubResource( 3 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Pointer01Area2D" type="Area2D" parent="."]
+visible = false
+position = Vector2( 1384, 841 )
+script = ExtResource( 4 )
+
+[node name="Pointer01" type="Sprite" parent="Pointer01Area2D"]
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 15 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Pointer01HitArea" type="CollisionShape2D" parent="Pointer01Area2D"]
+shape = SubResource( 4 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="pointer_00_on_mouse_down_particle2D" type="CPUParticles2D" parent="."]
+visible = false
+position = Vector2( -1015, -205 )
+emitting = false
+amount = 1
+lifetime = 0.1
+randomness = 0.6
+texture = ExtResource( 6 )
+angular_velocity_random = 0.25
+angle = 360.0
+angle_random = 1.0
+scale_amount_curve = ExtResource( 7 )
+script = ExtResource( 1 )
+
+[node name="pointer_01_on_RT_particle2D" type="CPUParticles2D" parent="."]
+visible = false
+position = Vector2( -958, 267 )
+emitting = false
+amount = 1
+lifetime = 0.1
+randomness = 0.6
+texture = ExtResource( 16 )
+angle = 360.0
+angle_random = 1.0
+scale_amount_curve = ExtResource( 7 )
+script = ExtResource( 2 )
+
+[node name="Debug_FPS_counter" type="Label" parent="."]
+visible = false
+margin_left = 1798.0
+margin_top = 1057.0
+margin_right = 1909.0
+margin_bottom = 1071.0
+text = "FPS Appears here"
+align = 2
+
+[connection signal="pressed" from="Setup_Experiment_node/Begin_Practice_Mouse_button_00" to="Setup_Experiment_node" method="_on_Begin_Practice_Mouse_button_00_pressed"]
+[connection signal="pressed" from="Mouse_Practice_P1_level/post_play_screen/Begin_Practice_Joystick_button_00" to="Mouse_Practice_P1_level" method="_on_Begin_Practice_Joystick_button_00_pressed"]
+[connection signal="pressed" from="Joystick_Practice_P2_level/post_play_screen/Begin_Begin_Multiplayer_game_00" to="Joystick_Practice_P2_level" method="_on_Begin_Begin_Multiplayer_game_00_pressed"]
+[connection signal="pressed" from="Game_01_Level_01/post_play_screen/Begin_Begin_Multiplayer_game_00" to="Game_01_Level_01" method="_on_Begin_Begin_Multiplayer_game_00_pressed"]
+[connection signal="pressed" from="Game_01_Level_02/post_play_screen/Begin_Begin_Multiplayer_game_01" to="Game_01_Level_02" method="_on_Begin_Begin_Multiplayer_game_00_pressed"]
+[connection signal="pressed" from="Game_01_Level_03/post_play_screen/Begin_Begin_Multiplayer_game_02" to="Game_01_Level_03" method="_on_Begin_Begin_Multiplayer_game_00_pressed"]
+[connection signal="pressed" from="Game_02_Level_01/post_play_screen/Begin_Begin_Multiplayer_game_00" to="Game_02_Level_01" method="_on_Begin_Begin_Multiplayer_game_00_pressed"]
+[connection signal="pressed" from="Game_02_Level_02/post_play_screen/Begin_Begin_Multiplayer_game_01" to="Game_02_Level_02" method="_on_Begin_Begin_Multiplayer_game_00_pressed"]
+[connection signal="pressed" from="Game_02_Level_03/post_play_screen/Begin_Begin_Multiplayer_game_02" to="Game_02_Level_03" method="_on_Begin_Begin_Multiplayer_game_00_pressed"]
